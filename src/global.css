@@ -1,0 +1,25 @@
+:root {
+  /* auth colors */
+  --gray-auth-1: #232323;
+  --gray-auth-2: #6c6c6c;
+  --gray-auth-3: #9c9c9c;
+  --gray-auth-4: #c9c9c9;
+  --gray-auth-5: #e0e0e0;
+  --gray-auth-6: #ededed;
+  --gray-auth-7: #f9f9f9;
+  --purple-auth: #242edb;
+  --blue-auth: #367aff;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  color: #e0e0e0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
