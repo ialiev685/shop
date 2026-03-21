@@ -22,3 +22,8 @@ export const colors: Record<CustomColors, MantineColorsTuple> = {
   "purple-auth": colorsTuple("#242EDB"),
   "blue-auth": colorsTuple("#367AFF"),
 };
+
+export const routes = {
+  login: "login",
+  products: "products",
+};

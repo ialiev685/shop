@@ -1,8 +1,19 @@
+import { IconX } from "@tabler/icons-react";
 import { Api, type ErrorResponse } from "./Api";
+import { notifications } from "@mantine/notifications";
 
 const isErrorResponse = (error: unknown): error is ErrorResponse => {
   return typeof error === "object" && error !== null && "error" in error;
 };
+
+export class HttpError extends Error {
+  public status: number;
+
+  constructor(message: string, status = 500) {
+    super(message);
+    this.status = status;
+  }
+}
 
 class RequestApi {
   private apiAuth: Api<unknown>;
@@ -20,14 +31,24 @@ class RequestApi {
       return response.data;
     } catch (error: unknown) {
       if (isErrorResponse(error)) {
-        throw new Error(error.error.message);
+        if (error.status !== 401) {
+          notifications.show({
+            icon: <IconX />,
+            title: "Ошибка",
+            message: error.error.message,
+            color: "red",
+            position: "top-center",
+          });
+        }
+
+        throw new HttpError(error.error.message, error.status);
       }
 
       if (error instanceof Error) {
-        throw error;
+        throw new HttpError(error.message);
       }
 
-      throw new Error(errorMessage);
+      throw new HttpError(errorMessage);
     }
   }
 
@@ -42,6 +63,16 @@ class RequestApi {
       () =>
         this.apiAuth.auth.getAuth({
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+        }),
+      "Ошибка получения пользователя",
+    );
+  }
+
+  public async signIn(params: { username: string; password: string }) {
+    return this.request(
+      () =>
+        this.apiAuth.auth.loginCreate(params, {
+          headers: { "Content-Type": "application/json" },
         }),
       "Ошибка получения пользователя",
     );
