@@ -1,9 +1,12 @@
 import { IconX } from "@tabler/icons-react";
-import { Api, type ErrorResponse } from "./Api";
+import { Api } from "./Api";
 import { notifications } from "@mantine/notifications";
+import { isErrorResponse } from "@/shared/lib";
 
-const isErrorResponse = (error: unknown): error is ErrorResponse => {
-  return typeof error === "object" && error !== null && "error" in error;
+export type LoginData = {
+  username: string;
+  password: string;
+  shouldRemember: boolean;
 };
 
 export class HttpError extends Error {
@@ -52,11 +55,22 @@ class RequestApi {
     }
   }
 
-  private getToken() {
-    return localStorage.getItem("token") || sessionStorage.getItem("token");
-  }
+  private getToken = () => {
+    return (
+      localStorage.getItem("accessToken") ||
+      sessionStorage.getItem("accessToken")
+    );
+  };
 
-  public async getUser() {
+  private setToken = (accessToken: string, shouldRemember: boolean) => {
+    if (shouldRemember) {
+      localStorage.setItem("accessToken", accessToken);
+    } else {
+      sessionStorage.setItem("accessToken", accessToken);
+    }
+  };
+
+  public getUser = async () => {
     const token = this.getToken();
 
     return this.request(
@@ -66,17 +80,20 @@ class RequestApi {
         }),
       "Ошибка получения пользователя",
     );
-  }
+  };
 
-  public async signIn(params: { username: string; password: string }) {
-    return this.request(
-      () =>
-        this.apiAuth.auth.loginCreate(params, {
-          headers: { "Content-Type": "application/json" },
-        }),
-      "Ошибка получения пользователя",
+  public signIn = async (params: LoginData) => {
+    console.log("params", params);
+    // emilys
+    // emilyspass
+    const response = await this.request(
+      () => this.apiAuth.auth.loginCreate(params, {}),
+      "Ошибка при авторизации пользователя",
     );
-  }
+    this.setToken(response.accessToken, params.shouldRemember);
+    return response;
+  };
 }
 
+// export const requestApi = new RequestApi("/api");
 export const requestApi = new RequestApi("https://dummyjson.com");

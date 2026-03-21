@@ -1,7 +1,7 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { PublicRoute } from "./public-route";
 import { ProtectedRoute } from "./protected-route";
-import { Authorization } from "@/page/authorization";
+import { Authorization } from "@/pages/authorization/ui";
 import { routes } from "@/shared/configs";
 
 export const router = createBrowserRouter([
@@ -25,6 +25,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <PublicRoute />,
+    element: <Navigate to={routes.login} />,
   },
 ]);
