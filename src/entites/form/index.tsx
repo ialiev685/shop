@@ -12,12 +12,14 @@ import {
 import styles from "./styles.module.css";
 import { IconX, IconUser, IconLock } from "@tabler/icons-react";
 import { Logo } from "./logo";
-import { useForm, hasLength } from "@mantine/form";
+import { useForm, isNotEmpty } from "@mantine/form";
 import type { LoginData } from "@/services/client";
 
 interface FormProps {
   onSignIn: (options: LoginData) => void;
 }
+
+const ERROR_TEXT = "Поле не должно быть пустым";
 
 export const Form = ({ onSignIn }: FormProps) => {
   const form = useForm({
@@ -28,11 +30,8 @@ export const Form = ({ onSignIn }: FormProps) => {
       shouldRemember: false,
     },
     validate: {
-      username: hasLength({ min: 4 }, "Имя должно быть не менее 4-х символов"),
-      password: hasLength(
-        { min: 4 },
-        "Пароль должен быть не менее 4-х символов",
-      ),
+      username: isNotEmpty(ERROR_TEXT),
+      password: isNotEmpty(ERROR_TEXT),
     },
   });
 
