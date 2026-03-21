@@ -3,6 +3,7 @@ import { PublicRoute } from "./public-route";
 import { ProtectedRoute } from "./protected-route";
 import { Authorization } from "@/pages/authorization/ui";
 import { routes } from "@/shared/configs";
+import { Products } from "@/pages/products/ui";
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: routes.products,
-        element: <div>products</div>,
+        element: <Products />,
       },
     ],
   },
