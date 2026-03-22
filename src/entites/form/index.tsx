@@ -81,7 +81,7 @@ export const Form = ({ onSignIn }: FormProps) => {
               color="purple-auth"
               {...form.getInputProps("shouldRemember")}
             />
-            <Button type="submit" size="xl" className="bg-red" fz={18} h={55}>
+            <Button type="submit" size="xl" fz={18} h={55} radius={12} fw={600}>
               Войти
             </Button>
           </Flex>
