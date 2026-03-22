@@ -15,7 +15,8 @@ export type CustomColors =
   | "gray-main-3"
   | "gray-main-4"
   | "gray-main-5"
-  | "purple-main";
+  | "purple-main"
+  | "purple-hover-main";
 
 export const colors: Record<CustomColors, MantineColorsTuple> = {
   "gray-auth-1": colorsTuple("#232323"),
@@ -33,6 +34,7 @@ export const colors: Record<CustomColors, MantineColorsTuple> = {
   "gray-main-4": colorsTuple("#C4C4C4"),
   "gray-main-5": colorsTuple("#F3F3F3"),
   "purple-main": colorsTuple("#9B51E0"),
+  "purple-hover-main": colorsTuple("#797fea"),
 };
 
 export const routes = {

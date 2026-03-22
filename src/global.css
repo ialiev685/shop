@@ -9,6 +9,15 @@
   --gray-auth-7: #f9f9f9;
   --purple-auth: #242edb;
   --blue-auth: #367aff;
+
+  /* main colors */
+  --gray-main-1: #333333;
+  --gray-main-2: #4f4f4f;
+  --gray-main-3: #828282;
+  --gray-main-4: #c4c4c4;
+  --gray-main-5: #f3f3f3;
+  --purple-main: #9b51e0;
+  --purple-hover-main: #797fea;
 }
 
 @font-face {
