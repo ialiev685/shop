@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "swagger": "npx swagger-typescript-api generate -p ./swagger.json -o ./src/services"
+    "swagger-auth": "npx swagger-typescript-api generate -p ./swagger/swagger-auth.json -o ./src/services -n auth-api.ts --api-class-name AuthApi",
+    "swagger-products": "npx swagger-typescript-api generate -p ./swagger/swagger-products.json -o ./src/services -n products-api.ts --api-class-name ProductsApi",
+    "swagger": "yarn swagger-auth && yarn swagger-products"
   },
   "dependencies": {
     "@mantine/core": "^8.3.18",
