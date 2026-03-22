@@ -1,0 +1,652 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DummyJSON Products API",
+    "description": "Fake REST API for testing and prototyping e-commerce applications. Provides a comprehensive dataset of sample product information.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "DummyJSON",
+      "url": "https://dummyjson.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://dummyjson.com",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "products",
+      "description": "Operations about products"
+    },
+    {
+      "name": "categories",
+      "description": "Operations about product categories"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Get all products",
+        "description": "Returns a list of products. By default returns 30 items. Supports pagination, field selection, and sorting.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of products to return. Use 0 to get all items.",
+            "schema": {
+              "type": "integer",
+              "default": 30
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "Number of products to skip (for pagination).",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "select",
+            "in": "query",
+            "description": "Comma-separated list of fields to include in the response.",
+            "schema": {
+              "type": "string",
+              "example": "title,price"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Field name to sort by.",
+            "schema": {
+              "type": "string",
+              "example": "title"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Sort order.",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "asc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["products"],
+        "summary": "Add a new product",
+        "description": "Simulates adding a new product. Returns the created product with a new ID (not persisted on the server).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Get a single product",
+        "description": "Returns detailed information about a specific product by its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Product ID",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["products"],
+        "summary": "Update a product",
+        "description": "Simulates updating a product. Returns the updated product (not persisted on the server).",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["products"],
+        "summary": "Partially update a product",
+        "description": "Simulates partially updating a product. Returns the updated product (not persisted on the server).",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product partially updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["products"],
+        "summary": "Delete a product",
+        "description": "Simulates deleting a product. Returns the deleted product with isDeleted and deletedOn fields.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Product"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "isDeleted": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "deletedOn": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/search": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Search products",
+        "description": "Search for products by query string.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Search query",
+            "schema": {
+              "type": "string",
+              "example": "phone"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "select",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful search",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/categories": {
+      "get": {
+        "tags": ["categories"],
+        "summary": "Get all product categories",
+        "description": "Returns a list of all product categories with details.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/category-list": {
+      "get": {
+        "tags": ["categories"],
+        "summary": "Get product category list",
+        "description": "Returns a simple list of all category slugs/names.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["beauty", "fragrances", "furniture"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/category/{category}": {
+      "get": {
+        "tags": ["categories"],
+        "summary": "Get products by category",
+        "description": "Returns all products belonging to a specific category.",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "description": "Category slug (e.g., smartphones, beauty)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Dimensions": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          },
+          "depth": {
+            "type": "number"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reviewerName": {
+            "type": "string"
+          },
+          "reviewerEmail": {
+            "type": "string"
+          }
+        }
+      },
+      "Meta": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "barcode": {
+            "type": "string"
+          },
+          "qrCode": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "discountPercentage": {
+            "type": "number"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "stock": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "brand": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "dimensions": {
+            "$ref": "#/components/schemas/Dimensions"
+          },
+          "warrantyInformation": {
+            "type": "string"
+          },
+          "shippingInformation": {
+            "type": "string"
+          },
+          "availabilityStatus": {
+            "type": "string"
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            }
+          },
+          "returnPolicy": {
+            "type": "string"
+          },
+          "minimumOrderQuantity": {
+            "type": "integer"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ProductInput": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "discountPercentage": {
+            "type": "number"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "stock": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "brand": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "dimensions": {
+            "$ref": "#/components/schemas/Dimensions"
+          },
+          "warrantyInformation": {
+            "type": "string"
+          },
+          "shippingInformation": {
+            "type": "string"
+          },
+          "availabilityStatus": {
+            "type": "string"
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            }
+          },
+          "returnPolicy": {
+            "type": "string"
+          },
+          "minimumOrderQuantity": {
+            "type": "integer"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ProductsResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of products available"
+          },
+          "skip": {
+            "type": "integer",
+            "description": "Number of products skipped"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Number of products returned"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    }
+  }
+}
