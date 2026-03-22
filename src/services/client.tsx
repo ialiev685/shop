@@ -1,5 +1,6 @@
 import { IconX } from "@tabler/icons-react";
-import { Api } from "./Api";
+import { AuthApi } from "./auth-api";
+import { ProductsApi } from "./products-api";
 import { notifications } from "@mantine/notifications";
 import { isErrorResponse } from "@/shared/lib";
 
@@ -7,6 +8,14 @@ export type LoginData = {
   username: string;
   password: string;
   shouldRemember: boolean;
+};
+
+type ProductsParams = {
+  limit?: number;
+  skip?: number;
+  select?: string;
+  sortBy?: string;
+  order?: "asc" | "desc";
 };
 
 export class HttpError extends Error {
@@ -19,10 +28,12 @@ export class HttpError extends Error {
 }
 
 class RequestApi {
-  private apiAuth: Api<unknown>;
+  private apiAuth: AuthApi<unknown>;
+  private apiProducts: ProductsApi<unknown>;
 
   constructor(baseUrl: string) {
-    this.apiAuth = new Api({ baseUrl });
+    this.apiAuth = new AuthApi({ baseUrl });
+    this.apiProducts = new ProductsApi({ baseUrl });
   }
 
   private async request<T>(
@@ -34,7 +45,9 @@ class RequestApi {
       return response.data;
     } catch (error: unknown) {
       if (isErrorResponse(error)) {
-        if (error.status !== 401) {
+        if (error.status === 401) {
+          this.clearToken();
+        } else {
           notifications.show({
             icon: <IconX />,
             title: "Ошибка",
@@ -54,6 +67,11 @@ class RequestApi {
       throw new HttpError(errorMessage);
     }
   }
+
+  public clearToken = () => {
+    localStorage.removeItem("accessToken");
+    sessionStorage.removeItem("accessToken");
+  };
 
   private getToken = () => {
     return (
@@ -83,15 +101,21 @@ class RequestApi {
   };
 
   public signIn = async (params: LoginData) => {
-    console.log("params", params);
     // emilys
     // emilyspass
     const response = await this.request(
-      () => this.apiAuth.auth.loginCreate(params, {}),
+      () => this.apiAuth.auth.loginCreate(params),
       "Ошибка при авторизации пользователя",
     );
     this.setToken(response.accessToken, params.shouldRemember);
     return response;
+  };
+
+  public getAllProducts = async (params: ProductsParams) => {
+    return this.request(
+      () => this.apiProducts.products.productsList(params),
+      "Ошибка при получении продуктов",
+    );
   };
 }
 
