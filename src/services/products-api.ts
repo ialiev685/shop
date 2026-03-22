@@ -10,135 +10,93 @@
  * ---------------------------------------------------------------
  */
 
-export interface User {
-  /**
-   * Уникальный идентификатор пользователя
-   * @example 1
-   */
-  id: number;
-  /**
-   * Имя пользователя для входа
-   * @example "emilys"
-   */
-  username: string;
-  /**
-   * Email пользователя
-   * @format email
-   * @example "emily.johnson@x.dummyjson.com"
-   */
-  email: string;
-  /**
-   * Имя пользователя
-   * @example "Emily"
-   */
-  firstName: string;
-  /**
-   * Фамилия пользователя
-   * @example "Johnson"
-   */
-  lastName: string;
-  /**
-   * Пол пользователя
-   * @example "female"
-   */
-  gender: "female" | "male";
-  /**
-   * URL аватара пользователя
-   * @format uri
-   * @example "https://dummyjson.com/icon/emilys/128"
-   */
-  image: string;
+export interface Dimensions {
+  width?: number;
+  height?: number;
+  depth?: number;
 }
 
-export type LoginResponse = User & {
-  /**
-   * JWT токен доступа
-   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-   */
-  accessToken: string;
-  /**
-   * JWT токен для обновления сессии
-   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-   */
-  refreshToken: string;
-};
-
-export interface RefreshResponse {
-  /**
-   * Новый JWT токен доступа
-   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJlbWlseXMiLCJleHAiOjE3MTYwMDAwMDB9..."
-   */
-  accessToken: string;
-  /**
-   * Новый JWT токен для обновления
-   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJlbWlseXMiLCJleHAiOjE3MTYwMDAwMDB9..."
-   */
-  refreshToken: string;
+export interface Review {
+  rating?: number;
+  comment?: string;
+  /** @format date-time */
+  date?: string;
+  reviewerName?: string;
+  reviewerEmail?: string;
 }
 
-export interface RefreshRequest {
-  /**
-   * Refresh токен (опционально, если не передан - используется из cookie)
-   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-   */
-  refreshToken?: string;
-  /**
-   * Время жизни нового access токена в минутах (по умолчанию 60)
-   * @min 1
-   * @max 1440
-   * @default 60
-   * @example 30
-   */
-  expiresInMins?: number;
+export interface Meta {
+  /** @format date-time */
+  createdAt?: string;
+  /** @format date-time */
+  updatedAt?: string;
+  barcode?: string;
+  qrCode?: string;
 }
 
-export interface LoginRequest {
-  /**
-   * Имя пользователя
-   * @example "emilys"
-   */
-  username: string;
-  /**
-   * Пароль
-   * @example "emilyspass"
-   */
-  password: string;
-  /**
-   * Время жизни токена в минутах (опционально)
-   * @default 60
-   * @example 30
-   */
-  expiresInMins?: number;
+export interface Product {
+  id?: number;
+  title?: string;
+  description?: string;
+  category?: string;
+  price?: number;
+  discountPercentage?: number;
+  rating?: number;
+  stock?: number;
+  tags?: string[];
+  brand?: string;
+  sku?: string;
+  weight?: number;
+  dimensions?: Dimensions;
+  warrantyInformation?: string;
+  shippingInformation?: string;
+  availabilityStatus?: string;
+  reviews?: Review[];
+  returnPolicy?: string;
+  minimumOrderQuantity?: number;
+  meta?: Meta;
+  thumbnail?: string;
+  images?: string[];
 }
 
-/** Структура ошибки, возвращаемая API */
-export interface ErrorResponse {
-  /**
-   * Всегда null при ошибке
-   * @example null
-   */
-  data?: null;
-  error: {
-    /**
-     * Текст ошибки
-     * @example "Access Token is required"
-     */
-    message: string;
-  };
-  /**
-   * HTTP статус код
-   * @example 401
-   */
-  status: number;
-  /**
-   * Тип запроса
-   * @example "cors"
-   */
-  type?: string;
-  /**
-   * URL запроса
-   * @example "https://dummyjson.com/auth/me"
-   */
+export interface ProductInput {
+  title?: string;
+  description?: string;
+  category?: string;
+  price?: number;
+  discountPercentage?: number;
+  rating?: number;
+  stock?: number;
+  tags?: string[];
+  brand?: string;
+  sku?: string;
+  weight?: number;
+  dimensions?: Dimensions;
+  warrantyInformation?: string;
+  shippingInformation?: string;
+  availabilityStatus?: string;
+  reviews?: Review[];
+  returnPolicy?: string;
+  minimumOrderQuantity?: number;
+  meta?: Meta;
+  thumbnail?: string;
+  images?: string[];
+}
+
+export interface ProductsResponse {
+  products?: Product[];
+  /** Total number of products available */
+  total?: number;
+  /** Number of products skipped */
+  skip?: number;
+  /** Number of products returned */
+  limit?: number;
+}
+
+export interface Category {
+  slug?: string;
+  name?: string;
+  /** @format uri */
   url?: string;
 }
 
@@ -398,66 +356,238 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title DummyJSON Auth API
+ * @title DummyJSON Products API
  * @version 1.0.0
  * @baseUrl https://dummyjson.com
+ * @contact DummyJSON (https://dummyjson.com)
  *
- * API для авторизации и управления пользователями DummyJSON. Основано на официальной документации: https://dummyjson.com/docs/auth
+ * Fake REST API for testing and prototyping e-commerce applications. Provides a comprehensive dataset of sample product information.
  */
-export class Api<
+export class ProductsApi<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  auth = {
+  products = {
     /**
-     * @description Аутентификация пользователя и получение токенов доступа и обновления
+     * @description Returns a list of products. By default returns 30 items. Supports pagination, field selection, and sorting.
      *
-     * @tags Auth
-     * @name LoginCreate
-     * @summary Вход в систему
-     * @request POST:/auth/login
+     * @tags products
+     * @name ProductsList
+     * @summary Get all products
+     * @request GET:/products
      */
-    loginCreate: (data: LoginRequest, params: RequestParams = {}) =>
-      this.request<LoginResponse, ErrorResponse>({
-        path: `/auth/login`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Возвращает информацию о пользователе на основе JWT токена. Токен может быть передан в заголовке Authorization или в cookie
-     *
-     * @tags Auth
-     * @name GetAuth
-     * @summary Получить данные текущего пользователя
-     * @request GET:/auth/me
-     * @secure
-     */
-    getAuth: (params: RequestParams = {}) =>
-      this.request<User, ErrorResponse>({
-        path: `/auth/me`,
+    productsList: (
+      query?: {
+        /**
+         * Number of products to return. Use 0 to get all items.
+         * @default 30
+         */
+        limit?: number;
+        /**
+         * Number of products to skip (for pagination).
+         * @default 0
+         */
+        skip?: number;
+        /**
+         * Comma-separated list of fields to include in the response.
+         * @example "title,price"
+         */
+        select?: string;
+        /**
+         * Field name to sort by.
+         * @example "title"
+         */
+        sortBy?: string;
+        /**
+         * Sort order.
+         * @default "asc"
+         */
+        order?: "asc" | "desc";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ProductsResponse, any>({
+        path: `/products`,
         method: "GET",
-        secure: true,
+        query: query,
         format: "json",
         ...params,
       }),
 
     /**
-     * @description Создает новую пару access и refresh токенов. Можно передать refreshToken в теле запроса или использовать cookie.
+     * @description Simulates adding a new product. Returns the created product with a new ID (not persisted on the server).
      *
-     * @tags Auth
-     * @name RefreshCreate
-     * @summary Обновить сессию
-     * @request POST:/auth/refresh
+     * @tags products
+     * @name ProductsCreate
+     * @summary Add a new product
+     * @request POST:/products
      */
-    refreshCreate: (data?: RefreshRequest, params: RequestParams = {}) =>
-      this.request<RefreshResponse, ErrorResponse>({
-        path: `/auth/refresh`,
+    productsCreate: (data: ProductInput, params: RequestParams = {}) =>
+      this.request<Product, any>({
+        path: `/products`,
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns detailed information about a specific product by its ID.
+     *
+     * @tags products
+     * @name ProductsDetail
+     * @summary Get a single product
+     * @request GET:/products/{id}
+     */
+    productsDetail: (id: number, params: RequestParams = {}) =>
+      this.request<Product, any>({
+        path: `/products/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Simulates updating a product. Returns the updated product (not persisted on the server).
+     *
+     * @tags products
+     * @name ProductsUpdate
+     * @summary Update a product
+     * @request PUT:/products/{id}
+     */
+    productsUpdate: (
+      id: number,
+      data: ProductInput,
+      params: RequestParams = {},
+    ) =>
+      this.request<Product, any>({
+        path: `/products/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Simulates partially updating a product. Returns the updated product (not persisted on the server).
+     *
+     * @tags products
+     * @name ProductsPartialUpdate
+     * @summary Partially update a product
+     * @request PATCH:/products/{id}
+     */
+    productsPartialUpdate: (
+      id: number,
+      data: ProductInput,
+      params: RequestParams = {},
+    ) =>
+      this.request<Product, any>({
+        path: `/products/${id}`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Simulates deleting a product. Returns the deleted product with isDeleted and deletedOn fields.
+     *
+     * @tags products
+     * @name ProductsDelete
+     * @summary Delete a product
+     * @request DELETE:/products/{id}
+     */
+    productsDelete: (id: number, params: RequestParams = {}) =>
+      this.request<
+        Product & {
+          /** @example true */
+          isDeleted?: boolean;
+          /** @format date-time */
+          deletedOn?: string;
+        },
+        any
+      >({
+        path: `/products/${id}`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Search for products by query string.
+     *
+     * @tags products
+     * @name SearchList
+     * @summary Search products
+     * @request GET:/products/search
+     */
+    searchList: (
+      query: {
+        /**
+         * Search query
+         * @example "phone"
+         */
+        q: string;
+        limit?: number;
+        skip?: number;
+        select?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<ProductsResponse, any>({
+        path: `/products/search`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns a list of all product categories with details.
+     *
+     * @tags categories
+     * @name CategoriesList
+     * @summary Get all product categories
+     * @request GET:/products/categories
+     */
+    categoriesList: (params: RequestParams = {}) =>
+      this.request<Category[], any>({
+        path: `/products/categories`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns a simple list of all category slugs/names.
+     *
+     * @tags categories
+     * @name CategoryListList
+     * @summary Get product category list
+     * @request GET:/products/category-list
+     */
+    categoryListList: (params: RequestParams = {}) =>
+      this.request<string[], any>({
+        path: `/products/category-list`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns all products belonging to a specific category.
+     *
+     * @tags categories
+     * @name CategoryDetail
+     * @summary Get products by category
+     * @request GET:/products/category/{category}
+     */
+    categoryDetail: (category: string, params: RequestParams = {}) =>
+      this.request<ProductsResponse, any>({
+        path: `/products/category/${category}`,
+        method: "GET",
         format: "json",
         ...params,
       }),
