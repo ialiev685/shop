@@ -1,0 +1,25 @@
+.menuButton {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-main-3);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0;
+  transition: background-color 0.2s;
+}
+
+.menuButton:hover {
+  background-color: var(--gray-main-4);
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  background-color: var(--gray-main-3);
+  border-radius: 50%;
+}
