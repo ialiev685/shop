@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "mantine-datatable/styles.css";
-import "./global.css";
 import App from "./app";
+import "./global.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
