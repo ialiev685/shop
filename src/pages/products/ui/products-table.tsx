@@ -15,6 +15,7 @@ export const ProductsTable = ({ data }: ProductsTableProps) => {
   const columns = getColumns();
   return (
     <DataTable
+      classNames={{ table: styles["table"] }}
       selectionCheckboxProps={{ size: "22px" }}
       allRecordsSelectionCheckboxProps={{
         color: "blue-main",
@@ -31,6 +32,7 @@ export const ProductsTable = ({ data }: ProductsTableProps) => {
         iconColor: "transparent",
         color: "blue-main",
       })}
+      cellPadding={14}
       selectedRecords={selectedRecords}
       onSelectedRecordsChange={setSelectedRecords}
       highlightOnHover
