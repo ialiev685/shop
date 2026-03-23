@@ -1,18 +1,28 @@
 import type { Product } from "@/services/products-api";
-import { DataTable } from "mantine-datatable";
+import { DataTable, type DataTableSortStatus } from "mantine-datatable";
 import { getColumns } from "../lib";
 import { useState } from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
 
 import { Pagination } from "./pagination";
+import { IconFilter2 } from "@tabler/icons-react";
 
 type ProductsTableProps = {
   data?: Product[];
+  onSorting?: (sortStatus: DataTableSortStatus) => void;
 };
 
-export const ProductsTable = ({ data }: ProductsTableProps) => {
+export const ProductsTable = ({ data, onSorting }: ProductsTableProps) => {
   const [selectedRecords, setSelectedRecords] = useState<Product[]>([]);
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus<Product>>({
+    columnAccessor: "title",
+    direction: "asc",
+  });
+  const handleSorting = (value: DataTableSortStatus<Product>) => {
+    setSortStatus(value);
+    onSorting?.(value);
+  };
 
   const columns = getColumns();
   return (
@@ -41,6 +51,12 @@ export const ProductsTable = ({ data }: ProductsTableProps) => {
         highlightOnHover
         records={data}
         columns={columns}
+        sortIcons={{
+          sorted: <IconFilter2 />,
+          unsorted: <IconFilter2 rotate={180} />,
+        }}
+        sortStatus={sortStatus}
+        onSortStatusChange={handleSorting}
       />
       <Pagination />
     </>

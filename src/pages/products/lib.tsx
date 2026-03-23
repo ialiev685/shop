@@ -20,6 +20,7 @@ export const getColumns = (): DataTableColumn<Product>[] => {
   return [
     {
       accessor: "title",
+      sortable: true,
       width: 400,
       title: (
         <Text fw="bold" c="gray-main-4">
@@ -50,6 +51,7 @@ export const getColumns = (): DataTableColumn<Product>[] => {
     },
     {
       accessor: "brand",
+      sortable: true,
       width: 200,
       title: (
         <Text fw="bold" c="gray-main-4">
@@ -60,6 +62,7 @@ export const getColumns = (): DataTableColumn<Product>[] => {
     },
     {
       accessor: "sku",
+      sortable: true,
       width: 200,
       title: (
         <Text fw="bold" c="gray-main-4">
@@ -70,6 +73,7 @@ export const getColumns = (): DataTableColumn<Product>[] => {
     },
     {
       accessor: "rating",
+      sortable: true,
       width: 200,
       title: (
         <Text fw="bold" c="gray-main-4">
@@ -87,6 +91,7 @@ export const getColumns = (): DataTableColumn<Product>[] => {
     },
     {
       accessor: "price",
+      sortable: true,
       width: 200,
       title: (
         <Text fw="bold" c="gray-main-4">
