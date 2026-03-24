@@ -11,10 +11,13 @@ import { useController } from "../model";
 import { ProductsTable } from "@/entites/products-table";
 import { Pagination } from "@/entites/pagination";
 import { SearchInput } from "./search-input";
+import { AddProductForm } from "@/entites/add-products-form";
+import { useState } from "react";
 
 export const Products = () => {
   const theme = useMantineTheme();
   const { data, isLoading } = useController();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
@@ -38,6 +41,7 @@ export const Products = () => {
               radius={6}
               leftSection={<IconCirclePlus size={22} />}
               fw="normal"
+              onClick={() => setIsOpen(true)}
             >
               Добавить
             </Button>
@@ -48,6 +52,7 @@ export const Products = () => {
           <Pagination totalItems={data?.total ?? 0} />
         </Flex>
       </Box>
+      <AddProductForm isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 };
