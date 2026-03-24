@@ -1,13 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/context";
-import { Loader } from "@mantine/core";
+import { Center, Loader } from "@mantine/core";
 import { routes } from "@/shared/configs";
 
 export const PublicRoute = () => {
   const { isAuthorized, isLoading } = useAuth();
 
   if (isLoading) {
-    return <Loader color="blue" />;
+    return (
+      <Center h="100vh">
+        <Loader color="blue" />
+      </Center>
+    );
   }
 
   if (isAuthorized) {
