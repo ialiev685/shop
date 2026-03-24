@@ -1,0 +1,11 @@
+.paginationControl {
+  &[data-active] {
+    background-color: var(--purple-hover-main);
+    border: none;
+    color: #fff;
+  }
+  &:not([data-active]) {
+    border: 1px solid var(--purple-main);
+    color: var(--gray-main-3);
+  }
+}

@@ -8,6 +8,7 @@ import {
 import ArrowLeft from "@shared/assets/arrow-left.svg?react";
 import ArrowRight from "@shared/assets/arrow-right.svg?react";
 import { useSearchParams } from "react-router-dom";
+import styles from "./styles.module.css";
 
 type PaginationProps = {
   totalItems: number;
@@ -20,8 +21,6 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
   const from = skip;
   const to = skip + limit;
   const currentPage = skip / limit + 1;
-
-  const theme = useMantineTheme();
 
   return (
     <Flex justify="space-between" align="center">
@@ -50,11 +49,7 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
           }
         }}
         total={totalItems / limit}
-        styles={{
-          control: {
-            border: `1px solid ${theme.colors["purple-main"][0]}`,
-          },
-        }}
+        classNames={{ control: styles.paginationControl }}
       >
         <Group gap={8}>
           <MantinePagination.Previous
