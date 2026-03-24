@@ -21,6 +21,8 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
   const to = skip + limit;
   const currentPage = skip / limit + 1;
 
+  const showArrow = totalItems > limit;
+
   return (
     <Flex justify="space-between" align="center">
       <Group gap={4}>
@@ -51,15 +53,19 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
         classNames={{ control: styles.paginationControl }}
       >
         <Group gap={8}>
-          <MantinePagination.Previous
-            icon={ArrowLeft}
-            style={{ border: "none" }}
-          />
+          {showArrow && (
+            <MantinePagination.Previous
+              icon={ArrowLeft}
+              style={{ border: "none" }}
+            />
+          )}
           <MantinePagination.Items />
-          <MantinePagination.Next
-            icon={ArrowRight}
-            style={{ border: "none" }}
-          />
+          {showArrow && (
+            <MantinePagination.Next
+              icon={ArrowRight}
+              style={{ border: "none" }}
+            />
+          )}
         </Group>
       </MantinePagination.Root>
     </Flex>
