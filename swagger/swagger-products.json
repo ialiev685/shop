@@ -91,11 +91,13 @@
             }
           }
         }
-      },
+      }
+    },
+    "/products/add": {
       "post": {
         "tags": ["products"],
         "summary": "Add a new product",
-        "description": "Simulates adding a new product. Returns the created product with a new ID (not persisted on the server).",
+        "description": "Adds a new product to the dummy database. Returns the created product with a new ID (simulated persistence).",
         "requestBody": {
           "required": true,
           "content": {
