@@ -1,28 +1,28 @@
 import { useForm } from "@mantine/form";
-import {
-  Modal,
-  TextInput,
-  Button,
-  Group,
-  Stack,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
+import { Modal, TextInput, Button, Group, Stack, Text } from "@mantine/core";
+import type { ProductInput } from "@/services/products-api";
 
+type FormValues = Required<
+  Pick<ProductInput, "title" | "price" | "brand" | "sku">
+>;
 interface AddProductFormProps {
   isOpen: boolean;
   onClose: () => void;
   isLoading: boolean;
-  onSubmit: () => {};
+  onConfirm: (values: FormValues) => Promise<unknown>;
 }
 
-export const AddProductForm = ({ isOpen, onClose }: AddProductFormProps) => {
-  const theme = useMantineTheme();
-  const form = useForm({
+export const AddProductForm = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  isLoading,
+}: AddProductFormProps) => {
+  const form = useForm<FormValues>({
     initialValues: {
       title: "",
-      price: "",
-      vendor: "",
+      price: 0,
+      brand: "",
       sku: "",
     },
     validate: {
@@ -30,14 +30,14 @@ export const AddProductForm = ({ isOpen, onClose }: AddProductFormProps) => {
         value.length < 2 ? "Название должно содержать минимум 2 символа" : null,
       price: (value) =>
         Number(value) <= 0 ? "Цена должна быть больше 0" : null,
-      vendor: (value) =>
+      brand: (value) =>
         value.length < 2 ? "Вендор должен содержать минимум 2 символа" : null,
       sku: (value) => (value.length < 1 ? "Артикул обязателен" : null),
     },
   });
 
-  const handleSubmit = form.onSubmit((values) => {
-    console.log("values", values);
+  const handleSubmit = form.onSubmit(async (values) => {
+    await onConfirm(values);
     form.reset();
     onClose();
   });
@@ -61,6 +61,7 @@ export const AddProductForm = ({ isOpen, onClose }: AddProductFormProps) => {
       <form onSubmit={handleSubmit}>
         <Stack gap={12}>
           <TextInput
+            labelProps={{ styles: {} }}
             radius={8}
             size="md"
             label={<Text c="gray-main-2">Наименование</Text>}
@@ -82,7 +83,7 @@ export const AddProductForm = ({ isOpen, onClose }: AddProductFormProps) => {
             size="md"
             label={<Text c="gray-main-2">Вендор</Text>}
             placeholder="Введите вендора"
-            {...form.getInputProps("vendor")}
+            {...form.getInputProps("brand")}
           />
 
           <TextInput
@@ -97,7 +98,9 @@ export const AddProductForm = ({ isOpen, onClose }: AddProductFormProps) => {
             <Button variant="outline-custom" onClick={handleClose}>
               Отмена
             </Button>
-            <Button type="submit">Добавить</Button>
+            <Button type="submit" loading={isLoading}>
+              Добавить
+            </Button>
           </Group>
         </Stack>
       </form>

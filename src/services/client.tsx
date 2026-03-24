@@ -1,6 +1,6 @@
 import { IconX } from "@tabler/icons-react";
 import { AuthApi } from "./auth-api";
-import { ProductsApi } from "./products-api";
+import { ProductsApi, type ProductInput } from "./products-api";
 import { notifications } from "@mantine/notifications";
 import { isErrorResponse } from "@/shared/lib";
 
@@ -109,6 +109,13 @@ class RequestApi {
     return this.request(
       () => this.apiProducts.products.productsList(params),
       "Ошибка при получении продуктов",
+    );
+  };
+
+  public addProduct = async (params: ProductInput) => {
+    return this.request(
+      () => this.apiProducts.products.productsCreate(params),
+      "Ошибка при добавления продукта",
     );
   };
 

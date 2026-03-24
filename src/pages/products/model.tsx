@@ -1,6 +1,7 @@
 import { requestApi } from "@/services/client";
 import type { Product } from "@/services/products-api";
 import { notifications } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 
@@ -27,8 +28,7 @@ export const useController = () => {
   });
 
   const addProductMutation = useMutation({
-    mutationFn: (id: number) =>
-      new Promise((resolve) => setTimeout(resolve, 1000)),
+    mutationFn: requestApi.addProduct,
     // onMutate: (newProduct) => {
     //   const previousProducts = queryClient.getQueryData(["products"]);
 
@@ -50,15 +50,18 @@ export const useController = () => {
 
     onSuccess: () => {
       notifications.update({
+        icon: <IconCheck />,
         title: "Успешно",
         message: "Продукт добавлен",
         color: "green",
+        position: "top-center",
       });
     },
   });
 
   return {
     data: productsQuery.data,
-    isLoading: productsQuery.isLoading,
+    isLoading: productsQuery.isLoading || addProductMutation.isPending,
+    onAdd: addProductMutation.mutateAsync,
   };
 };

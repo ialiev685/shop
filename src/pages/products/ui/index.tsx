@@ -16,7 +16,7 @@ import { useState } from "react";
 
 export const Products = () => {
   const theme = useMantineTheme();
-  const { data, isLoading } = useController();
+  const { data, isLoading, onAdd } = useController();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -52,7 +52,12 @@ export const Products = () => {
           <Pagination totalItems={data?.total ?? 0} />
         </Flex>
       </Box>
-      <AddProductForm isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <AddProductForm
+        isLoading={isLoading}
+        onConfirm={(values) => onAdd(values)}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 };
