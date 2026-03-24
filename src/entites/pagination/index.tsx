@@ -11,7 +11,7 @@ import { useSearchParams } from "react-router-dom";
 
 type PaginationProps = {
   totalItems: number;
-  limit: number;
+  limit?: number;
 };
 
 export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
@@ -24,7 +24,7 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
   const theme = useMantineTheme();
 
   return (
-    <Flex justify="space-between" align="center" mt={50}>
+    <Flex justify="space-between" align="center">
       <Group gap={4}>
         <Text fz={18} c="gray-main-3">
           Показано
@@ -41,10 +41,15 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
       <MantinePagination.Root
         value={currentPage}
         onChange={(page) => {
-          const skipItems = (page - 1) * currentPage * limit;
-          setSearchParams({ skip: String(skipItems), limit: limit.toString() });
+          const skipItems = (page - 1) * limit;
+          if (skipItems < totalItems) {
+            setSearchParams({
+              skip: String(skipItems),
+              limit: limit.toString(),
+            });
+          }
         }}
-        total={totalItems}
+        total={totalItems / limit}
         styles={{
           control: {
             border: `1px solid ${theme.colors["purple-main"][0]}`,
