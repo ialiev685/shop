@@ -414,16 +414,16 @@ export class ProductsApi<
       }),
 
     /**
-     * @description Simulates adding a new product. Returns the created product with a new ID (not persisted on the server).
+     * @description Adds a new product to the dummy database. Returns the created product with a new ID (simulated persistence).
      *
      * @tags products
-     * @name ProductsCreate
+     * @name PostProducts
      * @summary Add a new product
-     * @request POST:/products
+     * @request POST:/products/add
      */
-    productsCreate: (data: ProductInput, params: RequestParams = {}) =>
+    postProducts: (data: ProductInput, params: RequestParams = {}) =>
       this.request<Product, any>({
-        path: `/products`,
+        path: `/products/add`,
         method: "POST",
         body: data,
         type: ContentType.Json,
