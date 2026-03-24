@@ -10,14 +10,6 @@ export type LoginData = {
   shouldRemember: boolean;
 };
 
-type ProductsParams = {
-  limit?: number;
-  skip?: number;
-  select?: string;
-  sortBy?: string;
-  order?: "asc" | "desc";
-};
-
 export class HttpError extends Error {
   public status: number;
 
@@ -101,8 +93,8 @@ class RequestApi {
   };
 
   public signIn = async (params: LoginData) => {
-    // emilys
-    // emilyspass
+    // login: emilys
+    // password: emilyspass
     const response = await this.request(
       () => this.apiAuth.auth.loginCreate(params),
       "Ошибка при авторизации пользователя",
@@ -111,13 +103,23 @@ class RequestApi {
     return response;
   };
 
-  public getAllProducts = async (params: ProductsParams) => {
+  public getAllProducts = async (
+    params: Parameters<typeof this.apiProducts.products.productsList>["0"],
+  ) => {
     return this.request(
       () => this.apiProducts.products.productsList(params),
       "Ошибка при получении продуктов",
     );
   };
+
+  public getSearchProducts = async (
+    params: Parameters<typeof this.apiProducts.products.searchList>["0"],
+  ) => {
+    return this.request(
+      () => this.apiProducts.products.searchList(params),
+      "Ошибка при поиске продуктов",
+    );
+  };
 }
 
-// export const requestApi = new RequestApi("/api");
 export const requestApi = new RequestApi("https://dummyjson.com");

@@ -2,20 +2,20 @@ import {
   Box,
   Flex,
   Title,
-  TextInput,
   useMantineTheme,
   Button,
   Group,
 } from "@mantine/core";
-import { IconRefresh, IconSearch, IconCirclePlus } from "@tabler/icons-react";
-import { useController } from "../models";
+import { IconRefresh, IconCirclePlus } from "@tabler/icons-react";
+import { useController } from "../model";
 import { ProductsTable } from "@/entites/products-table";
 import { Pagination } from "@/entites/pagination";
+import { SearchInput } from "./search-input";
 
 export const Products = () => {
   const theme = useMantineTheme();
 
-  const { data } = useController();
+  const { data, isLoading } = useController();
   console.log("data", data);
   return (
     <>
@@ -23,23 +23,7 @@ export const Products = () => {
         <Title fw="bold" order={3} w={100} c="gray-main-1">
           Товары
         </Title>
-        <TextInput
-          w={1000}
-          placeholder="Найти"
-          leftSection={<IconSearch />}
-          radius={8}
-          styles={{
-            input: {
-              border: "none",
-              backgroundColor: theme.colors["gray-main-5"][0],
-              height: 48,
-              paddingLeft: 48,
-            },
-            section: {
-              marginLeft: 10,
-            },
-          }}
-        />
+        <SearchInput />
         <Box w={100} />
       </Flex>
       <Box p="44px 30px" mt={30} bg="#FFF">
@@ -61,7 +45,7 @@ export const Products = () => {
           </Group>
         </Flex>
         <Flex mt={40} gap={50} direction="column">
-          <ProductsTable data={data?.products} />
+          <ProductsTable data={data?.products} isLoading={isLoading} />
           <Pagination totalItems={data?.total ?? 0} />
         </Flex>
       </Box>
