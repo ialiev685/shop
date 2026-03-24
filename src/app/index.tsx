@@ -17,6 +17,15 @@ const theme = mergeThemeOverrides(buttonTheme, {
     lg: "1",
     xl: "1",
   },
+  components: {
+    InputWrapper: {
+      styles: {
+        label: {
+          marginBottom: "8px",
+        },
+      },
+    },
+  },
 });
 
 const App = () => {
