@@ -8,6 +8,8 @@ export const useController = () => {
   const currentSearch = searchParams.get("search") || "";
   const skip = Number(searchParams.get("skip") ?? 0);
   const limit = Number(searchParams.get("limit") ?? 10);
+  const sortBy = searchParams.get("sortBy") ?? undefined;
+  const order = (searchParams.get("order") as "asc" | "desc") ?? undefined;
 
   const searchProductsQuery = useQuery({
     queryKey: ["searchProducts", currentSearch, skip, limit],
@@ -20,12 +22,12 @@ export const useController = () => {
   });
 
   const productsQuery = useQuery({
-    queryKey: ["products", skip, limit],
-    queryFn: () => requestApi.getAllProducts({ limit, skip }),
+    queryKey: ["products", skip, limit, sortBy, order],
+    queryFn: () => requestApi.getAllProducts({ limit, skip, sortBy, order }),
   });
 
   return {
-    data: searchProductsQuery.data ?? productsQuery.data,
+    data: currentSearch ? searchProductsQuery.data : productsQuery.data,
     isLoading: searchProductsQuery.isLoading || productsQuery.isLoading,
   };
 };

@@ -43,9 +43,12 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
         onChange={(page) => {
           const skipItems = (page - 1) * limit;
           if (skipItems < totalItems) {
-            setSearchParams({
-              skip: String(skipItems),
-              limit: limit.toString(),
+            setSearchParams((prevState) => {
+              return {
+                ...Object.fromEntries(prevState),
+                skip: String(skipItems),
+                limit: limit.toString(),
+              };
             });
           }
         }}

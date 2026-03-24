@@ -9,7 +9,10 @@ export const SearchInput = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [value, setValue] = useState<string>(searchParams.get("search") || "");
   const debouncedSearch = useDebouncedCallback((value: string) => {
-    setSearchParams({ search: value });
+    setSearchParams((prevState) => ({
+      ...Object.fromEntries(prevState),
+      search: value,
+    }));
   }, 250);
 
   const handleChange = (value: string) => {
