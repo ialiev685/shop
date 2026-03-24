@@ -7,14 +7,20 @@ import {
 } from "@mantine/core";
 import ArrowLeft from "@shared/assets/arrow-left.svg?react";
 import ArrowRight from "@shared/assets/arrow-right.svg?react";
+import { useSearchParams } from "react-router-dom";
 
-export const Pagination = () => {
-  const page = 1;
-  const total = 194;
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(total / itemsPerPage);
-  const from = (page - 1) * itemsPerPage + 1;
-  const to = Math.min(page * itemsPerPage, total);
+type PaginationProps = {
+  totalItems: number;
+  limit: number;
+};
+
+export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const skip = Number(searchParams.get("skip") ?? 0);
+  const from = skip;
+  const to = skip + limit;
+  const currentPage = skip / limit + 1;
+
   const theme = useMantineTheme();
 
   return (
@@ -29,13 +35,16 @@ export const Pagination = () => {
         <Text fz={18} c="gray-main-3">
           из
         </Text>
-        <Text fz={18}>{total}</Text>
+        <Text fz={18}>{totalItems}</Text>
       </Group>
 
       <MantinePagination.Root
-        value={page}
-        onChange={() => {}}
-        total={totalPages}
+        value={currentPage}
+        onChange={(page) => {
+          const skipItems = (page - 1) * currentPage * limit;
+          setSearchParams({ skip: String(skipItems), limit: limit.toString() });
+        }}
+        total={totalItems}
         styles={{
           control: {
             border: `1px solid ${theme.colors["purple-main"][0]}`,
