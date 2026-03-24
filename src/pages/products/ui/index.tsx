@@ -9,13 +9,14 @@ import {
 } from "@mantine/core";
 import { IconRefresh, IconSearch, IconCirclePlus } from "@tabler/icons-react";
 import { useController } from "../models";
-import { ProductsTable } from "./products-table";
+import { ProductsTable } from "@/entites/products-table";
+import { Pagination } from "@/entites/pagination";
 
 export const Products = () => {
   const theme = useMantineTheme();
 
   const { data } = useController();
-  console.log("data", data?.products);
+  console.log("data", data);
   return (
     <>
       <Flex p="26px 30px" bg="#FFF" justify="space-between" align="center">
@@ -59,9 +60,10 @@ export const Products = () => {
             </Button>
           </Group>
         </Flex>
-        <Box mt={40}>
+        <Flex mt={40} gap={50} direction="column">
           <ProductsTable data={data?.products} />
-        </Box>
+          <Pagination totalItems={data?.total ?? 0} />
+        </Flex>
       </Box>
     </>
   );
