@@ -13,11 +13,13 @@ import { Pagination } from "@/entites/pagination";
 import { SearchInput } from "./search-input";
 import { AddProductForm } from "@/entites/add-products-form";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Products = () => {
   const theme = useMantineTheme();
   const { data, isLoading, onAdd } = useController();
   const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   return (
     <>
@@ -35,7 +37,12 @@ export const Products = () => {
           </Title>
           <Group gap={8}>
             <Button variant="outline-custom" radius={8}>
-              <IconRefresh color={theme.colors["gray-auth-3"][0]} />
+              <IconRefresh
+                color={theme.colors["gray-auth-3"][0]}
+                onClick={() => {
+                  queryClient.invalidateQueries({ queryKey: ["products"] });
+                }}
+              />
             </Button>
             <Button
               radius={6}
