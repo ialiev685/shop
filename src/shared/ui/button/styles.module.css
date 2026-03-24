@@ -12,8 +12,15 @@
 .outline {
   border: 1px solid var(--purple-main);
   background-color: #fff;
+  color: var(--purple-auth);
 
   &:hover {
     background-color: var(--purple-hover-main);
+    border: none;
+    color: #fff;
+
+    svg {
+      stroke: white;
+    }
   }
 }

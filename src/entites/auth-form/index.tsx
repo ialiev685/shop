@@ -21,7 +21,7 @@ interface FormProps {
 
 const ERROR_TEXT = "Поле не должно быть пустым";
 
-export const Form = ({ onSignIn }: FormProps) => {
+export const AuthForm = ({ onSignIn }: FormProps) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -34,6 +34,8 @@ export const Form = ({ onSignIn }: FormProps) => {
       password: isNotEmpty(ERROR_TEXT),
     },
   });
+
+  const { username } = form.getValues();
 
   return (
     <form onSubmit={form.onSubmit((values) => onSignIn(values))}>
@@ -52,7 +54,14 @@ export const Form = ({ onSignIn }: FormProps) => {
               leftSection={<IconUser />}
               label="Логин"
               w="100%"
-              rightSection={<IconX cursor="pointer" />}
+              rightSection={
+                username ? (
+                  <IconX
+                    cursor="pointer"
+                    onClick={() => form.setValues({ username: "" })}
+                  />
+                ) : undefined
+              }
               radius={12}
               size="xl"
               {...form.getInputProps("username")}
