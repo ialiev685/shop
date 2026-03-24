@@ -14,9 +14,8 @@ import { SearchInput } from "./search-input";
 
 export const Products = () => {
   const theme = useMantineTheme();
-
   const { data, isLoading } = useController();
-  console.log("data", data);
+
   return (
     <>
       <Flex p="26px 30px" bg="#FFF" justify="space-between" align="center">

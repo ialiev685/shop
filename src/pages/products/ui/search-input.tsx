@@ -1,29 +1,34 @@
 import { TextInput, useMantineTheme } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch, IconX } from "@tabler/icons-react";
 import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "@mantine/hooks";
+import { useState } from "react";
 
 export const SearchInput = () => {
   const theme = useMantineTheme();
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentSearch = searchParams.get("search") || "";
-
+  const [value, setValue] = useState<string>(searchParams.get("search") || "");
   const debouncedSearch = useDebouncedCallback((value: string) => {
     setSearchParams({ search: value });
   }, 250);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
+  const handleChange = (value: string) => {
+    setValue(value);
     debouncedSearch(value);
   };
 
   return (
     <TextInput
       w={1000}
-      defaultValue={currentSearch}
-      onChange={handleChange}
+      value={value}
+      onChange={(event) => handleChange(event.currentTarget.value)}
       placeholder="Найти"
       leftSection={<IconSearch />}
+      rightSection={
+        value ? (
+          <IconX cursor="pointer" onClick={() => handleChange("")} />
+        ) : undefined
+      }
       radius={8}
       styles={{
         input: {
@@ -34,6 +39,7 @@ export const SearchInput = () => {
         },
         section: {
           marginLeft: 10,
+          marginRight: 10,
         },
       }}
     />
