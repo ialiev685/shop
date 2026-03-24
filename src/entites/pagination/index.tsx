@@ -3,7 +3,6 @@ import {
   Group,
   Text,
   Pagination as MantinePagination,
-  useMantineTheme,
 } from "@mantine/core";
 import ArrowLeft from "@shared/assets/arrow-left.svg?react";
 import ArrowRight from "@shared/assets/arrow-right.svg?react";

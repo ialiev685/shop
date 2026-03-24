@@ -11,9 +11,14 @@ import { getColumns } from "./lib";
 type ProductsTableProps = {
   data?: Product[];
   onSorting?: (sortStatus: DataTableSortStatus) => void;
+  isLoading?: boolean;
 };
 
-export const ProductsTable = ({ data, onSorting }: ProductsTableProps) => {
+export const ProductsTable = ({
+  data,
+  onSorting,
+  isLoading,
+}: ProductsTableProps) => {
   const [selectedRecords, setSelectedRecords] = useState<Product[]>([]);
   const [sortStatus, setSortStatus] = useState<DataTableSortStatus<Product>>({
     columnAccessor: "title",
@@ -27,6 +32,7 @@ export const ProductsTable = ({ data, onSorting }: ProductsTableProps) => {
   const columns = getColumns();
   return (
     <DataTable
+      fetching={isLoading}
       classNames={{ table: styles["table"] }}
       selectionCheckboxProps={{ size: "22px" }}
       allRecordsSelectionCheckboxProps={{
