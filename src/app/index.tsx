@@ -1,43 +1,20 @@
-import { MantineProvider, mergeThemeOverrides } from "@mantine/core";
-import { buttonTheme } from "@/shared/ui";
-import { colors } from "@/shared/configs";
 import { AuthProvider } from "./providers/auth";
 import { QueryProvider } from "./providers/query";
-import { Notifications } from "@mantine/notifications";
-import { Router } from "./providers/router";
-
-const theme = mergeThemeOverrides(buttonTheme, {
-  colors,
-  // fontFamily: "Inter, sans-serif",
-  fontFamily: "Cairo, sans-serif",
-  lineHeights: {
-    xs: "1",
-    sm: "1",
-    md: "1",
-    lg: "1",
-    xl: "1",
-  },
-  components: {
-    InputWrapper: {
-      styles: {
-        label: {
-          marginBottom: "8px",
-        },
-      },
-    },
-  },
-});
+import { AppRoutes } from "./providers/router";
+import { BrowserRouter } from "react-router-dom";
+import { UIProvider } from "./providers/ui-provider";
 
 const App = () => {
   return (
-    <MantineProvider theme={theme}>
-      <Notifications />
+    <BrowserRouter>
       <QueryProvider>
-        <AuthProvider>
-          <Router />
-        </AuthProvider>
+        <UIProvider>
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
+        </UIProvider>
       </QueryProvider>
-    </MantineProvider>
+    </BrowserRouter>
   );
 };
 
