@@ -11,23 +11,20 @@ export const useController = () => {
   const sortBy = searchParams.get("sortBy") ?? undefined;
   const order = (searchParams.get("order") as "asc" | "desc") ?? undefined;
 
-  const searchProductsQuery = useQuery({
-    queryKey: ["searchProducts", currentSearch, skip, limit],
-    queryFn: () =>
-      requestApi.getSearchProducts({
-        limit,
-        skip,
-        q: currentSearch,
-      }),
-  });
-
   const productsQuery = useQuery({
-    queryKey: ["products", skip, limit, sortBy, order],
-    queryFn: () => requestApi.getAllProducts({ limit, skip, sortBy, order }),
+    queryKey: ["products", currentSearch, skip, limit, sortBy, order],
+    queryFn: () =>
+      currentSearch
+        ? requestApi.getSearchProducts({
+            limit,
+            skip,
+            q: currentSearch,
+          })
+        : requestApi.getAllProducts({ limit, skip, sortBy, order }),
   });
 
   return {
-    data: currentSearch ? searchProductsQuery.data : productsQuery.data,
-    isLoading: searchProductsQuery.isLoading || productsQuery.isLoading,
+    data: productsQuery.data,
+    isLoading: productsQuery.isLoading,
   };
 };
