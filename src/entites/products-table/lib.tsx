@@ -100,7 +100,7 @@ export const getColumns = (): DataTableColumn<Product>[] => {
       ),
       render: (record) => {
         const [integer = "0", decimal = "00"] =
-          record.price?.toFixed(2).split(".") ?? [];
+          Number(record.price)?.toFixed(2).split(".") ?? [];
 
         return (
           <Group gap={0} component="span">

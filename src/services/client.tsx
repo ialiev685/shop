@@ -114,7 +114,7 @@ class RequestApi {
 
   public addProduct = async (params: ProductInput) => {
     return this.request(
-      () => this.apiProducts.products.productsCreate(params),
+      () => this.apiProducts.products.postProducts(params),
       "Ошибка при добавления продукта",
     );
   };

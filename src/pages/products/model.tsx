@@ -1,5 +1,5 @@
 import { requestApi } from "@/services/client";
-import type { Product } from "@/services/products-api";
+import type { ProductsResponse } from "@/services/products-api";
 import { notifications } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,8 +15,10 @@ export const useController = () => {
   const sortBy = searchParams.get("sortBy") ?? undefined;
   const order = (searchParams.get("order") as "asc" | "desc") ?? undefined;
 
+  const queryKey = ["products", currentSearch, skip, limit, sortBy, order];
+
   const productsQuery = useQuery({
-    queryKey: ["products", currentSearch, skip, limit, sortBy, order],
+    queryKey,
     queryFn: () =>
       currentSearch
         ? requestApi.getSearchProducts({
@@ -29,27 +31,15 @@ export const useController = () => {
 
   const addProductMutation = useMutation({
     mutationFn: requestApi.addProduct,
-    // onMutate: (newProduct) => {
-    //   const previousProducts = queryClient.getQueryData(["products"]);
 
-    //   queryClient.setQueryData(queryKey, (old: Product[] | undefined) => {
-    //     const tempProduct = { ...newProduct, id: `temp-${Date.now()}` };
-    //     return [tempProduct, ...(old || [])];
-    //   });
-
-    //   notifications.show({
-    //     title: "Добавление",
-    //     message: "Продукт добавляется...",
-    //     loading: true,
-    //     autoClose: false,
-    //     id: "add-product",
-    //   });
-
-    //   return { previousProducts };
-    // },
-
-    onSuccess: () => {
-      notifications.update({
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        queryKey,
+        (oldData: ProductsResponse): ProductsResponse => {
+          return { ...oldData, products: [data, ...(oldData.products ?? [])] };
+        },
+      );
+      notifications.show({
         icon: <IconCheck />,
         title: "Успешно",
         message: "Продукт добавлен",

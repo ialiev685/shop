@@ -29,7 +29,7 @@ export const AddProductForm = ({
       title: (value) =>
         value.length < 2 ? "Название должно содержать минимум 2 символа" : null,
       price: (value) =>
-        Number(value) <= 0 ? "Цена должна быть больше 0" : null,
+        isNaN(value) || Number(value) <= 0 ? "Цена должна быть больше 0" : null,
       brand: (value) =>
         value.length < 2 ? "Вендор должен содержать минимум 2 символа" : null,
       sku: (value) => (value.length < 1 ? "Артикул обязателен" : null),
@@ -37,7 +37,7 @@ export const AddProductForm = ({
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
-    await onConfirm(values);
+    await onConfirm({ ...values, price: Number(values.price) });
     form.reset();
     onClose();
   });
@@ -61,7 +61,6 @@ export const AddProductForm = ({
       <form onSubmit={handleSubmit}>
         <Stack gap={12}>
           <TextInput
-            labelProps={{ styles: {} }}
             radius={8}
             size="md"
             label={<Text c="gray-main-2">Наименование</Text>}
