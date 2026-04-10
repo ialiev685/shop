@@ -22,6 +22,6 @@ const app = Fastify({
 });
 app.register(sequelizeInit);
 app.register(routes);
-app.listen({ port: 8000 }, (error: unknown, address) => {
+app.listen({ port: 8000 }, (_error: unknown, address) => {
   console.log(`сервер запущено на ${address}`);
 });
