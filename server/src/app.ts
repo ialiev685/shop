@@ -1,6 +1,10 @@
+import dotenv from 'dotenv';
 import Fastify from 'fastify';
 import { routes } from './routes';
 import { sequelizeInit } from './plugin/db-plugin';
+
+dotenv.config();
+const PORT = process.env.PORT ?? 8000;
 
 const app = Fastify({
   logger:
@@ -22,6 +26,10 @@ const app = Fastify({
 });
 app.register(sequelizeInit);
 app.register(routes);
-app.listen({ port: 8000 }, (_error: unknown, address) => {
-  console.log(`сервер запущено на ${address}`);
+app.listen({ port: Number(PORT) }, (error, address) => {
+  if (error) {
+    app.log.error(error);
+    process.exit(1);
+  }
+  console.log(`Сервер запщуен ${address}`);
 });
