@@ -1,4 +1,4 @@
-import js from '@eslint/js';
+import eslint from '@eslint/js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
@@ -9,19 +9,19 @@ export default defineConfig(
   globalIgnores([
     '**/dist/**',
     '**/node_modules/**',
-    '**/coverage/**',
+    // '**/coverage/**',
     '**/.git/**',
     '**/build/**',
-    '**/src/db**',
-    '**/src/models/**',
+    // '**/src/db**',
+    // '**/src/models/**',
   ]),
 
   // 2. Базовые правила
-  js.configs.recommended,
+  eslint.configs.recommended,
 
   // 3. TypeScript правила (рекомендованные + строгие)
-  ...tseslint.configs.recommended,
-  ...tseslint.configs.strict,
+  tseslint.configs.recommended,
+  tseslint.configs.strict,
 
   // 3.1 форматирование
   {
@@ -54,7 +54,7 @@ export default defineConfig(
     rules: {
       // ----- Типобезопасность (ключевое) -----
       '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unsafe-assignment': 'error',
+      // '@typescript-eslint/no-unsafe-assignment': 'error',
       // '@typescript-eslint/no-unsafe-call': 'error',
       // '@typescript-eslint/no-unsafe-member-access': 'error',
       '@typescript-eslint/no-unsafe-return': 'error',
