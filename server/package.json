@@ -11,7 +11,10 @@
     "start": "node dist/app.js",
     "lint": "eslint . --cache",
     "lint:fix": "eslint . --fix --cache",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "migrate:create": "tsx migrate.js create --prefix TIMESTAMP --folder src/database/migrations --name",
+    "migrate:dev": "dotenv -e .env.dev -- tsx migrate.js up",
+    "migrate:pending": "dotenv -e .env.dev -- tsx migrate.js pending"
   },
   "dependencies": {
     "dotenv": "^17.4.1",
@@ -21,7 +24,8 @@
     "pg": "^8.20.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.8",
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "umzug": "^3.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

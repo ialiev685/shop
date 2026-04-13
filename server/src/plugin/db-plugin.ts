@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin';
-import { sequelize } from '../db';
+import { sequelize } from '../database/sequelize-db';
 
 export const sequelizeInit = fp(async (instance) => {
   try {
