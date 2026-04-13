@@ -17,6 +17,8 @@
     "migrate:pending": "dotenv -e .env.dev -- tsx migrate.js pending"
   },
   "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/http-proxy": "^11.4.3",
     "dotenv": "^17.4.1",
     "fastify": "^5.8.4",
     "fastify-cli": "^8.0.0",
