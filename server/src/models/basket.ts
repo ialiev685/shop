@@ -5,8 +5,8 @@ import {
   DataTypes,
   Model,
 } from 'sequelize';
-import { sequelize } from '../db';
-export class BasketModel extends Model<
+import { sequelize } from '../database/sequelize-db';
+class BasketModel extends Model<
   InferAttributes<BasketModel>,
   InferCreationAttributes<BasketModel>
 > {
@@ -35,7 +35,9 @@ BasketModel.init(
   },
   {
     sequelize,
-    tableName: 'BasketModels',
+    tableName: 'basket',
     timestamps: false,
   },
 );
+
+export default BasketModel;

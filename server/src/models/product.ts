@@ -5,8 +5,8 @@ import {
   DataTypes,
   Model,
 } from 'sequelize';
-import { sequelize } from '../db';
-export class ProductModel extends Model<
+import { sequelize } from '../database/sequelize-db';
+class ProductModel extends Model<
   InferAttributes<ProductModel>,
   InferCreationAttributes<ProductModel>
 > {
@@ -50,7 +50,9 @@ ProductModel.init(
   },
   {
     sequelize,
-    tableName: 'ProductModels',
+    tableName: 'product',
     timestamps: false,
   },
 );
+
+export default ProductModel;

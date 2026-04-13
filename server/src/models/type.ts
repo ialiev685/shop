@@ -5,11 +5,8 @@ import {
   DataTypes,
   Model,
 } from 'sequelize';
-import { sequelize } from '../db';
-export class TypeModel extends Model<
-  InferAttributes<TypeModel>,
-  InferCreationAttributes<TypeModel>
-> {
+import { sequelize } from '../database/sequelize-db';
+class TypeModel extends Model<InferAttributes<TypeModel>, InferCreationAttributes<TypeModel>> {
   declare id: CreationOptional<number>;
   declare name: string;
 }
@@ -28,7 +25,9 @@ TypeModel.init(
   },
   {
     sequelize,
-    tableName: 'types',
+    tableName: 'type',
     timestamps: false,
   },
 );
+
+export default TypeModel;

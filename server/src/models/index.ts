@@ -1,8 +1,8 @@
-import { BasketModel } from './basket';
-import { BasketProductModel } from './basket-product';
-import { ProductModel } from './product';
-import { ProductInfoModel } from './product-info';
-import { TypeModel } from './type';
+import BasketModel from './basket';
+import BasketProductModel from './basket-product';
+import ProductModel from './product';
+import ProductInfoModel from './product-info';
+import TypeModel from './type';
 
 BasketModel.hasMany(BasketProductModel, {
   foreignKey: 'basketId',
