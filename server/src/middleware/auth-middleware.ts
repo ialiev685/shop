@@ -1,52 +1,25 @@
-import { type HookHandlerDoneFunction, type FastifyReply, type FastifyRequest } from 'fastify';
+import jwt from 'jsonwebtoken';
+import { type FastifyRequest, type FastifyReply } from 'fastify';
 import { ApiError } from '../exception/api-errors';
-
-const CURRENT_USER_URL = `${process.env.AUTH_URL}/api/v1/currentUser`;
-
-interface SuccessResponse {
-  email: string;
-  id: number;
-  isActivate: boolean;
-  role: string;
-  accessToken: string;
-}
-
-interface ErrorResponse {
-  message: string;
-  errors?: unknown[];
-}
-
-const isErrorResponse = (data: unknown): data is ErrorResponse => {
-  return typeof data === 'object' && Boolean(data && 'message' in data);
-};
-
-const isUserResponse = (data: unknown): data is SuccessResponse => {
-  return typeof data === 'object' && Boolean(data && 'email' in data);
-};
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN_SECRET ?? '';
 
 export const authMiddleware = async (req: FastifyRequest, _res: FastifyReply) => {
-  if (!process.env.AUTH_URL) {
-    throw ApiError.BadRequestError('Невалидный url авторизации');
-  }
-
-  if (!req.headers.authorization || !req.headers.cookie) {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.split(' ')[1];
+    if (!token) {
+      throw ApiError.UnauthorizedError();
+    }
+    const decoded = jwt.verify(token, ACCESS_TOKEN);
+    if (decoded) return;
     throw ApiError.UnauthorizedError();
-  }
-  const response = await fetch(CURRENT_USER_URL, {
-    headers: {
-      Authorization: req.headers.authorization,
-      Cookie: req.headers.cookie,
-      'Content-Type': 'application/json',
-    },
-  });
-  const content = await response.json();
-  if (response.ok && isUserResponse(content)) {
-    req.user = content;
-    return;
-  }
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      throw ApiError.UnauthorizedError();
+    }
 
-  throw ApiError.CheckAuthorizationError(
-    response.status,
-    isErrorResponse(content) ? content.message : 'Непредвиденная ошибка',
-  );
+    if (error instanceof jwt.JsonWebTokenError) {
+      throw ApiError.UnauthorizedError();
+    }
+  }
 };
