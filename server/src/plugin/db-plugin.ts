@@ -1,14 +1,12 @@
 import fp from 'fastify-plugin';
 import { sequelize } from '../database/sequelize-db';
+import { BasketModel, BasketProductModel } from '../models';
 
 export const sequelizeInit = fp(async (instance) => {
   try {
     await sequelize.authenticate();
-    // if (process.env.NODE_ENV === 'development') {
-    //   await sequelize.sync({ alter: true });
-    // }
     instance.log.info('база данных инициализирована');
-    // instance.decorate('db', { sequelize });
+    instance.decorate('db', { sequelize, Basket: BasketModel, BasketProduct: BasketProductModel });
     instance.addHook('onClose', async () => {
       await sequelize.close();
     });

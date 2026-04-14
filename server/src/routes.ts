@@ -1,10 +1,15 @@
-import fp from 'fastify-plugin';
 import { authMiddleware } from './middleware/auth-middleware';
+import { BasketController } from './controllers/basket-controller';
+import { BasketService } from './services/basket-service';
+import type { FastifyPluginCallback } from 'fastify';
 
-export const routes = fp((instance) => {
+export const routes: FastifyPluginCallback = (instance) => {
   instance.addHook('preHandler', authMiddleware);
-
-  instance.get('/', { preHandler: authMiddleware }, (_req, res) => {
-    res.send('hello world');
-  });
-});
+  const basketService = new BasketService(instance);
+  const basketController = new BasketController(basketService);
+  instance.get(
+    '/basket',
+    { preHandler: authMiddleware },
+    basketController.getProducts.bind(basketController),
+  );
+};
