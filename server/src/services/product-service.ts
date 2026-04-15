@@ -27,7 +27,7 @@ export class ProductService {
     } catch (error) {
       if (error instanceof UniqueConstraintError) {
         const field = error.errors?.[0]?.path;
-        throw ApiError.BadRequestError(`Запись ${field} уже существует`);
+        throw ApiError.BadRequestError(`Значение поля '${field}' уже существует`);
       }
 
       throw error;
