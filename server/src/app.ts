@@ -5,6 +5,7 @@ import { sequelizeInit } from './plugin/db-plugin';
 import proxy from '@fastify/http-proxy';
 import cookie from '@fastify/cookie';
 import { errorMiddleware } from './middleware/error-middleware';
+import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 
 dotenv.config();
 const PORT = process.env.PORT ?? 8000;
@@ -26,7 +27,7 @@ const app = Fastify({
       : {
           level: 'info',
         },
-});
+}).withTypeProvider<TypeBoxTypeProvider>();
 
 app.register(cookie);
 app.register(proxy, {

@@ -1,0 +1,21 @@
+import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import {
+  type FastifyRequest,
+  type FastifySchema,
+  type RawRequestDefaultExpression,
+  type RawServerDefault,
+  type RouteGenericInterface,
+} from 'fastify';
+import { type typeSchemaBody } from '../schemas/type';
+import { type productSchemaBody } from '../schemas/product';
+
+export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyRequest<
+  RouteGenericInterface,
+  RawServerDefault,
+  RawRequestDefaultExpression,
+  TSchema,
+  TypeBoxTypeProvider
+>;
+
+export type TypeBodySchema = typeof typeSchemaBody;
+export type ProductBodySchema = typeof productSchemaBody;
