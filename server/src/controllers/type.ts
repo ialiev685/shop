@@ -6,8 +6,11 @@ import {
   type RawServerDefault,
   type RouteGenericInterface,
 } from 'fastify';
-import { type typeSchemaBody } from '../schemas/type';
-import { type productSchemaBody } from '../schemas/product';
+import {
+  type productInfoSchemaBody,
+  type productSchemaBody,
+  type typeSchemaBody,
+} from '../schemas';
 
 export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyRequest<
   RouteGenericInterface,
@@ -19,3 +22,4 @@ export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyReques
 
 export type TypeBodySchema = typeof typeSchemaBody;
 export type ProductBodySchema = typeof productSchemaBody;
+export type ProductInfoBodySchema = typeof productInfoSchemaBody;
