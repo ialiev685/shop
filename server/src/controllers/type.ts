@@ -26,3 +26,4 @@ export type ProductBodySchema = typeof productSchemaBody;
 export type ProductInfoBodySchema = typeof productInfoSchemaBody;
 export type AddProductToBasketBodySchema = typeof basketSchema.addProductToBasketSchema;
 export type UpdateQuantityProductSchema = typeof basketSchema.updateQuantityProductSchema;
+export type RemoveProductSchema = typeof basketSchema.removeProductSchema;

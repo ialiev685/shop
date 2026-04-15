@@ -4,6 +4,7 @@ import {
   type AddProductToBasketBodySchema,
   type FastifyRequestTypeBox,
   type UpdateQuantityProductSchema,
+  type RemoveProductSchema,
 } from './type';
 
 export class BasketController {
@@ -12,21 +13,30 @@ export class BasketController {
     const basket = await this.basketService.getProducts(req.user?.id ?? NaN);
     return res.status(200).send(basket);
   }
-  public async addProductToBasket(
+  public async addProduct(
     req: FastifyRequestTypeBox<AddProductToBasketBodySchema>,
     res: FastifyReply,
   ) {
-    const basketProduct = await this.basketService.addProductToBasket(
+    const basketProduct = await this.basketService.addProduct(
       req.user?.id ?? NaN,
       req.body.productId,
     );
     return res.status(200).send(basketProduct);
   }
+
   public async updateQuantityProduct(
     req: FastifyRequestTypeBox<UpdateQuantityProductSchema>,
     res: FastifyReply,
   ) {
     const basketProduct = await this.basketService.updateQuantityProduct({
+      userId: req.user?.id ?? NaN,
+      ...req.body,
+    });
+    return res.status(200).send(basketProduct);
+  }
+
+  public async removeProduct(req: FastifyRequestTypeBox<RemoveProductSchema>, res: FastifyReply) {
+    const basketProduct = await this.basketService.removeProduct({
       userId: req.user?.id ?? NaN,
       ...req.body,
     });

@@ -42,11 +42,16 @@ export const routes: FastifyPluginCallback = (instance) => {
   instance.post(
     '/addProductToBasket',
     { schema: basketSchema.addProductToBasketSchema },
-    basketController.addProductToBasket.bind(basketController),
+    basketController.addProduct.bind(basketController),
   );
   instance.post(
     '/updateQuantityProduct',
     { schema: basketSchema.updateQuantityProductSchema },
     basketController.updateQuantityProduct.bind(basketController),
+  );
+  instance.post(
+    '/removeProduct',
+    { schema: basketSchema.removeProductSchema },
+    basketController.removeProduct.bind(basketController),
   );
 };

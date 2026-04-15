@@ -2,7 +2,7 @@ import { type FastifyInstance } from 'fastify';
 import { ForeignKeyConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 
-interface UpdateQuantityProduct {
+interface BasketProduct {
   userId: number;
   basketId: number;
   productId: number;
@@ -11,7 +11,7 @@ interface UpdateQuantityProduct {
 export class BasketService {
   constructor(private fastifyInstance: FastifyInstance) {}
 
-  public async addProductToBasket(userId: number, productId: number) {
+  public async addProduct(userId: number, productId: number) {
     try {
       const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
         where: {
@@ -49,12 +49,7 @@ export class BasketService {
     }
   }
 
-  public async updateQuantityProduct({
-    quantity,
-    basketId,
-    productId,
-    userId,
-  }: UpdateQuantityProduct) {
+  public async updateQuantityProduct({ quantity, basketId, productId, userId }: BasketProduct) {
     if (quantity < 1) {
       throw ApiError.BadRequestError('Количество не должно быть меньше 1');
     }
@@ -78,6 +73,24 @@ export class BasketService {
     await basketProduct.save();
 
     return basketProduct;
+  }
+
+  public async removeProduct({ basketId, productId, userId }: Omit<BasketProduct, 'quantity'>) {
+    const basketProduct = await this.fastifyInstance.db.BasketProduct.findOne({
+      include: [
+        {
+          model: this.fastifyInstance.db.Basket,
+          as: 'basket',
+          where: { userId },
+          required: true,
+        },
+      ],
+      where: { productId, basketId },
+    });
+    if (!basketProduct) {
+      throw ApiError.BadRequestError('Продукт не найден в корзине');
+    }
+    await basketProduct.destroy();
   }
 
   public async getProducts(userId: number) {

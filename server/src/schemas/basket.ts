@@ -13,3 +13,10 @@ export const updateQuantityProductSchema = {
     quantity: Type.Number({ minimum: 1 }),
   }),
 };
+
+export const removeProductSchema = {
+  body: Type.Object({
+    basketId: Type.Number(),
+    productId: Type.Number(),
+  }),
+};
