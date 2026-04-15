@@ -5,3 +5,11 @@ export const addProductToBasketSchema = {
     productId: Type.Number(),
   }),
 };
+
+export const updateQuantityProductSchema = {
+  body: Type.Object({
+    basketId: Type.Number(),
+    productId: Type.Number(),
+    quantity: Type.Number({ minimum: 1 }),
+  }),
+};

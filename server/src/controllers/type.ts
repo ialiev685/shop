@@ -7,7 +7,7 @@ import {
   type RouteGenericInterface,
 } from 'fastify';
 import {
-  type addProductToBasketSchema,
+  type basketSchema,
   type productInfoSchemaBody,
   type productSchemaBody,
   type typeSchemaBody,
@@ -24,4 +24,5 @@ export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyReques
 export type TypeBodySchema = typeof typeSchemaBody;
 export type ProductBodySchema = typeof productSchemaBody;
 export type ProductInfoBodySchema = typeof productInfoSchemaBody;
-export type AddProductToBasketBodySchema = typeof addProductToBasketSchema;
+export type AddProductToBasketBodySchema = typeof basketSchema.addProductToBasketSchema;
+export type UpdateQuantityProductSchema = typeof basketSchema.updateQuantityProductSchema;

@@ -2,6 +2,12 @@ import { type FastifyInstance } from 'fastify';
 import { ForeignKeyConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 
+interface UpdateQuantityProduct {
+  userId: number;
+  basketId: number;
+  productId: number;
+  quantity: number;
+}
 export class BasketService {
   constructor(private fastifyInstance: FastifyInstance) {}
 
@@ -41,6 +47,37 @@ export class BasketService {
       }
       throw error;
     }
+  }
+
+  public async updateQuantityProduct({
+    quantity,
+    basketId,
+    productId,
+    userId,
+  }: UpdateQuantityProduct) {
+    if (quantity < 1) {
+      throw ApiError.BadRequestError('Количество не должно быть меньше 1');
+    }
+    const basketProduct = await this.fastifyInstance.db.BasketProduct.findOne({
+      where: { basketId, productId },
+      include: [
+        {
+          model: this.fastifyInstance.db.Basket,
+          as: 'basket',
+          where: { userId },
+          required: true,
+        },
+      ],
+    });
+
+    if (!basketProduct) {
+      throw ApiError.BadRequestError('Продукт не найден в корзине');
+    }
+
+    basketProduct.quantity = quantity;
+    await basketProduct.save();
+
+    return basketProduct;
   }
 
   public async getProducts(userId: number) {

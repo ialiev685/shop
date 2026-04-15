@@ -7,12 +7,7 @@ import { TypeService } from './services/type-service';
 
 import { ProductController } from './controllers/product-controller';
 import { ProductService } from './services/product-service';
-import {
-  productSchemaBody,
-  typeSchemaBody,
-  productInfoSchemaBody,
-  addProductToBasketSchema,
-} from './schemas';
+import { productSchemaBody, typeSchemaBody, productInfoSchemaBody, basketSchema } from './schemas';
 import { ProductInfoController } from './controllers/product-info-controller';
 import { ProductInfoService } from './services/product-info-service';
 
@@ -46,7 +41,12 @@ export const routes: FastifyPluginCallback = (instance) => {
   );
   instance.post(
     '/addProductToBasket',
-    { schema: addProductToBasketSchema },
+    { schema: basketSchema.addProductToBasketSchema },
     basketController.addProductToBasket.bind(basketController),
+  );
+  instance.post(
+    '/updateQuantityProduct',
+    { schema: basketSchema.updateQuantityProductSchema },
+    basketController.updateQuantityProduct.bind(basketController),
   );
 };
