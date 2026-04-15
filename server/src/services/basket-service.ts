@@ -93,6 +93,21 @@ export class BasketService {
     await basketProduct.destroy();
   }
 
+  public async clearBasket({ basketId, userId }: Omit<BasketProduct, 'quantity' | 'productId'>) {
+    const basket = await this.fastifyInstance.db.Basket.findOne({
+      where: { id: basketId, userId },
+    });
+
+    if (!basket) {
+      throw ApiError.BadRequestError('Корзина не найдена');
+    }
+
+    const v = await this.fastifyInstance.db.BasketProduct.destroy({
+      where: { basketId: basket.id },
+    });
+    console.log('v', v);
+  }
+
   public async getProducts(userId: number) {
     const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
       where: {

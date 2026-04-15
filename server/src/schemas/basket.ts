@@ -20,3 +20,9 @@ export const removeProductSchema = {
     productId: Type.Number(),
   }),
 };
+
+export const clearBasketSchema = {
+  body: Type.Object({
+    basketId: Type.Number(),
+  }),
+};

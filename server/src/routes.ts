@@ -54,4 +54,9 @@ export const routes: FastifyPluginCallback = (instance) => {
     { schema: basketSchema.removeProductSchema },
     basketController.removeProduct.bind(basketController),
   );
+  instance.post(
+    '/clearBasket',
+    { schema: basketSchema.clearBasketSchema },
+    basketController.clearProduct.bind(basketController),
+  );
 };
