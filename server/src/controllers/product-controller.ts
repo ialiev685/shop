@@ -7,6 +7,6 @@ export class ProductController {
 
   public async addProduct(req: FastifyRequestTypeBox<ProductBodySchema>, res: FastifyReply) {
     const product = await this.productService.addProduct(req.body);
-    return res.status(200).send(product);
+    return res.status(201).send(product);
   }
 }

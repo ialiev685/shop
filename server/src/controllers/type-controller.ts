@@ -7,6 +7,6 @@ export class TypeController {
   public async addNameType(req: FastifyRequestTypeBox<TypeBodySchema>, res: FastifyReply) {
     const { name } = req.body;
     const nameType = await this.typeService.addNameType(name);
-    res.status(200).send(nameType);
+    res.status(201).send(nameType);
   }
 }
