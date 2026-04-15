@@ -86,6 +86,7 @@ export const up: Migration = async ({ context }) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      unique: true,
       field: 'user_id',
     },
     sessionId: {
@@ -123,7 +124,7 @@ export const up: Migration = async ({ context }) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },
-    count: {
+    quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 1,

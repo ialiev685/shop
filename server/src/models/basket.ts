@@ -25,6 +25,7 @@ BasketModel.init(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      unique: true,
       field: 'user_id',
     },
     sessionId: {

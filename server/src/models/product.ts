@@ -16,6 +16,7 @@ class ProductModel extends Model<
   declare rating: CreationOptional<number>;
   declare typeId: number;
   declare img: string;
+  declare sku: string;
 }
 
 ProductModel.init(
@@ -46,6 +47,11 @@ ProductModel.init(
     img: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    sku: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   },
   {

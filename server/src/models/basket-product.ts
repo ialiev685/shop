@@ -13,7 +13,7 @@ class BasketProductModel extends Model<
   declare id: CreationOptional<number>;
   declare basketId: number;
   declare productId: number;
-  declare count: CreationOptional<number>;
+  declare quantity: CreationOptional<number>;
 }
 
 BasketProductModel.init(
@@ -33,7 +33,7 @@ BasketProductModel.init(
       allowNull: false,
       field: 'product_id',
     },
-    count: {
+    quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 1,
