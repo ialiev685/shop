@@ -12,7 +12,7 @@ class ProductInfoModel extends Model<
 > {
   declare id: CreationOptional<number>;
   declare name: string;
-  declare description: number;
+  declare description: string;
   declare productId: number;
 }
 
@@ -41,6 +41,12 @@ ProductInfoModel.init(
     sequelize,
     tableName: 'product_info',
     timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ['name', 'product_id'],
+      },
+    ],
   },
 );
 
