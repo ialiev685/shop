@@ -7,7 +7,6 @@ export const productSchemaBody = {
     typeId: Type.Number(),
     img: Type.String(),
     sku: Type.String(),
-    rating: Type.Number(),
   }),
 };
 
@@ -25,6 +24,5 @@ export const updateProductSchemaBody = {
     typeId: Type.Optional(Type.Number()),
     img: Type.Optional(Type.String()),
     sku: Type.Optional(Type.String()),
-    rating: Type.Optional(Type.Number()),
   }),
 };

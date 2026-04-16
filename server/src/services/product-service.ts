@@ -39,7 +39,6 @@ export class ProductService {
 
   public async updateProduct(params: Partial<ProductParams> & { productId: number }) {
     const { productId, ...otherParams } = params;
-    console.log('!!!', otherParams);
     const product = await this.fastifyInstance.db.Product.findByPk(productId);
     if (!product) {
       throw ApiError.BadRequestError(
