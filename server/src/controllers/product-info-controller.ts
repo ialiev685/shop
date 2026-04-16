@@ -24,7 +24,7 @@ export class ProductInfoController {
     req: FastifyRequestTypeBox<RemoveProductInfoSchema>,
     res: FastifyReply,
   ) {
-    await this.productInfoService.removeProductInfo(req.body.productInfoId);
+    await this.productInfoService.removeProductInfo(req.params.productInfoId);
     return res.status(200).send();
   }
 
@@ -32,7 +32,10 @@ export class ProductInfoController {
     req: FastifyRequestTypeBox<UpdateProductInfoSchema>,
     res: FastifyReply,
   ) {
-    const productInfo = await this.productInfoService.updateProductInfo(req.body);
+    const productInfo = await this.productInfoService.updateProductInfo({
+      productInfoId: req.params.productInfoId,
+      ...req.body,
+    });
     return res.status(200).send(productInfo);
   }
 

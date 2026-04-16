@@ -3,13 +3,11 @@ import { UniqueConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
 
-import {
-  type productInfoSchemaBody,
-  type updateProductInfoSchemaBody,
-} from '../schemas/product-info';
+import { type productInfoSchema, type updateProductInfoSchema } from '../schemas/product-info';
 
-type ProductInfoParams = Static<(typeof productInfoSchemaBody)['body']>;
-type updateProductInfoParams = Static<(typeof updateProductInfoSchemaBody)['body']>;
+type ProductInfoParams = Static<(typeof productInfoSchema)['body']>;
+type updateProductInfoParams = Static<(typeof updateProductInfoSchema)['params']> &
+  Static<(typeof updateProductInfoSchema)['body']>;
 
 export class ProductInfoService {
   constructor(private fastifyInstance: FastifyInstance) {}

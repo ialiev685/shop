@@ -2,10 +2,10 @@ import { type FastifyInstance } from 'fastify';
 import { UniqueConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
-import { type updateProductSchemaBody, type productSchemaBody } from '../schemas/product';
+import { type updateProductSchema, type productSchema } from '../schemas/product';
 
-type ProductParams = Static<(typeof productSchemaBody)['body']>;
-type updateProductParams = Static<(typeof updateProductSchemaBody)['body']>;
+type ProductParams = Static<(typeof productSchema)['body']>;
+type updateProductParams = Static<(typeof updateProductSchema)['body']>;
 
 export class ProductService {
   constructor(private fastifyInstance: FastifyInstance) {}

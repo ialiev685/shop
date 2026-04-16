@@ -10,7 +10,7 @@ import {
   type productInfoSchema,
   type basketSchema,
   type productSchema,
-  type typeSchemaBody,
+  type typeSchema,
 } from '../schemas';
 
 export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyRequest<
@@ -21,17 +21,17 @@ export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyReques
   TypeBoxTypeProvider
 >;
 
-export type TypeBodySchema = typeof typeSchemaBody;
+export type TypeBodySchema = typeof typeSchema;
 export type AddProductToBasketSchema = typeof basketSchema.addProductToBasketSchema;
 export type UpdateQuantityProductSchema = typeof basketSchema.updateQuantityProductSchema;
 export type RemoveProductFromBasketSchema = typeof basketSchema.removeProductFromBasketSchema;
 export type ClearBasketSchema = typeof basketSchema.clearBasketSchema;
 
-export type ProductBodySchema = typeof productSchema.productSchemaBody;
-export type RemoveProductSchema = typeof productSchema.removeProductSchemaBody;
-export type UpdateProductSchema = typeof productSchema.updateProductSchemaBody;
+export type ProductBodySchema = typeof productSchema.productSchema;
+export type RemoveProductSchema = typeof productSchema.removeProductSchema;
+export type UpdateProductSchema = typeof productSchema.updateProductSchema;
 
-export type ProductInfoSchema = typeof productInfoSchema.productInfoSchemaBody;
-export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoSchemaBody;
-export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfoSchemaBody;
-export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListSchemaBody;
+export type ProductInfoSchema = typeof productInfoSchema.productInfoSchema;
+export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoSchema;
+export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfoSchema;
+export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListSchema;

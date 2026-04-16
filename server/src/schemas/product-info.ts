@@ -1,6 +1,6 @@
 import { Type } from '@fastify/type-provider-typebox';
 
-export const productInfoSchemaBody = {
+export const productInfoSchema = {
   body: Type.Object({
     name: Type.String(),
     description: Type.String(),
@@ -8,21 +8,21 @@ export const productInfoSchemaBody = {
   }),
 };
 
-export const removeProductInfoSchemaBody = {
-  body: Type.Object({
+export const removeProductInfoSchema = {
+  params: Type.Object({
     productInfoId: Type.Number(),
   }),
 };
 
-export const updateProductInfoSchemaBody = {
+export const updateProductInfoSchema = {
+  params: Type.Object({ productInfoId: Type.Number() }),
   body: Type.Object({
     name: Type.Optional(Type.String()),
     description: Type.Optional(Type.String()),
-    productInfoId: Type.Number(),
   }),
 };
 
-export const getProductInfoListSchemaBody = {
+export const getProductInfoListSchema = {
   params: Type.Object({
     productId: Type.Number(),
   }),

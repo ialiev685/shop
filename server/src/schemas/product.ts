@@ -1,6 +1,6 @@
 import Type from 'typebox';
 
-export const productSchemaBody = {
+export const productSchema = {
   body: Type.Object({
     name: Type.String(),
     price: Type.Number(),
@@ -10,13 +10,13 @@ export const productSchemaBody = {
   }),
 };
 
-export const removeProductSchemaBody = {
+export const removeProductSchema = {
   body: Type.Object({
     productId: Type.Number(),
   }),
 };
 
-export const updateProductSchemaBody = {
+export const updateProductSchema = {
   body: Type.Object({
     productId: Type.Number(),
     name: Type.Optional(Type.String()),

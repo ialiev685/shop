@@ -1,6 +1,6 @@
 import Type from 'typebox';
 
-export const typeSchemaBody = {
+export const typeSchema = {
   body: Type.Object({
     name: Type.String(),
   }),

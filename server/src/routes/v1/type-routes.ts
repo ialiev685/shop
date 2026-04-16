@@ -1,7 +1,7 @@
 import { type FastifyPluginCallback } from 'fastify';
 import { TypeController } from '../../controllers/type-controller';
 import { TypeService } from '../../services/type-service';
-import { typeSchemaBody } from '../../schemas';
+import { typeSchema } from '../../schemas';
 
 const typeRoutes: FastifyPluginCallback = (instance) => {
   const typeService = new TypeService(instance);
@@ -9,7 +9,7 @@ const typeRoutes: FastifyPluginCallback = (instance) => {
 
   instance.post(
     '/addNameType',
-    { schema: typeSchemaBody },
+    { schema: typeSchema },
     typeController.addNameType.bind(typeController),
   );
 };
