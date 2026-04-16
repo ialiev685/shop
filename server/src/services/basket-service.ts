@@ -1,13 +1,12 @@
 import { type FastifyInstance } from 'fastify';
 import { ForeignKeyConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
+import { type Static } from 'typebox';
+import { type updateQuantityProductSchema } from '../schemas/basket';
 
-interface BasketProduct {
+type BasketProduct = Static<(typeof updateQuantityProductSchema)['body']> & {
   userId: number;
-  basketId: number;
-  productId: number;
-  quantity: number;
-}
+};
 export class BasketService {
   constructor(private fastifyInstance: FastifyInstance) {}
 
@@ -43,7 +42,9 @@ export class BasketService {
       return basketProduct;
     } catch (error) {
       if (error instanceof ForeignKeyConstraintError) {
-        throw ApiError.BadRequestError(`Значение '${productId}' поля productId не существует`);
+        throw ApiError.BadRequestError(
+          `Значение со значением 'productId=${productId}' не существует`,
+        );
       }
       throw error;
     }
@@ -102,10 +103,9 @@ export class BasketService {
       throw ApiError.BadRequestError('Корзина не найдена');
     }
 
-    const v = await this.fastifyInstance.db.BasketProduct.destroy({
+    await this.fastifyInstance.db.BasketProduct.destroy({
       where: { basketId: basket.id },
     });
-    console.log('v', v);
   }
 
   public async getProducts(userId: number) {

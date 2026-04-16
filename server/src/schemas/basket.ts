@@ -14,7 +14,7 @@ export const updateQuantityProductSchema = {
   }),
 };
 
-export const removeProductSchema = {
+export const removeProductFromBasketSchema = {
   body: Type.Object({
     basketId: Type.Number(),
     productId: Type.Number(),

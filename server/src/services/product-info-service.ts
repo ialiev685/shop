@@ -1,12 +1,10 @@
 import { type FastifyInstance } from 'fastify';
 import { UniqueConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
+import { type Static } from 'typebox';
+import { type productInfoSchemaBody } from '../schemas';
 
-interface ProductInfoParams {
-  name: string;
-  description: string;
-  productId: number;
-}
+type ProductInfoParams = Static<(typeof productInfoSchemaBody)['body']>;
 
 export class ProductInfoService {
   constructor(private fastifyInstance: FastifyInstance) {}
@@ -15,7 +13,9 @@ export class ProductInfoService {
     const product = await this.fastifyInstance.db.Product.findByPk(params.productId);
 
     if (!product) {
-      throw ApiError.BadRequestError(`Значение '${params.productId}' поля productId не существует`);
+      throw ApiError.BadRequestError(
+        `Значение со значением 'productId=${params.productId}' не существует`,
+      );
     }
 
     try {
