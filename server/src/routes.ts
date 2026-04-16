@@ -7,7 +7,7 @@ import { TypeService } from './services/type-service';
 
 import { ProductController } from './controllers/product-controller';
 import { ProductService } from './services/product-service';
-import { productSchemaBody, typeSchemaBody, productInfoSchemaBody, basketSchema } from './schemas';
+import { productSchema, typeSchemaBody, productInfoSchemaBody, basketSchema } from './schemas';
 import { ProductInfoController } from './controllers/product-info-controller';
 import { ProductInfoService } from './services/product-info-service';
 
@@ -31,7 +31,7 @@ export const routes: FastifyPluginCallback = (instance) => {
   );
   instance.post(
     '/addProduct',
-    { schema: productSchemaBody },
+    { schema: productSchema.productSchemaBody },
     productController.addProduct.bind(productController),
   );
   instance.post(
@@ -50,13 +50,23 @@ export const routes: FastifyPluginCallback = (instance) => {
     basketController.updateQuantityProduct.bind(basketController),
   );
   instance.post(
-    '/removeProduct',
-    { schema: basketSchema.removeProductSchema },
+    '/removeProductFromBasket',
+    { schema: basketSchema.removeProductFromBasketSchema },
     basketController.removeProduct.bind(basketController),
   );
   instance.post(
     '/clearBasket',
     { schema: basketSchema.clearBasketSchema },
     basketController.clearProduct.bind(basketController),
+  );
+  instance.post(
+    '/removeProduct',
+    { schema: productSchema.removeProductSchemaBody },
+    productController.removeProduct.bind(productController),
+  );
+  instance.post(
+    '/updateProduct',
+    { schema: productSchema.updateProductSchemaBody },
+    productController.updateProduct.bind(productController),
   );
 };
