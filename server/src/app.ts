@@ -36,7 +36,7 @@ app.register(proxy, {
   rewritePrefix: '/api/v1',
 });
 app.register(sequelizeInit);
-app.register(routes);
+app.register(routes, { prefix: '/api' });
 app.setErrorHandler(errorMiddleware);
 app.listen({ port: Number(PORT) }, (error, address) => {
   if (error) {
