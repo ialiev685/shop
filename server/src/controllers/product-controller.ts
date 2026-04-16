@@ -5,6 +5,7 @@ import {
   type FastifyRequestTypeBox,
   type RemoveProductSchema,
   type UpdateProductSchema,
+  type ProductListSchema,
 } from './type';
 
 export class ProductController {
@@ -25,6 +26,11 @@ export class ProductController {
       productId: req.params.productId,
       ...req.body,
     });
+    return res.status(200).send(product);
+  }
+
+  public async getProductList(req: FastifyRequestTypeBox<ProductListSchema>, res: FastifyReply) {
+    const product = await this.productService.getProductList(req.params.typeId);
     return res.status(200).send(product);
   }
 }

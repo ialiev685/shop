@@ -28,3 +28,9 @@ export const updateProductSchema = {
     sku: Type.Optional(Type.String()),
   }),
 };
+
+export const getProductListSchema = {
+  params: Type.Object({
+    typeId: Type.Number(),
+  }),
+};

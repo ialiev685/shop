@@ -49,4 +49,9 @@ export class ProductService {
     const updatedProduct = await product.update(otherParams);
     return updatedProduct;
   }
+
+  public async getProductList(typeId: number) {
+    const productList = await this.fastifyInstance.db.Product.findAll({ where: { typeId } });
+    return productList;
+  }
 }

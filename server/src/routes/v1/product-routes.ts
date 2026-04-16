@@ -22,6 +22,11 @@ const productRoutes: FastifyPluginCallback = (instance) => {
     { schema: productSchema.removeProductSchema },
     productController.removeProduct.bind(productController),
   );
+  instance.get(
+    '/productList/:typeId',
+    { schema: productSchema.getProductListSchema },
+    productController.getProductList.bind(productController),
+  );
 };
 
 export default productRoutes;
