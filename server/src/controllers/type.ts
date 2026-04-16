@@ -34,3 +34,4 @@ export type UpdateProductSchema = typeof productSchema.updateProductSchemaBody;
 export type ProductInfoSchema = typeof productInfoSchema.productInfoSchemaBody;
 export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoSchemaBody;
 export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfoSchemaBody;
+export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListSchemaBody;

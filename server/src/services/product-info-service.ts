@@ -55,4 +55,11 @@ export class ProductInfoService {
     const updatedProductInfo = await productInfo.update(otherParams);
     return updatedProductInfo;
   }
+
+  public async getProductInfoList(productId: number) {
+    const productInfos = await this.fastifyInstance.db.ProductInfo.findAll({
+      where: { productId },
+    });
+    return productInfos;
+  }
 }

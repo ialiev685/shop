@@ -34,11 +34,7 @@ export const routes: FastifyPluginCallback = (instance) => {
     { schema: productSchema.productSchemaBody },
     productController.addProduct.bind(productController),
   );
-  instance.post(
-    '/addProductInfo',
-    { schema: productInfoSchema.productInfoSchemaBody },
-    productInfoController.addProductInfo.bind(productInfoController),
-  );
+
   instance.post(
     '/addProductToBasket',
     { schema: basketSchema.addProductToBasketSchema },
@@ -59,24 +55,34 @@ export const routes: FastifyPluginCallback = (instance) => {
     { schema: basketSchema.clearBasketSchema },
     basketController.clearProduct.bind(basketController),
   );
-  instance.post(
+  instance.patch(
+    '/updateProduct',
+    { schema: productSchema.updateProductSchemaBody },
+    productController.updateProduct.bind(productController),
+  );
+  instance.delete(
     '/removeProduct',
     { schema: productSchema.removeProductSchemaBody },
     productController.removeProduct.bind(productController),
   );
   instance.post(
-    '/updateProduct',
-    { schema: productSchema.updateProductSchemaBody },
-    productController.updateProduct.bind(productController),
+    '/addProductInfo',
+    { schema: productInfoSchema.productInfoSchemaBody },
+    productInfoController.addProductInfo.bind(productInfoController),
   );
-  instance.post(
+  instance.patch(
     '/updateProductInfo',
     { schema: productInfoSchema.updateProductInfoSchemaBody },
     productInfoController.updateProductInfo.bind(productInfoController),
   );
-  instance.post(
+  instance.delete(
     '/removeProductInfo',
     { schema: productInfoSchema.removeProductInfoSchemaBody },
     productInfoController.removeProductInfo.bind(productInfoController),
+  );
+  instance.get(
+    '/productInfoList/:productId',
+    { schema: productInfoSchema.getProductInfoListSchemaBody },
+    productInfoController.getProductInfoList.bind(productInfoController),
   );
 };

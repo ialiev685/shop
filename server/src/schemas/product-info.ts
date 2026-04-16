@@ -21,3 +21,9 @@ export const updateProductInfoSchemaBody = {
     productInfoId: Type.Number(),
   }),
 };
+
+export const getProductInfoListSchemaBody = {
+  params: Type.Object({
+    productId: Type.Number(),
+  }),
+};
