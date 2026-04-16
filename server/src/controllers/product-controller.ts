@@ -16,12 +16,15 @@ export class ProductController {
   }
 
   public async removeProduct(req: FastifyRequestTypeBox<RemoveProductSchema>, res: FastifyReply) {
-    await this.productService.removeProduct(req.body.productId);
+    await this.productService.removeProduct(req.params.productId);
     return res.status(200).send();
   }
 
   public async updateProduct(req: FastifyRequestTypeBox<UpdateProductSchema>, res: FastifyReply) {
-    const product = await this.productService.updateProduct(req.body);
+    const product = await this.productService.updateProduct({
+      productId: req.params.productId,
+      ...req.body,
+    });
     return res.status(200).send(product);
   }
 }

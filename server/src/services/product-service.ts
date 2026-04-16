@@ -5,7 +5,8 @@ import { type Static } from 'typebox';
 import { type updateProductSchema, type productSchema } from '../schemas/product';
 
 type ProductParams = Static<(typeof productSchema)['body']>;
-type updateProductParams = Static<(typeof updateProductSchema)['body']>;
+type updateProductParams = Static<(typeof updateProductSchema)['body']> &
+  Static<(typeof updateProductSchema)['params']>;
 
 export class ProductService {
   constructor(private fastifyInstance: FastifyInstance) {}

@@ -13,12 +13,12 @@ const productRoutes: FastifyPluginCallback = (instance) => {
     productController.addProduct.bind(productController),
   );
   instance.patch(
-    '/updateProduct',
+    '/updateProduct/:productId',
     { schema: productSchema.updateProductSchema },
     productController.updateProduct.bind(productController),
   );
   instance.delete(
-    '/removeProduct',
+    '/removeProduct/:productId',
     { schema: productSchema.removeProductSchema },
     productController.removeProduct.bind(productController),
   );

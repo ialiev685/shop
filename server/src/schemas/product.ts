@@ -11,14 +11,16 @@ export const productSchema = {
 };
 
 export const removeProductSchema = {
-  body: Type.Object({
+  params: Type.Object({
     productId: Type.Number(),
   }),
 };
 
 export const updateProductSchema = {
-  body: Type.Object({
+  params: Type.Object({
     productId: Type.Number(),
+  }),
+  body: Type.Object({
     name: Type.Optional(Type.String()),
     price: Type.Optional(Type.Number()),
     typeId: Type.Optional(Type.Number()),
