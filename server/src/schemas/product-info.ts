@@ -7,3 +7,17 @@ export const productInfoSchemaBody = {
     productId: Type.Number(),
   }),
 };
+
+export const removeProductInfoSchemaBody = {
+  body: Type.Object({
+    productInfoId: Type.Number(),
+  }),
+};
+
+export const updateProductInfoSchemaBody = {
+  body: Type.Object({
+    name: Type.Optional(Type.String()),
+    description: Type.Optional(Type.String()),
+    productInfoId: Type.Number(),
+  }),
+};

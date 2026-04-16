@@ -2,9 +2,14 @@ import { type FastifyInstance } from 'fastify';
 import { UniqueConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
-import { type productInfoSchemaBody } from '../schemas';
+
+import {
+  type productInfoSchemaBody,
+  type updateProductInfoSchemaBody,
+} from '../schemas/product-info';
 
 type ProductInfoParams = Static<(typeof productInfoSchemaBody)['body']>;
+type updateProductInfoParams = Static<(typeof updateProductInfoSchemaBody)['body']>;
 
 export class ProductInfoService {
   constructor(private fastifyInstance: FastifyInstance) {}
@@ -13,9 +18,7 @@ export class ProductInfoService {
     const product = await this.fastifyInstance.db.Product.findByPk(params.productId);
 
     if (!product) {
-      throw ApiError.BadRequestError(
-        `Значение со значением 'productId=${params.productId}' не существует`,
-      );
+      throw ApiError.BadRequestError(`Значение со значением '${params.productId}' не существует`);
     }
 
     try {
@@ -33,5 +36,22 @@ export class ProductInfoService {
       }
       throw error;
     }
+  }
+
+  public async removeProductInfo(productInfoId: number) {
+    const product = await this.fastifyInstance.db.ProductInfo.findByPk(productInfoId);
+    if (!product) {
+      throw ApiError.BadRequestError(`Запись со значением '${productInfoId}' не существует`);
+    }
+    await product.destroy();
+  }
+
+  public async updateProductInfo(params: updateProductInfoParams) {
+    const { productInfoId, ...otherParams } = params;
+    const product = await this.fastifyInstance.db.ProductInfo.findByPk(productInfoId);
+    if (!product) {
+      throw ApiError.BadRequestError(`Запись со значением '${params.productInfoId}' не существует`);
+    }
+    await product.update(otherParams);
   }
 }
