@@ -1,7 +1,7 @@
 import { type FastifyReply, type FastifyRequest } from 'fastify';
 import { type BasketService } from '../services/basket-service';
 import {
-  type AddProductToBasketBodySchema,
+  type AddProductToBasketSchema,
   type FastifyRequestTypeBox,
   type UpdateQuantityProductSchema,
   type RemoveProductFromBasketSchema,
@@ -14,10 +14,7 @@ export class BasketController {
     const basket = await this.basketService.getProducts(req.user?.id ?? NaN);
     return res.status(200).send(basket);
   }
-  public async addProduct(
-    req: FastifyRequestTypeBox<AddProductToBasketBodySchema>,
-    res: FastifyReply,
-  ) {
+  public async addProduct(req: FastifyRequestTypeBox<AddProductToBasketSchema>, res: FastifyReply) {
     const basketProduct = await this.basketService.addProduct(
       req.user?.id ?? NaN,
       req.body.productId,
