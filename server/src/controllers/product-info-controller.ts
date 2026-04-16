@@ -31,7 +31,7 @@ export class ProductInfoController {
     req: FastifyRequestTypeBox<UpdateProductInfoSchema>,
     res: FastifyReply,
   ) {
-    await this.productInfoService.updateProductInfo(req.body);
-    return res.status(200).send();
+    const productInfo = await this.productInfoService.updateProductInfo(req.body);
+    return res.status(200).send(productInfo);
   }
 }

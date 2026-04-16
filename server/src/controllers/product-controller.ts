@@ -21,7 +21,7 @@ export class ProductController {
   }
 
   public async updateProduct(req: FastifyRequestTypeBox<UpdateProductSchema>, res: FastifyReply) {
-    await this.productService.updateProduct(req.body);
-    return res.status(200).send();
+    const product = await this.productService.updateProduct(req.body);
+    return res.status(200).send(product);
   }
 }

@@ -45,6 +45,7 @@ export class ProductService {
     if (!product) {
       throw ApiError.BadRequestError(`Запись со значением '${params.productId}' не существует`);
     }
-    await product.update(otherParams);
+    const updatedProduct = await product.update(otherParams);
+    return updatedProduct;
   }
 }

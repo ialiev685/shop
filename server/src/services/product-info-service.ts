@@ -48,10 +48,11 @@ export class ProductInfoService {
 
   public async updateProductInfo(params: updateProductInfoParams) {
     const { productInfoId, ...otherParams } = params;
-    const product = await this.fastifyInstance.db.ProductInfo.findByPk(productInfoId);
-    if (!product) {
+    const productInfo = await this.fastifyInstance.db.ProductInfo.findByPk(productInfoId);
+    if (!productInfo) {
       throw ApiError.BadRequestError(`Запись со значением '${params.productInfoId}' не существует`);
     }
-    await product.update(otherParams);
+    const updatedProductInfo = await productInfo.update(otherParams);
+    return updatedProductInfo;
   }
 }
