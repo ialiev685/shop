@@ -6,6 +6,7 @@ import proxy from '@fastify/http-proxy';
 import cookie from '@fastify/cookie';
 import { errorMiddleware } from './middleware/error-middleware';
 import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
+import { ApiError } from './exception/api-errors';
 
 dotenv.config();
 const PORT = process.env.PORT ?? 8000;
@@ -27,6 +28,10 @@ const app = Fastify({
       : {
           level: 'info',
         },
+
+  schemaErrorFormatter: (error) => {
+    return ApiError.ValidationError(error.at(0)?.message);
+  },
 }).withTypeProvider<TypeBoxTypeProvider>();
 
 app.register(cookie);

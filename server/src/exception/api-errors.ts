@@ -15,4 +15,8 @@ export class ApiError<T> extends Error {
   static UnauthorizedError() {
     return new ApiError(401, 'Пользователь не авторизован');
   }
+
+  static ValidationError(message?: string) {
+    return new ApiError(400, message ?? 'Поля невалидны');
+  }
 }
