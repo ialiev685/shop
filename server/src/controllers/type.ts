@@ -13,7 +13,7 @@ import {
   type typeSchema,
 } from '../schemas';
 
-export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyRequest<
+export type FastifyRequestTypeBox<TSchema extends FastifySchema = FastifySchema> = FastifyRequest<
   RouteGenericInterface,
   RawServerDefault,
   RawRequestDefaultExpression,
@@ -21,13 +21,16 @@ export type FastifyRequestTypeBox<TSchema extends FastifySchema> = FastifyReques
   TypeBoxTypeProvider
 >;
 
-export type TypeBodySchema = typeof typeSchema;
+export type TypeSchema = typeof typeSchema.typeSchema;
+export type UpdateTypeSchema = typeof typeSchema.updateTypeSchema;
+export type RemoveTypeSchema = typeof typeSchema.removeTypeSchema;
+
 export type AddProductToBasketSchema = typeof basketSchema.addProductToBasketSchema;
 export type UpdateQuantityProductSchema = typeof basketSchema.updateQuantityProductSchema;
 export type RemoveProductFromBasketSchema = typeof basketSchema.removeProductFromBasketSchema;
 export type ClearBasketSchema = typeof basketSchema.clearBasketSchema;
 
-export type ProductBodySchema = typeof productSchema.productSchema;
+export type ProductSchema = typeof productSchema.productSchema;
 export type RemoveProductSchema = typeof productSchema.removeProductSchema;
 export type UpdateProductSchema = typeof productSchema.updateProductSchema;
 export type ProductListSchema = typeof productSchema.getProductListSchema;
