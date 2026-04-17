@@ -41,13 +41,25 @@ export class ProductService {
   }
 
   public async updateProduct(params: updateProductParams) {
-    const { productId, ...otherParams } = params;
+    const { productId, sku, ...otherParams } = params;
+
     const product = await this.fastifyInstance.db.Product.findByPk(productId);
     if (!product) {
       throw ApiError.BadRequestError(`Запись со значением '${params.productId}' не существует`);
     }
-    const updatedProduct = await product.update(otherParams);
-    return updatedProduct;
+
+    if (sku && sku !== product.sku) {
+      const existing = await this.fastifyInstance.db.Product.findOne({
+        where: { sku },
+        attributes: ['id'],
+      });
+      if (existing) {
+        throw ApiError.BadRequestError(`Запись со значеним '${sku}' уже существует`);
+      }
+    }
+
+    const updateData = sku ? { ...otherParams, sku } : otherParams;
+    return await product.update(updateData);
   }
 
   public async getProductList(typeId: number) {
