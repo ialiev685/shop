@@ -7,7 +7,11 @@ const basketRoutes: FastifyPluginCallback = (instance) => {
   const basketService = new BasketService(instance);
   const basketController = new BasketController(basketService);
 
-  instance.get('/basket', basketController.getProducts.bind(basketController));
+  instance.get(
+    '/basket',
+    { schema: basketSchema.getSchema },
+    basketController.getProducts.bind(basketController),
+  );
   instance.post(
     '/addProductToBasket',
     { schema: basketSchema.addProductToBasketSchema },

@@ -26,3 +26,38 @@ export const clearBasketSchema = {
     basketId: Type.Number(),
   }),
 };
+
+export const ErrorResponse = Type.Object({
+  error: Type.String(),
+  message: Type.String(),
+});
+
+export const BasketProductItem = Type.Object({
+  id: Type.Number(),
+  basketId: Type.Number(),
+  productId: Type.Number(),
+  quantity: Type.Number(),
+  product: Type.Object({
+    id: Type.Number(),
+    name: Type.String(),
+    price: Type.Number(),
+    img: Type.String(),
+    sku: Type.String(),
+    rating: Type.Number(),
+  }),
+});
+
+export const BasketResponse = Type.Object({
+  id: Type.Number(),
+  userId: Type.Number(),
+  basketProducts: Type.Array(BasketProductItem),
+});
+
+export const getSchema = {
+  tags: ['basket'],
+  summary: 'Получить корзину пользователя',
+  response: {
+    200: BasketResponse,
+    500: ErrorResponse,
+  },
+};
