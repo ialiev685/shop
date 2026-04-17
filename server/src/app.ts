@@ -7,9 +7,9 @@ import cookie from '@fastify/cookie';
 import { errorMiddleware } from './middleware/error-middleware';
 import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { ApiError } from './exception/api-errors';
+import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import cors from '@fastify/cors';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 8000;
@@ -63,6 +63,7 @@ if (NODE_ENV === 'development') {
         description: 'API для интернет-магазина',
         version: '1.0.0',
       },
+
       servers: [
         {
           url: `http://localhost:${PORT}`,
@@ -71,17 +72,25 @@ if (NODE_ENV === 'development') {
       ],
     },
   });
+
   app.register(swaggerUi, {
     routePrefix: '/swagger',
   });
 }
-app.register(sequelizeInit);
+app.get('/health', async () => {
+  return { status: 'ok', timestamp: new Date().toISOString() };
+});
 app.register(routes, { prefix: '/api' });
 app.setErrorHandler(errorMiddleware);
-app.listen({ port: PORT, host: HOST }, (error, address) => {
-  app.log.info(`Сервер запщуен ${address}`);
-  if (error) {
-    app.log.error(error);
-    process.exit(1);
-  }
-});
+
+const start = async () => {
+  await app.register(sequelizeInit);
+  app.listen({ port: PORT, host: HOST }, (error, address) => {
+    app.log.info(`Сервер запщуен ${address}`);
+    if (error) {
+      app.log.error(error);
+      process.exit(1);
+    }
+  });
+};
+void start();
