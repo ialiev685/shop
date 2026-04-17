@@ -9,6 +9,7 @@ import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { ApiError } from './exception/api-errors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import cors from '@fastify/cors';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 8000;
@@ -38,6 +39,10 @@ const app = Fastify({
   },
 }).withTypeProvider<TypeBoxTypeProvider>();
 
+app.register(cors, {
+  origin: '*',
+  credentials: true,
+});
 app.register(cookie);
 if (process.env.AUTH_URL) {
   app.register(proxy, {
@@ -48,6 +53,7 @@ if (process.env.AUTH_URL) {
 } else {
   app.log.warn('AUTH_URL не установлен, маршрут /auth закрыт');
 }
+
 if (NODE_ENV === 'development') {
   app.register(swagger, {
     openapi: {
