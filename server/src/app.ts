@@ -7,13 +7,17 @@ import cookie from '@fastify/cookie';
 import { errorMiddleware } from './middleware/error-middleware';
 import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { ApiError } from './exception/api-errors';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
 
 dotenv.config();
-const PORT = process.env.PORT ?? 8000;
+const PORT = Number(process.env.PORT) || 8000;
+const HOST = process.env.HOST ?? '0.0.0.0';
+const NODE_ENV = process.env.NODE_ENV ?? 'development';
 
 const app = Fastify({
   logger:
-    process.env.NODE_ENV === 'development'
+    NODE_ENV === 'development'
       ? {
           transport: {
             target: 'pino-pretty',
@@ -35,18 +39,43 @@ const app = Fastify({
 }).withTypeProvider<TypeBoxTypeProvider>();
 
 app.register(cookie);
-app.register(proxy, {
-  upstream: process.env.AUTH_URL ?? '',
-  prefix: '/auth',
-  rewritePrefix: '/api/v1',
-});
+if (process.env.AUTH_URL) {
+  app.register(proxy, {
+    upstream: process.env.AUTH_URL,
+    prefix: '/auth',
+    rewritePrefix: '/api/v1',
+  });
+} else {
+  app.log.warn('AUTH_URL не установлен, маршрут /auth закрыт');
+}
+if (NODE_ENV === 'development') {
+  app.register(swagger, {
+    openapi: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Shop API',
+        description: 'API для интернет-магазина',
+        version: '1.0.0',
+      },
+      servers: [
+        {
+          url: `http://localhost:${PORT}`,
+          description: 'Development server',
+        },
+      ],
+    },
+  });
+  app.register(swaggerUi, {
+    routePrefix: '/swagger',
+  });
+}
 app.register(sequelizeInit);
 app.register(routes, { prefix: '/api' });
 app.setErrorHandler(errorMiddleware);
-app.listen({ port: Number(PORT) }, (error, address) => {
+app.listen({ port: PORT, host: HOST }, (error, address) => {
+  app.log.info(`Сервер запщуен ${address}`);
   if (error) {
     app.log.error(error);
     process.exit(1);
   }
-  console.log(`Сервер запщуен ${address}`);
 });
