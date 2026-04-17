@@ -9,12 +9,12 @@ const basketRoutes: FastifyPluginCallback = (instance) => {
 
   instance.get(
     '/basketList',
-    { schema: basketSchema.getSchema },
+    { schema: basketSchema.getBasketSchema },
     basketController.getProducts.bind(basketController),
   );
   instance.post(
     '/addProductToBasket',
-    { schema: basketSchema.addProductToBasketSchema },
+    { schema: basketSchema.postAddSchema },
     basketController.addProduct.bind(basketController),
   );
   instance.post(

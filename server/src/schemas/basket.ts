@@ -27,12 +27,13 @@ export const clearBasketSchema = {
   }),
 };
 
-export const ErrorResponse = Type.Object({
+const ErrorResponseSchema = Type.Object({
   error: Type.String(),
   message: Type.String(),
 });
 
-export const BasketProductItem = Type.Object({
+// GET schema
+const BasketProductItemResponseSchema = Type.Object({
   id: Type.Number(),
   basketId: Type.Number(),
   productId: Type.Number(),
@@ -47,17 +48,36 @@ export const BasketProductItem = Type.Object({
   }),
 });
 
-export const BasketResponse = Type.Object({
+const BasketResponseSchema = Type.Object({
   id: Type.Number(),
   userId: Type.Number(),
-  basketProducts: Type.Array(BasketProductItem),
+  basketProducts: Type.Array(BasketProductItemResponseSchema),
 });
 
-export const getSchema = {
+export const getBasketSchema = {
   tags: ['basket'],
   summary: 'Получить корзину пользователя',
   response: {
-    200: BasketResponse,
-    500: ErrorResponse,
+    200: BasketResponseSchema,
+    500: ErrorResponseSchema,
+  },
+};
+
+// POST schema
+const basketProductResponseSchema = Type.Object({
+  id: Type.Number(),
+  basketId: Type.Number(),
+  productId: Type.Number(),
+  quantity: Type.Number(),
+});
+
+export const postAddSchema = {
+  tags: ['basket'],
+  summary: 'Добавить продукт в корзину',
+  body: addProductToBasketSchema['body'],
+  response: {
+    200: basketProductResponseSchema,
+    400: ErrorResponseSchema,
+    500: ErrorResponseSchema,
   },
 };
