@@ -114,11 +114,20 @@ export class BasketService {
       defaults: {
         userId,
       },
-      include: {
-        model: this.fastifyInstance.db.BasketProduct,
-        required: false,
-        as: 'basketProducts',
-      },
+      include: [
+        {
+          model: this.fastifyInstance.db.BasketProduct,
+          required: false,
+          as: 'basketProducts',
+          include: [
+            {
+              model: this.fastifyInstance.db.Product,
+              as: 'product',
+              attributes: ['id', 'name', 'price', 'img', 'sku', 'rating'],
+            },
+          ],
+        },
+      ],
     });
 
     return basket;
