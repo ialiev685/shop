@@ -32,6 +32,13 @@ export class BasketService {
           productId: productId,
           quantity: 1,
         },
+        include: [
+          {
+            model: this.fastifyInstance.db.Product,
+            as: 'product',
+            required: false,
+          },
+        ],
       });
 
       if (!created) {
