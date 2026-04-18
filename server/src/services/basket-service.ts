@@ -56,17 +56,28 @@ export class BasketService {
   }
 
   public async updateQuantityProduct({ quantity, basketId, productId, userId }: BasketProduct) {
-    if (quantity < 1) {
+    if (!Number.isInteger(quantity) || quantity < 1) {
       throw ApiError.BadRequestError('Количество не должно быть меньше 1');
     }
+
+    const basket = await this.fastifyInstance.db.Basket.findOne({
+      where: {
+        id: basketId,
+        userId: userId,
+      },
+    });
+
+    if (!basket) {
+      throw ApiError.BadRequestError('Корзина не найдена');
+    }
+
     const basketProduct = await this.fastifyInstance.db.BasketProduct.findOne({
-      where: { basketId, productId },
+      where: { basketId: basket.id, productId },
       include: [
         {
-          model: this.fastifyInstance.db.Basket,
-          as: 'basket',
-          where: { userId },
-          required: true,
+          model: this.fastifyInstance.db.Product,
+          as: 'product',
+          required: false,
         },
       ],
     });
