@@ -19,17 +19,17 @@ const basketRoutes: FastifyPluginCallback = (instance) => {
   );
   instance.post(
     '/updateQuantityProduct',
-    { schema: basketSchema.updateQuantityProductSchema },
+    { schema: basketSchema.updateQuantityProductRequestSchema },
     basketController.updateQuantityProduct.bind(basketController),
   );
   instance.post(
     '/removeProductFromBasket',
-    { schema: basketSchema.removeProductFromBasketSchema },
+    { schema: basketSchema.removeProductFromBasketRequestSchema },
     basketController.removeProduct.bind(basketController),
   );
   instance.post(
     '/clearBasket',
-    { schema: basketSchema.clearBasketSchema },
+    { schema: basketSchema.clearBasketRequestSchema },
     basketController.clearProduct.bind(basketController),
   );
 };

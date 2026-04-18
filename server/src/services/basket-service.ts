@@ -2,9 +2,9 @@ import { type FastifyInstance } from 'fastify';
 import { ForeignKeyConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
-import { type updateQuantityProductSchema } from '../schemas/basket';
+import { type updateQuantityProductRequestSchema } from '../schemas/basket';
 
-type BasketProduct = Static<(typeof updateQuantityProductSchema)['body']> & {
+type BasketProduct = Static<(typeof updateQuantityProductRequestSchema)['body']> & {
   userId: number;
 };
 export class BasketService {

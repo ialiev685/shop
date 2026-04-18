@@ -1,12 +1,12 @@
 import { Type } from '@fastify/type-provider-typebox';
 
-export const addProductToBasketSchema = {
+export const addProductToBasketRequestSchema = {
   body: Type.Object({
     productId: Type.Number(),
   }),
 };
 
-export const updateQuantityProductSchema = {
+export const updateQuantityProductRequestSchema = {
   body: Type.Object({
     basketId: Type.Number(),
     productId: Type.Number(),
@@ -14,14 +14,14 @@ export const updateQuantityProductSchema = {
   }),
 };
 
-export const removeProductFromBasketSchema = {
+export const removeProductFromBasketRequestSchema = {
   body: Type.Object({
     basketId: Type.Number(),
     productId: Type.Number(),
   }),
 };
 
-export const clearBasketSchema = {
+export const clearBasketRequestSchema = {
   body: Type.Object({
     basketId: Type.Number(),
   }),
@@ -74,7 +74,7 @@ const basketProductResponseSchema = Type.Object({
 export const postAddSchema = {
   tags: ['basket'],
   summary: 'Добавить продукт в корзину',
-  body: addProductToBasketSchema['body'],
+  body: addProductToBasketRequestSchema['body'],
   response: {
     200: basketProductResponseSchema,
     400: ErrorResponseSchema,
