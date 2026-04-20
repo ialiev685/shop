@@ -55,7 +55,7 @@ const productResponseSchema = Type.Object({
 // GET schema
 export const getProductSchema = {
   tags: ['product'],
-  summary: 'Получить продукты по типу',
+  summary: 'Получить список продуктов по типу',
   params: getProductListRequestSchema['params'],
   response: {
     200: Type.Array(productResponseSchema),
@@ -67,7 +67,7 @@ export const getProductSchema = {
 // POST schema
 export const postProductSchema = {
   tags: ['product'],
-  summary: 'Добавить продукта',
+  summary: 'Добавить продукт',
   body: productRequestSchema['body'],
   response: {
     200: productResponseSchema,

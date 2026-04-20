@@ -70,6 +70,22 @@ if (NODE_ENV === 'development') {
           description: 'Development server',
         },
       ],
+
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+            description: 'Введите JWT токен для авторизации',
+          },
+        },
+      },
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
     },
   });
 

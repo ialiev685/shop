@@ -22,7 +22,11 @@ const typeRoutes: FastifyPluginCallback = (instance) => {
     { schema: typeSchema.deleteTypeSchema },
     typeController.removeType.bind(typeController),
   );
-  instance.get('/typeList', typeController.getTypeList.bind(typeController));
+  instance.get(
+    '/typeList',
+    { schema: typeSchema.getTypeSchema },
+    typeController.getTypeList.bind(typeController),
+  );
 };
 
 export default typeRoutes;
