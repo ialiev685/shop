@@ -1,13 +1,13 @@
 import Type from 'typebox';
 import { errorResponseSchema } from './error';
 
-export const typeSchema = {
+export const typeRequestSchema = {
   body: Type.Object({
     name: Type.String(),
   }),
 };
 
-export const updateTypeSchema = {
+export const updateTypeRequestSchema = {
   params: Type.Object({
     typeId: Type.Number(),
   }),
@@ -16,7 +16,7 @@ export const updateTypeSchema = {
   }),
 };
 
-export const removeTypeSchema = {
+export const removeTypeRequestSchema = {
   params: Type.Object({
     typeId: Type.Number(),
   }),
@@ -41,7 +41,7 @@ export const getTypeSchema = {
 export const postTypeSchema = {
   tags: ['type'],
   summary: 'Добавить тип',
-  body: typeSchema['body'],
+  body: typeRequestSchema['body'],
   response: {
     200: typeResponseSchema,
     400: errorResponseSchema,
@@ -53,8 +53,8 @@ export const postTypeSchema = {
 export const patchTypeSchema = {
   tags: ['type'],
   summary: 'Обновить тип',
-  params: updateTypeSchema['params'],
-  body: updateTypeSchema['body'],
+  params: updateTypeRequestSchema['params'],
+  body: updateTypeRequestSchema['body'],
   response: {
     200: typeResponseSchema,
     400: errorResponseSchema,
@@ -66,7 +66,7 @@ export const patchTypeSchema = {
 export const deleteTypeSchema = {
   tags: ['type'],
   summary: 'Удалить тип',
-  params: removeTypeSchema['params'],
+  params: removeTypeRequestSchema['params'],
   response: {
     200: Type.Null(),
     400: errorResponseSchema,

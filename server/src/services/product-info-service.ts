@@ -3,11 +3,14 @@ import { UniqueConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
 
-import { type productInfoSchema, type updateProductInfoSchema } from '../schemas/product-info';
+import {
+  type productInfoRequestSchema,
+  type updateProductInfoRequestSchema,
+} from '../schemas/product-info';
 
-type ProductInfoParams = Static<(typeof productInfoSchema)['body']>;
-type updateProductInfoParams = Static<(typeof updateProductInfoSchema)['params']> &
-  Static<(typeof updateProductInfoSchema)['body']>;
+type ProductInfoParams = Static<(typeof productInfoRequestSchema)['body']>;
+type updateProductInfoParams = Static<(typeof updateProductInfoRequestSchema)['params']> &
+  Static<(typeof updateProductInfoRequestSchema)['body']>;
 
 export class ProductInfoService {
   constructor(private fastifyInstance: FastifyInstance) {}
@@ -16,7 +19,7 @@ export class ProductInfoService {
     const product = await this.fastifyInstance.db.Product.findByPk(params.productId);
 
     if (!product) {
-      throw ApiError.BadRequestError(`Значение со значением '${params.productId}' не существует`);
+      throw ApiError.BadRequestError(`Продукт со значением '${params.productId}' не существует`);
     }
 
     try {
@@ -39,7 +42,9 @@ export class ProductInfoService {
   public async removeProductInfo(productInfoId: number) {
     const product = await this.fastifyInstance.db.ProductInfo.findByPk(productInfoId);
     if (!product) {
-      throw ApiError.BadRequestError(`Запись со значением '${productInfoId}' не существует`);
+      throw ApiError.BadRequestError(
+        `Характеристика со значением '${productInfoId}' не существует`,
+      );
     }
     await product.destroy();
   }
@@ -48,7 +53,9 @@ export class ProductInfoService {
     const { productInfoId, ...otherParams } = params;
     const productInfo = await this.fastifyInstance.db.ProductInfo.findByPk(productInfoId);
     if (!productInfo) {
-      throw ApiError.BadRequestError(`Запись со значением '${params.productInfoId}' не существует`);
+      throw ApiError.BadRequestError(
+        `Характеристика со значением '${params.productInfoId}' не существует`,
+      );
     }
     const updatedProductInfo = await productInfo.update(otherParams);
     return updatedProductInfo;

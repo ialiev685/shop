@@ -1,41 +1,41 @@
 import { type FastifyInstance } from 'fastify';
-import { UniqueConstraintError } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
-import { type updateProductSchema, type productSchema } from '../schemas/product';
+import { type updateProductRequestSchema, type productRequestSchema } from '../schemas/product';
 
-type ProductParams = Static<(typeof productSchema)['body']>;
-type updateProductParams = Static<(typeof updateProductSchema)['body']> &
-  Static<(typeof updateProductSchema)['params']>;
+type ProductParams = Static<(typeof productRequestSchema)['body']>;
+type updateProductParams = Static<(typeof updateProductRequestSchema)['body']> &
+  Static<(typeof updateProductRequestSchema)['params']>;
 
 export class ProductService {
   constructor(private fastifyInstance: FastifyInstance) {}
 
   public async addProduct(params: ProductParams) {
-    try {
-      const product = await this.fastifyInstance.db.Product.create({
-        name: params.name,
-        price: params.price,
-        typeId: params.typeId,
-        img: params.img,
-        sku: params.sku,
-      });
-
-      return product;
-    } catch (error) {
-      if (error instanceof UniqueConstraintError) {
-        const field = error.errors?.[0]?.path;
-        throw ApiError.BadRequestError(`Значение поля '${field}' уже существует`);
-      }
-
-      throw error;
+    const existingProduct = await this.fastifyInstance.db.Product.findOne({
+      where: { sku: params.sku },
+    });
+    if (existingProduct) {
+      throw ApiError.BadRequestError(`Продукт со значением'${params.sku}' уже существует`);
     }
+    const typeExists = await this.fastifyInstance.db.Type.findByPk(params.typeId);
+    if (!typeExists) {
+      throw ApiError.BadRequestError(`Тип продукта со значением '${params.typeId}' не существует`);
+    }
+    const product = await this.fastifyInstance.db.Product.create({
+      name: params.name,
+      price: params.price,
+      typeId: params.typeId,
+      img: params.img,
+      sku: params.sku,
+    });
+
+    return product;
   }
 
   public async removeProduct(productId: number) {
     const product = await this.fastifyInstance.db.Product.findByPk(productId);
     if (!product) {
-      throw ApiError.BadRequestError(`Запись со значением '${productId}' не существует`);
+      throw ApiError.BadRequestError(`Продукт со значением '${productId}' не существует`);
     }
     await product.destroy();
   }
@@ -45,7 +45,7 @@ export class ProductService {
 
     const product = await this.fastifyInstance.db.Product.findByPk(productId);
     if (!product) {
-      throw ApiError.BadRequestError(`Запись со значением '${params.productId}' не существует`);
+      throw ApiError.BadRequestError(`Продукт со значением '${params.productId}' не существует`);
     }
 
     if (sku && sku !== product.sku) {
@@ -54,7 +54,7 @@ export class ProductService {
         attributes: ['id'],
       });
       if (existing) {
-        throw ApiError.BadRequestError(`Запись со значеним '${sku}' уже существует`);
+        throw ApiError.BadRequestError(`Продукт со значеним '${sku}' уже существует`);
       }
     }
 

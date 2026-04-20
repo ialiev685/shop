@@ -1,7 +1,7 @@
 import { Type } from '@fastify/type-provider-typebox';
 import { errorResponseSchema } from './error';
 
-export const productInfoSchema = {
+export const productInfoRequestSchema = {
   body: Type.Object({
     name: Type.String(),
     description: Type.String(),
@@ -9,13 +9,13 @@ export const productInfoSchema = {
   }),
 };
 
-export const removeProductInfoSchema = {
+export const removeProductInfoRequestSchema = {
   params: Type.Object({
     productInfoId: Type.Number(),
   }),
 };
 
-export const updateProductInfoSchema = {
+export const updateProductInfoRequestSchema = {
   params: Type.Object({ productInfoId: Type.Number() }),
   body: Type.Object({
     name: Type.Optional(Type.String()),
@@ -23,7 +23,7 @@ export const updateProductInfoSchema = {
   }),
 };
 
-export const getProductInfoListSchema = {
+export const getProductInfoListRequestSchema = {
   params: Type.Object({
     productId: Type.Number(),
   }),
@@ -39,8 +39,8 @@ const productInfoResponseSchema = Type.Object({
 // GET schema
 export const getProductInfoSchema = {
   tags: ['productInfo'],
-  summary: 'Получить характеристики продукта',
-  params: getProductInfoListSchema['params'],
+  summary: 'Получить информацию о продукте',
+  params: getProductInfoListRequestSchema['params'],
   response: {
     200: Type.Array(productInfoResponseSchema),
     400: errorResponseSchema,
@@ -52,7 +52,7 @@ export const getProductInfoSchema = {
 export const postProductInfoSchema = {
   tags: ['productInfo'],
   summary: 'Добавить информацию о продукте',
-  body: productInfoSchema['body'],
+  body: productInfoRequestSchema['body'],
   response: {
     201: productInfoResponseSchema,
     400: errorResponseSchema,
@@ -64,8 +64,8 @@ export const postProductInfoSchema = {
 export const patchProductSchema = {
   tags: ['productInfo'],
   summary: 'Обновить информацию о продукте',
-  params: updateProductInfoSchema['params'],
-  body: updateProductInfoSchema['body'],
+  params: updateProductInfoRequestSchema['params'],
+  body: updateProductInfoRequestSchema['body'],
   response: {
     200: productInfoResponseSchema,
     400: errorResponseSchema,
@@ -77,7 +77,7 @@ export const patchProductSchema = {
 export const deleteProductSchema = {
   tags: ['productInfo'],
   summary: 'Удалить информацию о продукте',
-  params: removeProductInfoSchema['params'],
+  params: removeProductInfoRequestSchema['params'],
   response: {
     200: Type.Null(),
     400: errorResponseSchema,

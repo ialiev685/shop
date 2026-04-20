@@ -21,9 +21,9 @@ export type FastifyRequestTypeBox<TSchema extends FastifySchema = FastifySchema>
   TypeBoxTypeProvider
 >;
 
-export type TypeSchema = typeof typeSchema.typeSchema;
-export type UpdateTypeSchema = typeof typeSchema.updateTypeSchema;
-export type RemoveTypeSchema = typeof typeSchema.removeTypeSchema;
+export type TypeSchema = typeof typeSchema.typeRequestSchema;
+export type UpdateTypeSchema = typeof typeSchema.updateTypeRequestSchema;
+export type RemoveTypeSchema = typeof typeSchema.removeTypeRequestSchema;
 
 export type AddProductToBasketSchema = typeof basketSchema.addProductToBasketRequestSchema;
 export type UpdateQuantityProductSchema = typeof basketSchema.updateQuantityProductRequestSchema;
@@ -31,12 +31,12 @@ export type RemoveProductFromBasketSchema =
   typeof basketSchema.removeProductFromBasketRequestSchema;
 export type ClearBasketSchema = typeof basketSchema.clearBasketRequestSchema;
 
-export type ProductSchema = typeof productSchema.productSchema;
-export type RemoveProductSchema = typeof productSchema.removeProductSchema;
-export type UpdateProductSchema = typeof productSchema.updateProductSchema;
-export type ProductListSchema = typeof productSchema.getProductListSchema;
+export type ProductSchema = typeof productSchema.productRequestSchema;
+export type RemoveProductSchema = typeof productSchema.removeProductRequestSchema;
+export type UpdateProductSchema = typeof productSchema.updateProductRequestSchema;
+export type ProductListSchema = typeof productSchema.getProductListRequestSchema;
 
-export type ProductInfoSchema = typeof productInfoSchema.productInfoSchema;
-export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoSchema;
-export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfoSchema;
-export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListSchema;
+export type ProductInfoSchema = typeof productInfoSchema.productInfoRequestSchema;
+export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoRequestSchema;
+export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfoRequestSchema;
+export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListRequestSchema;
