@@ -11,7 +11,7 @@ export class TypeService {
       return type;
     } catch (error) {
       if (error instanceof UniqueConstraintError) {
-        throw ApiError.BadRequestError('Такая запись существует');
+        throw ApiError.BadRequestError(`Тип ${name} уже существует`);
       }
       throw error;
     }
@@ -46,7 +46,7 @@ export class TypeService {
     );
 
     if (updatedCount === 0) {
-      throw ApiError.BadRequestError(`Запись со значением '${typeId}' не существует`);
+      throw ApiError.BadRequestError(`Тип со значением '${typeId}' не существует`);
     }
 
     return updatedTypes[0];
@@ -56,7 +56,7 @@ export class TypeService {
     try {
       const type = await this.fastifyInstance.db.Type.findByPk(typeId);
       if (!type) {
-        throw ApiError.BadRequestError(`Запись со значением '${typeId}' не существует`);
+        throw ApiError.BadRequestError(`Тип со значением '${typeId}' не существует`);
       }
       await type.destroy();
     } catch (error) {

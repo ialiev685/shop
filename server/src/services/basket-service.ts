@@ -49,7 +49,7 @@ export class BasketService {
       return basketProduct;
     } catch (error) {
       if (error instanceof ForeignKeyConstraintError) {
-        throw ApiError.BadRequestError(`Запись со значением '${productId}' не существует`);
+        throw ApiError.BadRequestError(`Продукт со значением '${productId}' не существует`);
       }
       throw error;
     }
