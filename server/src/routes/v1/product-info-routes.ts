@@ -9,22 +9,22 @@ const productInfoRoutes: FastifyPluginCallback = (instance) => {
 
   instance.post(
     '/addProductInfo',
-    { schema: productInfoSchema.productInfoSchema },
+    { schema: productInfoSchema.postProductInfoSchema },
     productInfoController.addProductInfo.bind(productInfoController),
   );
   instance.patch(
     '/updateProductInfo/:productInfoId',
-    { schema: productInfoSchema.updateProductInfoSchema },
+    { schema: productInfoSchema.patchProductSchema },
     productInfoController.updateProductInfo.bind(productInfoController),
   );
   instance.delete(
     '/removeProductInfo/:productInfoId',
-    { schema: productInfoSchema.removeProductInfoSchema },
+    { schema: productInfoSchema.deleteProductSchema },
     productInfoController.removeProductInfo.bind(productInfoController),
   );
   instance.get(
     '/productInfoList/:productId',
-    { schema: productInfoSchema.getProductInfoListSchema },
+    { schema: productInfoSchema.getProductInfoSchema },
     productInfoController.getProductInfoList.bind(productInfoController),
   );
 };

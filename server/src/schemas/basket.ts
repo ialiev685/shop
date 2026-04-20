@@ -28,7 +28,7 @@ export const clearBasketRequestSchema = {
 };
 
 const errorResponseSchema = Type.Object({
-  error: Type.String(),
+  error: Type.Optional(Type.String()),
   message: Type.String(),
 });
 
