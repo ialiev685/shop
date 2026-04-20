@@ -55,6 +55,11 @@ const basketResponseSchema = Type.Object({
 export const getBasketSchema = {
   tags: ['basket'],
   summary: 'Получить корзину пользователя',
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: basketResponseSchema,
     500: errorResponseSchema,
@@ -66,6 +71,11 @@ export const postAddSchema = {
   tags: ['basket'],
   summary: 'Добавить продукт в корзину',
   body: addProductToBasketRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: basketProductItemResponseSchema,
     400: errorResponseSchema,
@@ -78,6 +88,11 @@ export const postUpdateSchema = {
   tags: ['basket'],
   summary: 'Обновить количество продукта в корзине',
   body: updateQuantityProductRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: basketProductItemResponseSchema,
     400: errorResponseSchema,
@@ -90,6 +105,11 @@ export const postRemoveSchema = {
   tags: ['basket'],
   summary: 'Удалить продукт из корзины',
   body: removeProductFromBasketRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: Type.Null(),
     400: errorResponseSchema,
@@ -102,6 +122,11 @@ export const postClearSchema = {
   tags: ['basket'],
   summary: 'Очистить корзину',
   body: clearBasketRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: Type.Null(),
     400: errorResponseSchema,
