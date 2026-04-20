@@ -1,4 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox';
+import { errorResponseSchema } from './error';
 
 export const addProductToBasketRequestSchema = {
   body: Type.Object({
@@ -26,11 +27,6 @@ export const clearBasketRequestSchema = {
     basketId: Type.Number(),
   }),
 };
-
-const errorResponseSchema = Type.Object({
-  error: Type.Optional(Type.String()),
-  message: Type.String(),
-});
 
 const productResponseSchema = Type.Object({
   id: Type.Number(),

@@ -1,4 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox';
+import { errorResponseSchema } from './error';
 
 export const productInfoSchema = {
   body: Type.Object({
@@ -27,11 +28,6 @@ export const getProductInfoListSchema = {
     productId: Type.Number(),
   }),
 };
-
-const errorResponseSchema = Type.Object({
-  error: Type.Optional(Type.String()),
-  message: Type.String(),
-});
 
 const productInfoResponseSchema = Type.Object({
   id: Type.Number(),
