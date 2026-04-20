@@ -28,7 +28,7 @@ const typeResponseSchema = Type.Object({
 });
 
 // GET schema
-export const getTypeResponseSchema = {
+export const getTypeSchema = {
   tags: ['type'],
   summary: 'Получить типы',
   response: {
@@ -38,7 +38,7 @@ export const getTypeResponseSchema = {
 };
 
 // POST Schema
-export const postTypeResponseSchema = {
+export const postTypeSchema = {
   tags: ['type'],
   summary: 'Добавить тип',
   body: typeSchema['body'],
@@ -50,7 +50,7 @@ export const postTypeResponseSchema = {
 };
 
 // PATCH Schema
-export const patchTypeResponseSchema = {
+export const patchTypeSchema = {
   tags: ['type'],
   summary: 'Обновить тип',
   params: updateTypeSchema['params'],
@@ -63,7 +63,7 @@ export const patchTypeResponseSchema = {
 };
 
 // DELETE Schema
-export const deleteTypeResponseSchema = {
+export const deleteTypeSchema = {
   tags: ['type'],
   summary: 'Удалить тип',
   params: removeTypeSchema['params'],

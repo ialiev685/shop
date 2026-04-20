@@ -9,17 +9,17 @@ const typeRoutes: FastifyPluginCallback = (instance) => {
 
   instance.post(
     '/addNameType',
-    { schema: typeSchema.postTypeResponseSchema },
+    { schema: typeSchema.postTypeSchema },
     typeController.addNameType.bind(typeController),
   );
   instance.patch(
     '/updateType/:typeId',
-    { schema: typeSchema.patchTypeResponseSchema },
+    { schema: typeSchema.patchTypeSchema },
     typeController.updateType.bind(typeController),
   );
   instance.delete(
     '/removeType/:typeId',
-    { schema: typeSchema.deleteTypeResponseSchema },
+    { schema: typeSchema.deleteTypeSchema },
     typeController.removeType.bind(typeController),
   );
   instance.get('/typeList', typeController.getTypeList.bind(typeController));
