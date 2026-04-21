@@ -13,7 +13,7 @@
     "lint:fix": "eslint . --fix --cache",
     "type-check": "tsc --noEmit",
     "migrate:create": "tsx migrate.js create --prefix TIMESTAMP --folder src/database/migrations --name",
-    "migrate:dev": "dotenv -e .env.dev -- tsx migrate.js up",
+    "migrate": "dotenv -e .env.dev -- tsx migrate.js up",
     "migrate:pending": "dotenv -e .env.dev -- tsx migrate.js pending",
     "migrate:down": "dotenv -e .env.dev -- tsx migrate.js down --name"
   },
