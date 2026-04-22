@@ -1,4 +1,4 @@
-import { SimpleGrid, Text } from "@mantine/core";
+import { SimpleGrid } from "@mantine/core";
 import { Link, NavLink } from "react-router-dom";
 import { Card } from "./card";
 import styles from "./styles.module.css";
@@ -17,14 +17,14 @@ const productTypes = [
 ];
 
 type SectionsProps = {
-  showWithCard?: boolean;
+  showCard?: boolean;
 };
 
-export const Sections = ({ showWithCard = false }: SectionsProps) => {
+export const Sections = ({ showCard = false }: SectionsProps) => {
   return (
     <SimpleGrid pt={12} cols={2} spacing={12} verticalSpacing={12}>
       {productTypes.map(({ id, name }) =>
-        showWithCard ? (
+        showCard ? (
           <Link key={id} to="/">
             <Card title={name} />
           </Link>
