@@ -1,12 +1,11 @@
-import { requestApi, type LoginData } from "@/services/client";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 export const useController = () => {
   const signInMutation = useMutation({
-    mutationFn: requestApi.signIn,
+    mutationFn: Promise.resolve,
   });
   const queryClient = useQueryClient();
-  const handleSignIn = async (params: LoginData) => {
+  const handleSignIn = async (params) => {
     signInMutation.mutateAsync(params, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["user"] });

@@ -1,5 +1,3 @@
-import { requestApi } from "@/services/client";
-import type { ProductsResponse } from "@/services/products-api";
 import { notifications } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,26 +17,13 @@ export const useController = () => {
 
   const productsQuery = useQuery({
     queryKey,
-    queryFn: () =>
-      currentSearch
-        ? requestApi.getSearchProducts({
-            limit,
-            skip,
-            q: currentSearch,
-          })
-        : requestApi.getAllProducts({ limit, skip, sortBy, order }),
+    queryFn: () => Promise.resolve(),
   });
 
   const addProductMutation = useMutation({
-    mutationFn: requestApi.addProduct,
+    mutationFn: Promise.resolve,
 
-    onSuccess: (data) => {
-      queryClient.setQueryData(
-        queryKey,
-        (oldData: ProductsResponse): ProductsResponse => {
-          return { ...oldData, products: [data, ...(oldData.products ?? [])] };
-        },
-      );
+    onSuccess: () => {
       notifications.show({
         icon: <IconCheck />,
         title: "Успешно",

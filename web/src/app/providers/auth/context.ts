@@ -1,8 +1,7 @@
-import type { User } from "@/services/Api";
 import { createContext, useContext } from "react";
 
 export type AuthContextType = {
-  user?: User;
+  user?: object;
   isAuthorized: boolean;
   isLoading: boolean;
 };
