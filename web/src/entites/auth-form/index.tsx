@@ -13,10 +13,9 @@ import styles from "./styles.module.css";
 import { IconX, IconUser, IconLock } from "@tabler/icons-react";
 import { Logo } from "./logo";
 import { useForm, isNotEmpty } from "@mantine/form";
-import type { LoginData } from "@/services/client";
 
 interface FormProps {
-  onSignIn: (options: LoginData) => void;
+  onSignIn: (options: object) => void;
 }
 
 const ERROR_TEXT = "Поле не должно быть пустым";
