@@ -1,44 +1,39 @@
 import type { PropsWithChildren } from "react";
 import { MantineProvider, mergeThemeOverrides } from "@mantine/core";
 import { buttonTheme } from "@/shared/ui";
-import { colors, routes } from "@/shared/configs";
+import { colors } from "@/shared/configs";
 import { Notifications } from "@mantine/notifications";
-import { useLocation } from "react-router-dom";
 
-const fontOptions = {
-  [`/${routes.login}`]: "Inter, sans-serif",
-  [`/${routes.products}`]: "Cairo, sans-serif",
-};
+const theme = mergeThemeOverrides(buttonTheme, {
+  colors,
+  fontSizes: {
+    xs: "14px",
+    sm: "14px",
+    md: "14px",
+    lg: "14px",
+    xl: "14px",
+  },
+  breakpoints: {
+    xs: "375px", // телефоны
+    sm: "576px", // телефоны горизонтально
+    md: "768px", // планшеты
+    lg: "1024px", // ноутбуки
+    xl: "1280px", // десктопы
+  },
 
-const getTheme = (path: string) => {
-  const theme = mergeThemeOverrides(buttonTheme, {
-    colors,
-    fontFamily: fontOptions[path],
-    lineHeights: {
-      xs: "1",
-      sm: "1",
-      md: "1",
-      lg: "1",
-      xl: "1",
-    },
-    components: {
-      InputWrapper: {
-        styles: {
-          label: {
-            marginBottom: "8px",
-          },
+  fontFamily: "Inter, sans-serif",
+  components: {
+    InputWrapper: {
+      styles: {
+        label: {
+          marginBottom: "8px",
         },
       },
     },
-  });
-
-  return theme;
-};
+  },
+});
 
 export const UIProvider = ({ children }: PropsWithChildren) => {
-  const location = useLocation();
-  const theme = getTheme(location.pathname);
-
   return (
     <MantineProvider theme={theme}>
       <Notifications />
