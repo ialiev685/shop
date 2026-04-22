@@ -1,10 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { PublicRoute } from "./public-route";
-import { Authorization } from "@/pages/authorization/ui";
 import { routes } from "@/shared/configs";
-import { ProtectedRoute } from "./protected-route";
-import { Products } from "@/pages/products/ui";
 import { Main } from "@/pages/main/ui";
+import { Catalog } from "@/pages/catalog";
 
 export const AppRoutes = () => {
   return (
@@ -17,7 +14,9 @@ export const AppRoutes = () => {
         <Route path={routes.products} element={<Products />} />
       </Route> */}
 
-      <Route path={routes.main} element={<Main />} />
+      <Route path={routes.main} element={<Main />}>
+        <Route path={routes.catalog} element={<Catalog />} />
+      </Route>
 
       <Route path="*" element={<Navigate to={routes.login} replace />} />
     </Routes>
