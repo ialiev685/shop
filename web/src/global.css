@@ -21,8 +21,11 @@
   --blue-main: #3c538e;
 
   /* shop colors */
+  --bg-shop-page: #fbf8ec;
+  --green-shop-1: #70c05b;
+  --gray-shop-1: #414141;
+  --accent-shop-1: #ff6633;
 
-  --gray-shop-1: #f5f5f7;
 }
 
 @font-face {
@@ -43,6 +46,14 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: inherit;
 }
 
 input,

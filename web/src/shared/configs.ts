@@ -18,7 +18,10 @@ export type CustomColors =
   | "purple-main"
   | "purple-hover-main"
   | "blue-main"
-  | "gray-shop-1";
+  | "bg-shop-page"
+  | "green-shop-1"
+  | "gray-shop-1"
+  | "accent-shop-1";
 
 export const colors: Record<CustomColors, MantineColorsTuple> = {
   "gray-auth-1": colorsTuple("#232323"),
@@ -38,11 +41,15 @@ export const colors: Record<CustomColors, MantineColorsTuple> = {
   "purple-main": colorsTuple("#9B51E0"),
   "purple-hover-main": colorsTuple("#797fea"),
   "blue-main": colorsTuple("#3c538e"),
-  "gray-shop-1": colorsTuple("#f5f5f7"),
+  "bg-shop-page": colorsTuple("#FBF8EC"),
+  "gray-shop-1": colorsTuple("#414141"),
+  "green-shop-1": colorsTuple("#70C05B"),
+  "accent-shop-1": colorsTuple("#ff6633"),
 };
 
 export const routes = {
   main: "/",
+  catalog: "catalog",
   login: "login",
   products: "products",
 };
