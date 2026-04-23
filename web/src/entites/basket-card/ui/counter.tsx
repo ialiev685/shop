@@ -1,4 +1,4 @@
-import { Box, Button, Group, Paper, Text } from "@mantine/core";
+import { Button, Group, Paper, Text } from "@mantine/core";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
 
 interface CounterProps {
@@ -6,9 +6,9 @@ interface CounterProps {
 }
 
 export const Counter: React.FC<CounterProps> = ({ quantity }) => {
-  const handleIncrement = () => {};
+  //   const handleIncrement = () => {};
 
-  const handleDecrement = () => {};
+  //   const handleDecrement = () => {};
 
   return (
     <Paper radius={4} bg="green-shop-1">

@@ -1,13 +1,4 @@
-import {
-  Box,
-  Card,
-  Flex,
-  Group,
-  Image,
-  Paper,
-  SimpleGrid,
-  Text,
-} from "@mantine/core";
+import { Box, Card, Group, Image, Paper, Text } from "@mantine/core";
 import { Counter } from "./counter";
 import { IconTrash } from "@tabler/icons-react";
 
