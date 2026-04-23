@@ -1,13 +1,11 @@
-import { Sections } from "@/entites/sections";
 import { Flex, Title } from "@mantine/core";
 
-export const Catalog = () => {
+export const Basket = () => {
   return (
     <Flex direction="column" gap={24}>
       <Title order={2} c="gray-shop-1">
-        Каталог
+        Корзина
       </Title>
-      <Sections showCard />
     </Flex>
   );
 };

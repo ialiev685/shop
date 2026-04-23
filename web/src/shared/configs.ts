@@ -49,7 +49,8 @@ export const colors: Record<CustomColors, MantineColorsTuple> = {
 
 export const routes = {
   main: "/",
+  basket: "basket",
   catalog: "catalog",
   login: "login",
-  products: "products",
+  products: "products/:typeId",
 };
