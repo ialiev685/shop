@@ -21,7 +21,8 @@ export type CustomColors =
   | "bg-shop-page"
   | "green-shop-1"
   | "gray-shop-1"
-  | "accent-shop-1";
+  | "accent-shop-1"
+  | "gray-shop-2";
 
 export const colors: Record<CustomColors, MantineColorsTuple> = {
   "gray-auth-1": colorsTuple("#232323"),
@@ -45,6 +46,7 @@ export const colors: Record<CustomColors, MantineColorsTuple> = {
   "gray-shop-1": colorsTuple("#414141"),
   "green-shop-1": colorsTuple("#70C05B"),
   "accent-shop-1": colorsTuple("#ff6633"),
+  "gray-shop-2": colorsTuple("#606060"),
 };
 
 export const routes = {

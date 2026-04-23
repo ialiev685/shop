@@ -29,9 +29,21 @@
   border: 1px solid var(--green-shop-1);
   color: var(--green-shop-1);
   background-color: #fff;
+
   &:hover {
     background-color: var(--green-shop-1);
 
     color: #fff;
+  }
+}
+
+.filled-shop {
+  background-color: var(--green-shop-1);
+  color: #fff;
+  border: 1px solid var(--green-shop-1);
+
+  &:hover {
+    background-color: #fff;
+    color: var(--green-shop-1);
   }
 }

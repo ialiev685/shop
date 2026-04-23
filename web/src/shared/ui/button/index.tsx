@@ -4,12 +4,14 @@ import styles from "./styles.module.css";
 export type CustomVariant =
   | "accent-filled-admin"
   | "outline-admin"
-  | "outline-shop";
+  | "outline-shop"
+  | "filled-shop";
 
 const styleVariant: Record<CustomVariant, string> = {
   "accent-filled-admin": styles["filled-admin"],
   "outline-admin": styles["outline-admin"],
   "outline-shop": styles["outline-shop"],
+  "filled-shop": styles["filled-shop"],
 };
 
 export const buttonTheme = createTheme({
