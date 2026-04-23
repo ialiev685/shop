@@ -94,7 +94,7 @@ export const AddProductForm = ({
           />
 
           <Group justify="flex-end" mt="md">
-            <Button variant="outline-custom" onClick={handleClose}>
+            <Button variant="outline-admin" onClick={handleClose}>
               Отмена
             </Button>
             <Button type="submit" loading={isLoading}>

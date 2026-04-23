@@ -36,7 +36,7 @@ export const Products = () => {
             Все позиции
           </Title>
           <Group gap={8}>
-            <Button variant="outline-custom" radius={8}>
+            <Button variant="outline-admin" radius={8}>
               <IconRefresh
                 color={theme.colors["gray-auth-3"][0]}
                 onClick={() => {
