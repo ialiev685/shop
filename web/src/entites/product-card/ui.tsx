@@ -9,7 +9,7 @@ type ProductCardProps = {
 
 export const ProductCard = ({ name, img, rating, price }: ProductCardProps) => {
   return (
-    <Card>
+    <Card shadow="sm">
       <Card.Section>
         <Image h={160} src={img} fit="contain" />
       </Card.Section>
