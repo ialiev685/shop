@@ -6,10 +6,14 @@ import { Outlet } from "react-router-dom";
 export const Main = () => {
   return (
     <AppShell bg="bg-shop-page" mih="100vh">
-      <Header />
-      <ResponsiveContainer>
-        <Outlet />
-      </ResponsiveContainer>
+      <AppShell.Header h={56}>
+        <Header />
+      </AppShell.Header>
+      <AppShell.Main pt={56}>
+        <ResponsiveContainer>
+          <Outlet />
+        </ResponsiveContainer>
+      </AppShell.Main>
     </AppShell>
   );
 };

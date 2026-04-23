@@ -22,22 +22,16 @@ type SectionsProps = {
 
 export const Sections = ({ showCard = false }: SectionsProps) => {
   return (
-    <SimpleGrid pt={12} cols={2} spacing={12} verticalSpacing={12}>
+    <SimpleGrid pt={12} cols={2} spacing={16} verticalSpacing={16}>
       {productTypes.map(({ id, name }) =>
         showCard ? (
           <Link key={id} to="/">
             <Card title={name} />
           </Link>
         ) : (
-          <NavLink
-            to="/"
-            key={id}
-            className={({ isActive }) =>
-              clsx(styles["nav-link"], isActive && styles["nav-link-active"])
-            }
-          >
+          <Link to="/" key={id} className={styles["nav-link"]}>
             {name}
-          </NavLink>
+          </Link>
         ),
       )}
     </SimpleGrid>
