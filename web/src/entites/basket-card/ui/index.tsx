@@ -1,5 +1,15 @@
-import { Box, Card, Flex, Group, Image, Paper, Text } from "@mantine/core";
+import {
+  Box,
+  Card,
+  Flex,
+  Group,
+  Image,
+  Paper,
+  SimpleGrid,
+  Text,
+} from "@mantine/core";
 import { Counter } from "./counter";
+import { IconTrash } from "@tabler/icons-react";
 
 type BasketCardProps = {
   id: number;
@@ -21,14 +31,17 @@ export const BasketCard = ({ product, quantity }: BasketCardProps) => {
   return (
     <Card shadow="sm">
       <Card.Section>
-        <Group gap={12}>
+        <Group gap={12} justify="space-between">
           <Paper shadow="sm" radius={4}>
-            <Image fit="contain" src={product.img} h={78} />
+            <Image fit="contain" src={product.img} h={80} />
           </Paper>
-          <Box p={8}>
-            <Text c="gray-shop-1" fz={12}>
-              {product.name}
-            </Text>
+          <Box p={8} flex="2" h={80}>
+            <Group justify="space-between">
+              <Text c="gray-shop-1" fz={12}>
+                {product.name}
+              </Text>
+              <IconTrash size={20} />
+            </Group>
 
             <Group mt={8} align="flex-start" gap={8}>
               <Text c="gray-shop-1" fz={12} fw={700}>
@@ -42,12 +55,12 @@ export const BasketCard = ({ product, quantity }: BasketCardProps) => {
         </Group>
       </Card.Section>
 
-      <Flex mt={12} justify="space-between" align="center">
+      <Group mt={12} justify="space-between" align="center">
         <Counter quantity={quantity} />
         <Text c="gray-shop-1" fw={700}>
           {product.price * quantity} ₽
         </Text>
-      </Flex>
+      </Group>
     </Card>
   );
 };
