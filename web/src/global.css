@@ -25,7 +25,6 @@
   --green-shop-1: #70c05b;
   --gray-shop-1: #414141;
   --accent-shop-1: #ff6633;
-
 }
 
 @font-face {
@@ -54,6 +53,7 @@ a:hover,
 a:active {
   text-decoration: none;
   color: inherit;
+  line-height: 1;
 }
 
 input,

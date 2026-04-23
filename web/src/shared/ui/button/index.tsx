@@ -1,18 +1,22 @@
 import { createTheme, Button } from "@mantine/core";
 import styles from "./styles.module.css";
 
-export type CustomVariant = "accent-filled-custom" | "outline-custom";
+export type CustomVariant =
+  | "accent-filled-admin"
+  | "outline-admin"
+  | "outline-shop";
 
 const styleVariant: Record<CustomVariant, string> = {
-  "accent-filled-custom": styles["filled"],
-  "outline-custom": styles["outline"],
+  "accent-filled-admin": styles["filled-admin"],
+  "outline-admin": styles["outline-admin"],
+  "outline-shop": styles["outline-shop"],
 };
 
 export const buttonTheme = createTheme({
   components: {
     Button: Button.extend({
       defaultProps: {
-        variant: "accent-filled-custom",
+        variant: "accent-filled-admin",
       },
       classNames: (_, props) => ({
         root:

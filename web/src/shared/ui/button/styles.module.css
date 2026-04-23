@@ -1,4 +1,4 @@
-.filled {
+.filled-admin {
   background-color: var(--purple-auth);
   color: #fff;
   border-color: var(--blue-auth);
@@ -9,7 +9,7 @@
   }
 }
 
-.outline {
+.outline-admin {
   border: 1px solid var(--purple-main);
   background-color: #fff;
   color: var(--purple-auth);
@@ -22,5 +22,16 @@
     svg {
       stroke: white;
     }
+  }
+}
+
+.outline-shop {
+  border: 1px solid var(--green-shop-1);
+  color: var(--green-shop-1);
+  background-color: #fff;
+  &:hover {
+    background-color: var(--green-shop-1);
+
+    color: #fff;
   }
 }
