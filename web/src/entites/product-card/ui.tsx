@@ -11,7 +11,7 @@ export const ProductCard = ({ name, img, rating, price }: ProductCardProps) => {
   return (
     <Card shadow="sm">
       <Card.Section>
-        <Image h={160} src={img} fit="contain" />
+        <Image h={160} src={img} fit="cover" />
       </Card.Section>
       <Flex direction="column" justify="space-between" h="100%" gap={8}>
         <Text c="gray-shop-1" fw={700} fz={18}>
