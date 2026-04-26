@@ -1,3 +1,4 @@
+import { NavigationCrumbs } from "@/entites/navigation-crumbs/ui";
 import { Header } from "@/features/header/ui";
 import { ResponsiveContainer } from "@/shared/ui/responsive-container";
 import { AppShell } from "@mantine/core";
@@ -11,6 +12,7 @@ export const Main = () => {
       </AppShell.Header>
       <AppShell.Main pt={56}>
         <ResponsiveContainer>
+          <NavigationCrumbs />
           <Outlet />
         </ResponsiveContainer>
       </AppShell.Main>
