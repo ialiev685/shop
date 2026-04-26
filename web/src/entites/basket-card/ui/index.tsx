@@ -1,14 +1,4 @@
-import {
-  Box,
-  Card,
-  Flex,
-  Grid,
-  Group,
-  Image,
-  Paper,
-  SimpleGrid,
-  Text,
-} from "@mantine/core";
+import { Card, Flex, Grid, Group, Image, Paper, Text } from "@mantine/core";
 import { Counter } from "./counter";
 import { IconTrash } from "@tabler/icons-react";
 
@@ -32,7 +22,7 @@ export const BasketCard = ({ product, quantity }: BasketCardProps) => {
   return (
     <Card shadow="sm">
       <Card.Section>
-        <Group gap={12} justify="space-between">
+        <Group gap={8}>
           <Paper shadow="sm" radius={4}>
             <Image fit="cover" src={product.img} h={80} />
           </Paper>
