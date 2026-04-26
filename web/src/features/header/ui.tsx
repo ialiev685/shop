@@ -1,5 +1,6 @@
 import { Sections } from "@/entites/sections";
-import { routes } from "@/shared/configs";
+import { routesMap } from "@/shared/routes";
+
 import { ResponsiveContainer } from "@/shared/ui/responsive-container";
 import { Flex, Drawer, Title, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -17,7 +18,7 @@ export const Header = () => {
             поЖрать
           </Title>
           <Group gap={20} align="center">
-            <Link to={routes.basket}>
+            <Link to={routesMap.basket}>
               <IconBasket cursor="pointer" />
             </Link>
             <IconMenu2 onClick={toggle} cursor="pointer" />

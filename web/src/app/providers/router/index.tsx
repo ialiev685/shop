@@ -1,9 +1,22 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { routes } from "@/shared/configs";
+
 import { Main } from "@/pages/main/ui";
-import { Catalog } from "@/pages/catalog";
 import { Basket } from "@/pages/basket/ui";
+
+import { Catalog } from "@/pages/catalog";
+import {
+  routes,
+  routesMap,
+  type ComponentKey,
+  type Route as RouteType,
+} from "@/shared/routes";
 import { Products } from "@/pages/products";
+
+const pages: Record<ComponentKey, React.ComponentType> = {
+  catalog: Catalog,
+  products: Products,
+  basket: Basket,
+};
 
 export const AppRoutes = () => {
   return (
@@ -16,17 +29,22 @@ export const AppRoutes = () => {
         <Route path={routes.products} element={<Products />} />
       </Route> */}
 
-      <Route path={routes.main} element={<Main />}>
-        <Route path={routes.catalog} element={<Catalog />} />
+      <Route element={<Main />}>
+        {createRoutes(routes)}
+        <Route path="*" element={<Navigate to={routesMap.catalog} replace />} />
       </Route>
-      <Route path={routes.main} element={<Main />}>
-        <Route path={routes.basket} element={<Basket />} />
-      </Route>
-      <Route path={routes.main} element={<Main />}>
-        <Route path={routes.products} element={<Products />} />
-      </Route>
-
-      <Route path="*" element={<Navigate to={routes.login} replace />} />
     </Routes>
   );
+};
+
+const createRoutes = (routes: RouteType[]): React.ReactNode[] => {
+  return routes.reduce<React.ReactNode[]>((acc, item) => {
+    const Page = pages[item.componentName];
+    acc.push(<Route key={item.path} path={item.path} element={<Page />} />);
+    if (item.children) {
+      const childRoutes = createRoutes(item.children);
+      acc.push(...childRoutes);
+    }
+    return acc;
+  }, []);
 };

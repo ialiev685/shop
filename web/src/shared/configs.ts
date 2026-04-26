@@ -48,11 +48,3 @@ export const colors: Record<CustomColors, MantineColorsTuple> = {
   "accent-shop-1": colorsTuple("#ff6633"),
   "gray-shop-2": colorsTuple("#606060"),
 };
-
-export const routes = {
-  main: "/",
-  basket: "basket",
-  catalog: "catalog",
-  login: "login",
-  products: "products/:typeId",
-};

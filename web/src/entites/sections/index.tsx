@@ -1,8 +1,7 @@
 import { SimpleGrid } from "@mantine/core";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card } from "./card";
 import styles from "./styles.module.css";
-import clsx from "clsx";
 
 // MOCK
 const productTypes = [
@@ -23,17 +22,18 @@ type SectionsProps = {
 export const Sections = ({ showCard = false }: SectionsProps) => {
   return (
     <SimpleGrid pt={12} cols={2} spacing={16} verticalSpacing={16}>
-      {productTypes.map(({ id, name }) =>
-        showCard ? (
-          <Link key={id} to="/">
+      {productTypes.map(({ id, name }) => {
+        const linkTo = `/catalog/${id}`;
+        return showCard ? (
+          <Link key={id} to={linkTo}>
             <Card title={name} />
           </Link>
         ) : (
-          <Link to="/" key={id} className={styles["nav-link"]}>
+          <Link to={linkTo} key={id} className={styles["nav-link"]}>
             {name}
           </Link>
-        ),
-      )}
+        );
+      })}
     </SimpleGrid>
   );
 };
