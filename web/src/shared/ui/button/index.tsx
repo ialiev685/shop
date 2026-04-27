@@ -4,14 +4,18 @@ import styles from "./styles.module.css";
 export type CustomVariant =
   | "accent-filled-admin"
   | "outline-admin"
-  | "outline-shop"
-  | "filled-shop";
+  | "outline-green-shop"
+  | "filled-green-shop"
+  | "outline-accent-shop"
+  | "filled-accent-shop";
 
 const styleVariant: Record<CustomVariant, string> = {
   "accent-filled-admin": styles["filled-admin"],
   "outline-admin": styles["outline-admin"],
-  "outline-shop": styles["outline-shop"],
-  "filled-shop": styles["filled-shop"],
+  "outline-green-shop": styles["outline-green-shop"],
+  "filled-green-shop": styles["filled-green-shop"],
+  "outline-accent-shop": styles["outline-accent-shop"],
+  "filled-accent-shop": styles["filled-accent-shop"],
 };
 
 export const buttonTheme = createTheme({

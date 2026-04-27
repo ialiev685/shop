@@ -25,7 +25,7 @@
   }
 }
 
-.outline-shop {
+.outline-green-shop {
   border: 1px solid var(--green-shop-1);
   color: var(--green-shop-1);
   background-color: #fff;
@@ -37,7 +37,7 @@
   }
 }
 
-.filled-shop {
+.filled-green-shop {
   background-color: var(--green-shop-1);
   color: #fff;
   border: 1px solid var(--green-shop-1);
@@ -45,5 +45,28 @@
   &:hover {
     background-color: #fff;
     color: var(--green-shop-1);
+  }
+}
+
+.outline-accent-shop {
+  border: 1px solid var(--accent-shop-1);
+  color: var(--accent-shop-1);
+  background-color: #fff;
+
+  &:hover {
+    background-color: var(--accent-shop-1);
+
+    color: #fff;
+  }
+}
+
+.filled-accent-shop {
+  background-color: var(--accent-shop-1);
+  color: #fff;
+  border: 1px solid var(--accent-shop-1);
+
+  &:hover {
+    background-color: #fff;
+    color: var(--accent-shop-1);
   }
 }

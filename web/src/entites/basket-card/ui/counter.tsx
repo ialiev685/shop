@@ -7,19 +7,18 @@ interface CounterProps {
 
 export const Counter: React.FC<CounterProps> = ({ quantity }) => {
   //   const handleIncrement = () => {};
-
   //   const handleDecrement = () => {};
 
   return (
     <Paper radius={4} bg="green-shop-1">
       <Group>
-        <Button variant="filled-shop">
+        <Button variant="filled-green-shop">
           <IconMinus />
         </Button>
         <Text c="white" fz={16}>
           {quantity}
         </Text>
-        <Button variant="filled-shop">
+        <Button variant="filled-green-shop">
           <IconPlus />
         </Button>
       </Group>
