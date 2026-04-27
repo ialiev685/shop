@@ -1,33 +1,44 @@
-type RoutePath = "catalog" | "catalog/:typeId" | "basket" | "*";
-export type ComponentKey = "catalog" | "products" | "basket";
+type RoutePath =
+  | "/catalog"
+  | "/catalog/:typeId"
+  | "/basket"
+  | "/product-preview/:id"
+  | "/*";
+
+export type ComponentKey = "catalog" | "products" | "basket" | "productPreview";
 
 export type Route = {
   path: RoutePath;
   title?: string;
-  dynamicTitle: boolean;
+  withId?: boolean;
   componentName: ComponentKey;
   children?: Route[];
 };
 
 export const routes: Route[] = [
   {
-    path: "catalog",
+    path: "/catalog",
     title: "Каталог",
-    dynamicTitle: false,
+    withId: false,
     children: [
       {
-        path: "catalog/:typeId",
+        path: "/catalog/:typeId",
         componentName: "products",
-        dynamicTitle: true,
+        withId: true,
       },
     ],
     componentName: "catalog",
   },
   {
-    path: "basket",
+    path: "/basket",
     title: "Корзина",
     componentName: "basket",
-    dynamicTitle: false,
+    withId: false,
+  },
+  {
+    path: "/product-preview/:id",
+    componentName: "productPreview",
+    withId: true,
   },
 ] as const;
 

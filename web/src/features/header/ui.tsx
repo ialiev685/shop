@@ -18,7 +18,7 @@ export const Header = () => {
             поЖрать
           </Title>
           <Group gap={20} align="center">
-            <Link to={routesMap.basket}>
+            <Link to={routesMap["/basket"]}>
               <IconBasket cursor="pointer" />
             </Link>
             <IconMenu2 onClick={toggle} cursor="pointer" />

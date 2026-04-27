@@ -14,7 +14,7 @@ const createAnchors = (
     if (matchPath({ path: fullPath, end: true }, currentPath)) {
       return [
         <Text fz={12} key={fullPath} c="gray-shop-1">
-          {route.dynamicTitle ? "Динамическое название" : route.title}
+          {route.withId ? "Динамическое название" : route.title}
         </Text>,
       ];
     }
@@ -29,7 +29,7 @@ const createAnchors = (
             fz={12}
             c="gray-shop-1"
           >
-            {route.dynamicTitle ? "Динамическое название" : route.title}
+            {route.withId ? "Динамическое название" : route.title}
           </Anchor>,
           ...childBreadcrumbs,
         ];
