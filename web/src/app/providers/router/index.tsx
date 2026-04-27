@@ -12,12 +12,20 @@ import {
 } from "@/shared/routes";
 import { Products } from "@/pages/products";
 import { ProductPreview } from "@/pages/product-preview/ui";
+import { Register } from "@/pages/register/ui";
+import { Login } from "@/pages/login/ui";
+import { ForgotPassword } from "@/pages/forgot-password/ui";
+import { ResetPassword } from "@/pages/reset-password/ui";
 
 const pages: Record<ComponentKey, React.ComponentType> = {
   catalog: Catalog,
   products: Products,
   basket: Basket,
   productPreview: ProductPreview,
+  register: Register,
+  login: Login,
+  forgotPassword: ForgotPassword,
+  resetPassword: ResetPassword,
 };
 
 export const AppRoutes = () => {
@@ -33,7 +41,10 @@ export const AppRoutes = () => {
 
       <Route element={<Main />}>
         {createRoutes(routes)}
-        <Route path="*" element={<Navigate to={routesMap.catalog} replace />} />
+        <Route
+          path="*"
+          element={<Navigate to={routesMap["/catalog"]} replace />}
+        />
       </Route>
     </Routes>
   );
