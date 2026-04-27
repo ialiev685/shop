@@ -1,5 +1,7 @@
 import { ProductCard } from "@/entites/product-card/ui";
+import { routesMap } from "@/shared/routes";
 import { Flex, SimpleGrid, Title } from "@mantine/core";
+import { generatePath, useNavigate } from "react-router-dom";
 
 // MOCK
 const foodProducts = [
@@ -96,6 +98,7 @@ const foodProducts = [
 ];
 
 export const Products = () => {
+  const navigate = useNavigate();
   return (
     <Flex direction="column" gap={24}>
       <Title order={2} c="gray-shop-1">
@@ -104,7 +107,19 @@ export const Products = () => {
 
       <SimpleGrid cols={2} spacing={16} verticalSpacing={16}>
         {foodProducts.map((product) => (
-          <ProductCard {...product} />
+          <ProductCard
+            {...product}
+            onPreview={() => {
+              navigate(
+                generatePath(routesMap["/product-preview/:id"], {
+                  id: product.id.toString(),
+                }),
+              );
+            }}
+            onAddToBasket={() => {
+              // Implementation for adding to basket
+            }}
+          />
         ))}
       </SimpleGrid>
     </Flex>
