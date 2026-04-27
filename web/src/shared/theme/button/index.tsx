@@ -1,7 +1,7 @@
 import { createTheme, Button } from "@mantine/core";
 import styles from "./styles.module.css";
 
-export type CustomVariant =
+export type ButtonCustomVariant =
   | "accent-filled-admin"
   | "outline-admin"
   | "outline-green-shop"
@@ -9,7 +9,7 @@ export type CustomVariant =
   | "outline-accent-shop"
   | "filled-accent-shop";
 
-const styleVariant: Record<CustomVariant, string> = {
+const styleVariant: Record<ButtonCustomVariant, string> = {
   "accent-filled-admin": styles["filled-admin"],
   "outline-admin": styles["outline-admin"],
   "outline-green-shop": styles["outline-green-shop"],

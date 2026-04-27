@@ -1,10 +1,10 @@
 import type { PropsWithChildren } from "react";
 import { MantineProvider, mergeThemeOverrides } from "@mantine/core";
-import { buttonTheme } from "@/shared/ui";
+import { buttonTheme, inputTheme } from "@/shared/theme";
 import { colors } from "@/shared/configs";
 import { Notifications } from "@mantine/notifications";
 
-const theme = mergeThemeOverrides(buttonTheme, {
+const theme = mergeThemeOverrides(buttonTheme, inputTheme, {
   colors,
   fontSizes: {
     xs: "14px",
@@ -26,7 +26,7 @@ const theme = mergeThemeOverrides(buttonTheme, {
     InputWrapper: {
       styles: {
         label: {
-          marginBottom: "8px",
+          marginBottom: "4px",
         },
       },
     },

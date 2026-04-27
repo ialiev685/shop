@@ -1,0 +1,20 @@
+.input-green-shop {
+    border: 1px solid var(--gray-shop-3);
+    transition: all 0.2s ease;
+}
+
+.input-green-shop:focus {
+    border: 1px solid var(--green-shop-1);
+    box-shadow: 4px 8px 16px 0px var(--green-transparent-shop-1);
+}
+
+.input-green-shop:focus-within {
+    border: 1px solid var(--green-shop-1);
+    box-shadow: 4px 8px 16px 0px var(--green-transparent-shop-1);
+}
+
+
+.label-green-shop {
+    color: var(--gray-shop-3);
+    transition: all 0.2s ease;
+}

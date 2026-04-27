@@ -1,11 +1,23 @@
 type RoutePath =
+  | "/register"
+  | "/login"
+  | "/forgot-password"
   | "/catalog"
   | "/catalog/:typeId"
   | "/basket"
   | "/product-preview/:id"
-  | "/*";
+  | "/reset-password/:token"
+  | "*";
 
-export type ComponentKey = "catalog" | "products" | "basket" | "productPreview";
+export type ComponentKey =
+  | "catalog"
+  | "products"
+  | "basket"
+  | "productPreview"
+  | "login"
+  | "register"
+  | "forgotPassword"
+  | "resetPassword";
 
 export type Route = {
   path: RoutePath;
@@ -39,6 +51,22 @@ export const routes: Route[] = [
     path: "/product-preview/:id",
     componentName: "productPreview",
     withId: true,
+  },
+  {
+    path: "/login",
+    componentName: "login",
+  },
+  {
+    path: "/register",
+    componentName: "register",
+  },
+  {
+    path: "/forgot-password",
+    componentName: "forgotPassword",
+  },
+  {
+    path: "/reset-password/:token",
+    componentName: "resetPassword",
   },
 ] as const;
 

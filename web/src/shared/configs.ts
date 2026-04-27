@@ -22,7 +22,9 @@ export type CustomColors =
   | "green-shop-1"
   | "gray-shop-1"
   | "accent-shop-1"
-  | "gray-shop-2";
+  | "gray-shop-2"
+  | "green-transparent-shop-1"
+  | "gray-shop-3";
 
 export const colors: Record<CustomColors, MantineColorsTuple> = {
   "gray-auth-1": colorsTuple("#232323"),
@@ -47,4 +49,6 @@ export const colors: Record<CustomColors, MantineColorsTuple> = {
   "green-shop-1": colorsTuple("#70C05B"),
   "accent-shop-1": colorsTuple("#ff6633"),
   "gray-shop-2": colorsTuple("#606060"),
+  "green-transparent-shop-1": colorsTuple("#70C05B33"),
+  "gray-shop-3": colorsTuple("#8F8F8F"),
 };
