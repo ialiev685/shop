@@ -11,11 +11,13 @@ import {
   type Route as RouteType,
 } from "@/shared/routes";
 import { Products } from "@/pages/products";
+import { ProductPreview } from "@/pages/product-preview/ui";
 
 const pages: Record<ComponentKey, React.ComponentType> = {
   catalog: Catalog,
   products: Products,
   basket: Basket,
+  productPreview: ProductPreview,
 };
 
 export const AppRoutes = () => {
