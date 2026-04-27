@@ -1,0 +1,16 @@
+.wrapper-form {
+  width: 527px;
+  padding: 6px;
+  background-color: #fff;
+  border: 1px solid var(--gray-auth-6);
+  border-radius: 40px;
+}
+
+.box-from {
+  height: 100%;
+  border-radius: 34px;
+  background: linear-gradient(180deg,
+      rgba(35, 35, 35, 3%) 0%,
+      rgba(35, 35, 35, 0) 50%);
+  padding: 48px;
+}

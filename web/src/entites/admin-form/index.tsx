@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import styles from "./styles.module.css";
 import { IconX, IconUser, IconLock } from "@tabler/icons-react";
-import { Logo } from "./logo";
+
 import { useForm, isNotEmpty } from "@mantine/form";
 
 interface FormProps {
@@ -20,7 +20,7 @@ interface FormProps {
 
 const ERROR_TEXT = "Поле не должно быть пустым";
 
-export const AuthForm = ({ onSignIn }: FormProps) => {
+export const AdminForm = ({ onSignIn }: FormProps) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -40,7 +40,6 @@ export const AuthForm = ({ onSignIn }: FormProps) => {
     <form onSubmit={form.onSubmit((values) => onSignIn(values))}>
       <div className={styles["wrapper-form"]}>
         <div className={styles["box-from"]}>
-          <Logo />
           <Flex direction="column" gap={12} align="center" mt={32}>
             <Title className="text-center" fw={600} size={40} c="gray-auth-1">
               Добро пожаловать!
