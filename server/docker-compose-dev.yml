@@ -14,6 +14,7 @@ services:
       - db
     networks:
       - app-network
+      - auth-network
     command: ['yarn', 'dev:docker']
 
   db:
@@ -30,10 +31,14 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - app-network
+      - auth-network
 
 networks:
   app-network:
     driver: bridge
+  auth-network:
+    external: true
+    name: auth-network 
 
 volumes:
   postgres-data:
