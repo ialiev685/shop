@@ -41,6 +41,11 @@ export const getProductInfoSchema = {
   tags: ['productInfo'],
   summary: 'Получить информацию о продукте',
   params: getProductInfoListRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: Type.Array(productInfoResponseSchema),
     400: errorResponseSchema,
@@ -53,6 +58,11 @@ export const postProductInfoSchema = {
   tags: ['productInfo'],
   summary: 'Добавить информацию о продукте',
   body: productInfoRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     201: productInfoResponseSchema,
     400: errorResponseSchema,
@@ -66,6 +76,11 @@ export const patchProductSchema = {
   summary: 'Обновить информацию о продукте',
   params: updateProductInfoRequestSchema['params'],
   body: updateProductInfoRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: productInfoResponseSchema,
     400: errorResponseSchema,
@@ -78,6 +93,11 @@ export const deleteProductSchema = {
   tags: ['productInfo'],
   summary: 'Удалить информацию о продукте',
   params: removeProductInfoRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: Type.Null(),
     400: errorResponseSchema,

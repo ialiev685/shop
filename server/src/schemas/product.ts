@@ -57,6 +57,11 @@ export const getProductSchema = {
   tags: ['product'],
   summary: 'Получить список продуктов по типу',
   params: getProductListRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: Type.Array(productResponseSchema),
     400: errorResponseSchema,
@@ -69,6 +74,11 @@ export const postProductSchema = {
   tags: ['product'],
   summary: 'Добавить продукт',
   body: productRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: productResponseSchema,
     400: errorResponseSchema,
@@ -82,6 +92,11 @@ export const patchProductSchema = {
   summary: 'Обновить продукт',
   params: updateProductRequestSchema['params'],
   body: updateProductRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: productResponseSchema,
     400: errorResponseSchema,
@@ -94,6 +109,11 @@ export const deleteProductSchema = {
   tags: ['product'],
   summary: 'Удалить продукт',
   params: removeProductRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: Type.Null(),
     400: errorResponseSchema,

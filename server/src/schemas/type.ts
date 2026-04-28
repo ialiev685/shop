@@ -31,6 +31,11 @@ const typeResponseSchema = Type.Object({
 export const getTypeSchema = {
   tags: ['type'],
   summary: 'Получить типы',
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: typeResponseSchema,
     500: errorResponseSchema,
@@ -42,6 +47,11 @@ export const postTypeSchema = {
   tags: ['type'],
   summary: 'Добавить тип',
   body: typeRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: typeResponseSchema,
     400: errorResponseSchema,
@@ -55,6 +65,11 @@ export const patchTypeSchema = {
   summary: 'Обновить тип',
   params: updateTypeRequestSchema['params'],
   body: updateTypeRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: typeResponseSchema,
     400: errorResponseSchema,
@@ -67,6 +82,11 @@ export const deleteTypeSchema = {
   tags: ['type'],
   summary: 'Удалить тип',
   params: removeTypeRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
   response: {
     200: Type.Null(),
     400: errorResponseSchema,
