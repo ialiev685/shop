@@ -1,4 +1,4 @@
-import { AdminForm } from "@/entites/admin-form";
+import { AdminForm } from "@/entities/admin-form";
 import { Center, Container } from "@mantine/core";
 import { useController } from "./model";
 

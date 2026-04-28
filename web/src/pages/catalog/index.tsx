@@ -1,4 +1,4 @@
-import { Sections } from "@/entites/sections";
+import { Sections } from "@/entities/sections";
 import { Flex, Title } from "@mantine/core";
 
 export const Catalog = () => {

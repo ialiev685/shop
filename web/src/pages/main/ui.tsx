@@ -1,4 +1,4 @@
-import { NavigationCrumbs } from "@/entites/navigation-crumbs/ui";
+import { NavigationCrumbs } from "@/entities/navigation-crumbs/ui";
 import { Header } from "@/features/header/ui";
 import { ResponsiveContainer } from "@/shared/ui/responsive-container";
 import { AppShell } from "@mantine/core";

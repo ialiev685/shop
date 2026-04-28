@@ -1,4 +1,4 @@
-import { Sections } from "@/entites/sections";
+import { Sections } from "@/entities/sections";
 import { routesMap } from "@/shared/routes";
 
 import { ResponsiveContainer } from "@/shared/ui/responsive-container";

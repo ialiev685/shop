@@ -1,4 +1,4 @@
-import PreviewCard from "@/entites/preview-card";
+import PreviewCard from "@/entities/preview-card";
 import { Flex, Title } from "@mantine/core";
 
 // MOCK

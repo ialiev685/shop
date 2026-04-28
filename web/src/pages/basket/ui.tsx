@@ -1,4 +1,4 @@
-import { BasketCard } from "@/entites/basket-card/ui";
+import { BasketCard } from "@/entities/basket-card/ui";
 import { Flex, Title } from "@mantine/core";
 
 const basketItems = [

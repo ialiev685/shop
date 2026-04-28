@@ -8,10 +8,10 @@ import {
 } from "@mantine/core";
 import { IconRefresh, IconCirclePlus } from "@tabler/icons-react";
 import { useController } from "../model";
-import { ProductsTable } from "@/entites/products-table";
-import { Pagination } from "@/entites/pagination";
+import { ProductsTable } from "@/entities/products-table";
+import { Pagination } from "@/entities/pagination";
 import { SearchInput } from "./search-input";
-import { AddProductForm } from "@/entites/add-products-form";
+import { AddProductForm } from "@/entities/add-products-form";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 

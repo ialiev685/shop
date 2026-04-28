@@ -1,4 +1,4 @@
-import { ProductCard } from "@/entites/product-card/ui";
+import { ProductCard } from "@/entities/product-card/ui";
 import { routesMap } from "@/shared/routes";
 import { Flex, SimpleGrid, Title } from "@mantine/core";
 import { generatePath, useNavigate } from "react-router-dom";

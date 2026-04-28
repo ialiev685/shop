@@ -1,4 +1,4 @@
-import { AuthFrom } from "@/entites/auth-form/ui";
+import { AuthFrom } from "@/entities/auth-form/ui";
 
 export const Register = () => {
   return <AuthFrom type="register" />;
