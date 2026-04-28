@@ -4,6 +4,9 @@ services:
     build:
       context: .
     restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      RUNNING_IN_DOCKER: true
     volumes:
       - ./src:/app/src
     ports:
@@ -12,9 +15,9 @@ services:
       - ./.env.dev
     depends_on:
       - db
-    networks:
-      - app-network
-      - auth-network
+    # networks:
+    #   - app-network
+    #   - auth-network
     command: ['yarn', 'dev:docker']
 
   db:
@@ -26,19 +29,19 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     ports:
-      - '5432:${DB_PORT}'
+      - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    networks:
-      - app-network
-      - auth-network
+    # networks:
+    #   - app-network
+    #   - auth-network
 
-networks:
-  app-network:
-    driver: bridge
-  auth-network:
-    external: true
-    name: auth-network 
+# networks:
+#   app-network:
+#     driver: bridge
+#   auth-network:
+#     external: true
+#     name: auth-network 
 
 volumes:
   postgres-data:
