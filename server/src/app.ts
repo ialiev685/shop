@@ -8,13 +8,11 @@ import { errorMiddleware } from './middleware/error-middleware';
 import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { ApiError } from './exception/api-errors';
 import cors from '@fastify/cors';
-import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { swaggerAggregator } from './utils';
+import { swaggerInit } from './plugin/swagger-plugin';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 8000;
-const HOST = process.env.HOST ?? '0.0.0.0';
 const NODE_ENV = process.env.NODE_ENV ?? 'development';
 
 const app = Fastify({
@@ -55,54 +53,8 @@ if (process.env.AUTH_URL) {
   app.log.warn('AUTH_URL не установлен, маршрут /auth закрыт');
 }
 
-// app.get('/load-auth-swagger', async (request, reply) => {
-//   const response = await fetch('http://host.docker.internal:8001/swagger/json');
-//   const swagger = await response.json();
-//   return swagger;
-// });
-
 if (NODE_ENV === 'development') {
-  void swaggerAggregator
-    .loadMicroserviceSwagger('http://auth-app:8001', '/auth', '/api/v1')
-    .then((result) => {
-      console.log(result);
-    });
-
-  app.register(swagger, {
-    openapi: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Shop API',
-        description: 'API для интернет-магазина',
-        version: '1.0.0',
-      },
-
-      servers: [
-        {
-          url: `http://localhost:${PORT}`,
-          description: 'Development server',
-        },
-      ],
-
-      components: {
-        securitySchemes: {
-          bearerAuth: {
-            type: 'http',
-            scheme: 'bearer',
-            bearerFormat: 'JWT',
-            description: 'Введите JWT токен для авторизации',
-          },
-        },
-      },
-
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
-    },
-  });
-
+  app.register(swaggerInit);
   app.register(swaggerUi, {
     routePrefix: '/swagger',
   });
@@ -115,7 +67,7 @@ app.setErrorHandler(errorMiddleware);
 
 const start = async () => {
   await app.register(sequelizeInit);
-  app.listen({ port: PORT, host: HOST }, (error, address) => {
+  app.listen({ port: PORT, host: '0.0.0.0' }, (error, address) => {
     app.log.info(`Сервер запщуен ${address}`);
     if (error) {
       app.log.error(error);

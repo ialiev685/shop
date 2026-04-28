@@ -14,16 +14,7 @@ class SwaggerAggregator {
   ) {
     const url = `${serviceUrl}/swagger/json`;
     try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          //   Accept: 'application/json',
-
-          'Content-Type': 'application/json',
-        },
-      });
-
-      console.log('!!!', response);
+      const response = await fetch(url);
 
       const swagger: SwaggerPaths = await response.json();
       const transformedPaths = this.transformPaths(swagger.paths, proxyPrefix, originalPrefix);
