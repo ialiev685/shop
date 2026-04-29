@@ -1,18 +1,14 @@
-import {
-  type AxiosInstance,
-  AxiosError,
-  type InternalAxiosRequestConfig,
-} from "axios";
-import { Api } from "./api";
-import { routesMap } from "@/shared/routes";
+import type { AxiosError } from "axios";
+import { type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
+import { Auth } from "./Auth";
 
 class ApiClient {
-  public api: Api<unknown>;
+  public auth: Auth<unknown>;
   private instance: AxiosInstance;
 
   constructor() {
-    this.api = new Api({ baseURL: import.meta.env.VITE_APP_API_URL });
-    this.instance = this.api.instance;
+    this.auth = new Auth({ baseURL: import.meta.env.VITE_APP_API_URL });
+    this.instance = this.auth.instance;
     this.setupInterceptors();
   }
 
@@ -39,27 +35,24 @@ class ApiClient {
           originalRequest._retry = true;
 
           try {
-            const response = await this.api.auth.refreshCreate({
+            const response = await this.auth.refreshCreate({
               withCredentials: true,
             });
             const accessToken = response.data.accessToken;
             if (accessToken) {
               localStorage.setItem("token", accessToken);
-              originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             }
 
-            return this.instance(originalRequest);
-          } catch (refreshError) {
+            return this.instance.request(originalRequest);
+          } catch (_error) {
             localStorage.clear();
-            window.location.href = routesMap["/login"];
-            return Promise.reject(refreshError);
           }
         }
 
-        return Promise.reject(error);
+        throw error;
       },
     );
   }
 }
 
-export const apiClient = new ApiClient().api;
+export const auth = new ApiClient().auth;
