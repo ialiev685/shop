@@ -15,9 +15,8 @@ services:
       - ./.env.dev
     depends_on:
       - db
-    # networks:
-    #   - app-network
-    #   - auth-network
+    networks:
+      - auth-network
     command: ['yarn', 'dev:docker']
 
   db:
@@ -32,16 +31,16 @@ services:
       - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    # networks:
-    #   - app-network
-    #   - auth-network
+    networks:
+      - auth-network
 
-# networks:
-#   app-network:
-#     driver: bridge
-#   auth-network:
-#     external: true
-#     name: auth-network 
+networks:
+  # app-network:
+  #   driver: bridge
+  auth-network:
+    # external: true
+    name: auth-network 
+    driver: bridge
 
 volumes:
   postgres-data:
