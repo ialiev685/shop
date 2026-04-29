@@ -4,13 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode dev",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "swagger-auth": "npx swagger-typescript-api generate -p ./swagger/swagger-auth.json -o ./src/services -n auth-api.ts --api-class-name AuthApi",
-    "swagger-products": "npx swagger-typescript-api generate -p ./swagger/swagger-products.json -o ./src/services -n products-api.ts --api-class-name ProductsApi",
-    "swagger": "yarn swagger-auth && yarn swagger-products"
+    "swagger": "npx swagger-typescript-api generate -p http://localhost:8000/swagger/json -o ./src/services -n api.ts --axios"
   },
   "dependencies": {
     "@mantine/core": "^8.3.18",
@@ -18,6 +16,7 @@
     "@mantine/hooks": "^8.3.18",
     "@mantine/notifications": "^8.3.18",
     "@tanstack/react-query": "^5.91.2",
+    "axios": "^1.15.2",
     "clsx": "^2.1.1",
     "mantine-datatable": "^8.3.13",
     "react": "^19.2.4",
