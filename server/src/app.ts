@@ -10,6 +10,7 @@ import { ApiError } from './exception/api-errors';
 import cors from '@fastify/cors';
 import swaggerUi from '@fastify/swagger-ui';
 import { swaggerInit } from './plugin/swagger-plugin';
+import multipart from '@fastify/multipart';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 8000;
@@ -54,6 +55,7 @@ if (process.env.AUTH_URL) {
 } else {
   app.log.warn('AUTH_URL не установлен, маршрут /auth закрыт');
 }
+app.register(multipart);
 
 if (NODE_ENV === 'development') {
   app.register(swaggerInit);
