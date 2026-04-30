@@ -1,7 +1,8 @@
+import type { CurrentUserListData } from "@/services/data-contracts";
 import { createContext, useContext } from "react";
 
 export type AuthContextType = {
-  user?: object;
+  user?: CurrentUserListData;
   isAuthorized: boolean;
   isLoading: boolean;
 };

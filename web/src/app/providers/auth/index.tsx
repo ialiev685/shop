@@ -7,8 +7,7 @@ import { userQueries } from "@/entities/user";
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const { data, isLoading } = useQuery({
-    queryKey: userQueries.currentUser,
-    queryFn: currentUser,
+    ...userQueries.currentUserQuery,
     staleTime: 0,
   });
 
@@ -16,6 +15,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     () => ({
       isAuthorized: Boolean(data),
       isLoading,
+      user: data,
     }),
     [data, isLoading],
   );

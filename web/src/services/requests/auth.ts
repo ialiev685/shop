@@ -18,3 +18,8 @@ export const currentUser = async () => {
   const { data } = await auth.currentUserList();
   return data;
 };
+
+export const logout = async () => {
+  const { data } = await auth.logoutCreate();
+  return data;
+};

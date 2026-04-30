@@ -16,7 +16,7 @@ export const Login = () => {
       onSuccess: (data) => {
         if (data.accessToken) {
           localStorage.setItem(TOKEN_KEY, data.accessToken);
-          queryClient.setQueryData(userQueries.currentUser, data);
+          queryClient.setQueryData(userQueries.currentUserKey, data);
         }
       },
     });

@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   ActivateDetailData,
   ActivateDetailParams,
   CurrentUserListData,
@@ -25,7 +25,7 @@ import {
   ResetPasswordCreateData,
   ResetPasswordCreatePayload,
 } from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+import { ContentType, HttpClient, type RequestParams } from "./http-client";
 
 export class Auth<
   SecurityDataType = unknown,

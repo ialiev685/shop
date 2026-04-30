@@ -38,10 +38,9 @@ class ApiClient {
 
         if (
           error.response?.status === 401 &&
-          !originalRequest.url?.includes("/auth/refresh") &&
-          !originalRequest?._retry
+          error.config &&
+          !originalRequest.url?.includes("/auth/refresh")
         ) {
-          originalRequest._retry = true;
           try {
             const response = await this.auth.refreshCreate({
               withCredentials: true,
@@ -51,7 +50,7 @@ class ApiClient {
               localStorage.setItem(TOKEN_KEY, accessToken);
             }
 
-            return this.instance.request(originalRequest);
+            return this.instance.request(error.config);
           } catch (error) {
             console.log("Ошибка авторизации", error);
           }
