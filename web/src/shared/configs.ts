@@ -1,5 +1,7 @@
 import { colorsTuple, type MantineColorsTuple } from "@mantine/core";
 
+export const TOKEN_KEY = "accessToken";
+
 export type CustomColors =
   | "gray-auth-1"
   | "gray-auth-2"

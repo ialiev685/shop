@@ -1,15 +1,15 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-svgr/client" />
 
-// import {
-//   MantineColorsTuple,
-//   DefaultMantineColor,
-//   ButtonVariant,
-//   InputVariant,
-// } from "@mantine/core";
-// import { CustomColors } from "@shared/configs";
-// import { ButtonCustomVariant } from "@/shared/theme/button";
-// import { InputCustomVariant } from "@/shared/theme/input";
+import type {
+  MantineColorsTuple,
+  DefaultMantineColor,
+  ButtonVariant,
+  InputVariant,
+} from "@mantine/core";
+import type { CustomColors } from "@shared/configs";
+import type { ButtonCustomVariant } from "@/shared/theme/button";
+import type { InputCustomVariant } from "@/shared/theme/input";
 
 type ExtendedButtonVariant = ButtonVariant | ButtonCustomVariant;
 type ExtendedInputVariant = InputVariant | InputCustomVariant;

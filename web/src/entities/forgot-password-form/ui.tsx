@@ -15,10 +15,7 @@ export const ForgotPasswordForm = () => {
     },
   });
 
-  const handleSubmit = (values: typeof form.values) => {
-    console.log("Email для восстановления:", values.email);
-    // Здесь логика отправки ссылки для восстановления пароля
-  };
+  const handleSubmit = (values: typeof form.values) => {};
 
   return (
     <Paper shadow="md" p={30} mt={30} radius="md">

@@ -23,6 +23,7 @@ export type Route = {
   path: RoutePath;
   title?: string;
   withId?: boolean;
+  isAuthRoute?: boolean;
   componentName: ComponentKey;
   children?: Route[];
 };
@@ -55,18 +56,22 @@ export const routes: Route[] = [
   {
     path: "/login",
     componentName: "login",
+    isAuthRoute: true,
   },
   {
     path: "/register",
     componentName: "register",
+    isAuthRoute: true,
   },
   {
     path: "/forgot-password",
     componentName: "forgotPassword",
+    isAuthRoute: true,
   },
   {
     path: "/reset-password/:token",
     componentName: "resetPassword",
+    isAuthRoute: true,
   },
 ] as const;
 

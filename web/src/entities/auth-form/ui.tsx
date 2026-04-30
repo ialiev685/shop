@@ -12,11 +12,19 @@ import { useNavigate } from "react-router-dom";
 
 interface AuthFormProps {
   type: "login" | "register";
+  isLoading: boolean;
+  onSubmit: (values: FormValues) => Promise<void>;
 }
 
-export const AuthFrom = ({ type }: AuthFormProps) => {
+interface FormValues {
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}
+
+export const AuthFrom = ({ type, onSubmit, isLoading }: AuthFormProps) => {
   const navigate = useNavigate();
-  const form = useForm({
+  const form = useForm<FormValues>({
     initialValues: {
       email: "",
       password: "",
@@ -26,14 +34,15 @@ export const AuthFrom = ({ type }: AuthFormProps) => {
       email: isEmail("Неверный формат email"),
       password: (value) =>
         value.length < 8 ? "Пароль должен содержать не менее 8 символов" : null,
-      confirmPassword: (value, values) =>
-        value !== values.password ? "Пароли не совпадают" : null,
+      confirmPassword: (value, values) => {
+        if (type === "login") return null;
+        return value !== values.password ? "Пароли не совпадают" : null;
+      },
     },
   });
 
-  const handleSubmit = (values: typeof form.values) => {
-    console.log("Данные регистрации:", values);
-    // Здесь логика регистрации
+  const handleSubmit = async (values: typeof form.values) => {
+    await onSubmit(values);
   };
 
   const isLogin = type === "login";
@@ -70,7 +79,13 @@ export const AuthFrom = ({ type }: AuthFormProps) => {
             {...form.getInputProps("confirmPassword")}
           />
         )}
-        <Button mt={16} fullWidth type="submit" variant="filled-accent-shop">
+        <Button
+          mt={16}
+          fullWidth
+          type="submit"
+          variant="filled-accent-shop"
+          loading={isLoading}
+        >
           {isLogin ? " Войти" : "Зарегистрироваться"}
         </Button>
         <Flex gap={16} mt={16}>

@@ -1,22 +1,26 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/context";
 import { Center, Loader } from "@mantine/core";
-import { routes } from "@/shared/configs";
+import { routesMap } from "@/shared/routes";
 
 export const PublicRoute = () => {
   const { isAuthorized, isLoading } = useAuth();
 
   if (isLoading) {
     return (
-      <Center h="100vh">
+      <Center bg="bg-shop-page" h="100vh">
         <Loader color="blue" />
       </Center>
     );
   }
 
   if (isAuthorized) {
-    return <Navigate to={routes.products} />;
+    return <Navigate to={routesMap["/catalog"]} />;
   }
 
-  return <Outlet />;
+  return (
+    <Center bg="bg-shop-page" h="100vh">
+      <Outlet />;
+    </Center>
+  );
 };

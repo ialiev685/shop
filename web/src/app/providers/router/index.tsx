@@ -16,6 +16,7 @@ import { Register } from "@/pages/register/ui";
 import { Login } from "@/pages/login/ui";
 import { ForgotPassword } from "@/pages/forgot-password/ui";
 import { ResetPassword } from "@/pages/reset-password/ui";
+import { PublicRoute } from "./public-route";
 
 const pages: Record<ComponentKey, React.ComponentType> = {
   catalog: Catalog,
@@ -31,16 +32,11 @@ const pages: Record<ComponentKey, React.ComponentType> = {
 export const AppRoutes = () => {
   return (
     <Routes>
-      {/* <Route element={<PublicRoute />}>
-        <Route path={routes.login} element={<Authorization />} />
-      </Route> */}
-
-      {/* <Route element={<ProtectedRoute />}>
-        <Route path={routes.products} element={<Products />} />
-      </Route> */}
-
+      <Route element={<PublicRoute />}>
+        {createRoutes(routes.filter(({ isAuthRoute }) => isAuthRoute))}
+      </Route>
       <Route element={<Main />}>
-        {createRoutes(routes)}
+        {createRoutes(routes.filter(({ isAuthRoute }) => !isAuthRoute))}
         <Route
           path="*"
           element={<Navigate to={routesMap["/catalog"]} replace />}
