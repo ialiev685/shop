@@ -20,7 +20,7 @@ export const PublicRoute = () => {
 
   return (
     <Center bg="bg-shop-page" h="100vh">
-      <Outlet />;
+      <Outlet />
     </Center>
   );
 };
