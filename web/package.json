@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "swagger": "npx swagger-typescript-api generate -p http://localhost:8000/swagger/json -o ./src/services -n api.ts --axios --extract-request-body --extract-request-params --extract-response-body --extract-enums --modular"
+    "swagger": "npx swagger-typescript-api generate -p http://localhost:8000/swagger/json -o ./src/services -n api.ts --axios --extract-request-body --extract-request-params --extract-response-body --generate-union-enums --modular"
   },
   "dependencies": {
     "@mantine/core": "^8.3.18",

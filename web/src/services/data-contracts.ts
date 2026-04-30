@@ -25,7 +25,7 @@ export interface RegisterCreateData {
   id: number;
   /** @default false */
   isActivate: boolean;
-  role: string;
+  role: "user" | "admin";
   accessToken?: string;
 }
 
@@ -51,7 +51,7 @@ export interface LoginCreateData {
   id: number;
   /** @default false */
   isActivate: boolean;
-  role: string;
+  role: "user" | "admin";
   accessToken?: string;
 }
 
@@ -79,7 +79,7 @@ export interface RefreshCreateData {
   id: number;
   /** @default false */
   isActivate: boolean;
-  role: string;
+  role: "user" | "admin";
   accessToken?: string;
 }
 
@@ -89,9 +89,11 @@ export interface CurrentUserListData {
   id: number;
   /** @default false */
   isActivate: boolean;
-  role: string;
+  role: "user" | "admin";
   accessToken?: string;
 }
+
+export type LogoutCreateData = any;
 
 export interface V1BasketListListData {
   id: number;
