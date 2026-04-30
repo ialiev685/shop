@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import type {
+import {
   ActivateDetailData,
   ActivateDetailParams,
   CurrentUserListData,
@@ -18,13 +18,14 @@ import type {
   ForgotPasswordCreatePayload,
   LoginCreateData,
   LoginCreatePayload,
+  LogoutCreateData,
   RefreshCreateData,
   RegisterCreateData,
   RegisterCreatePayload,
   ResetPasswordCreateData,
   ResetPasswordCreatePayload,
 } from "./data-contracts";
-import { ContentType, HttpClient, type RequestParams } from "./http-client";
+import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Auth<
   SecurityDataType = unknown,
@@ -204,6 +205,28 @@ export class Auth<
       method: "GET",
       secure: true,
       format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags Авторизация
+   * @name LogoutCreate
+   * @summary Авторизация пользователя
+   * @request POST:/auth/logout
+   * @secure
+   */
+  logoutCreate = (params: RequestParams = {}) =>
+    this.request<
+      LogoutCreateData,
+      {
+        message: string;
+        errors?: any[];
+      }
+    >({
+      path: `/auth/logout`,
+      method: "POST",
+      secure: true,
       ...params,
     });
 }
