@@ -8,7 +8,10 @@ class ApiClient {
   private instance: AxiosInstance;
 
   constructor() {
-    this.auth = new Auth({ baseURL: import.meta.env.VITE_APP_API_URL });
+    this.auth = new Auth({
+      baseURL: import.meta.env.VITE_APP_API_URL,
+      withCredentials: true,
+    });
     this.instance = this.auth.instance;
     this.setupInterceptors();
   }
@@ -35,7 +38,7 @@ class ApiClient {
 
         if (
           error.response?.status === 401 &&
-          error.config &&
+          !originalRequest.url?.includes("/auth/refresh") &&
           !originalRequest?._retry
         ) {
           originalRequest._retry = true;
@@ -49,8 +52,8 @@ class ApiClient {
             }
 
             return this.instance.request(originalRequest);
-          } catch (_error) {
-            // localStorage.clear();
+          } catch (error) {
+            console.log("Ошибка авторизации", error);
           }
         }
 
