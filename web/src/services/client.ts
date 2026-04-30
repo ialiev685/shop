@@ -32,14 +32,10 @@ class ApiClient {
     this.instance.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
-        const originalRequest = error.config as InternalAxiosRequestConfig & {
-          _retry?: boolean;
-        };
-
         if (
           error.response?.status === 401 &&
           error.config &&
-          !originalRequest.url?.includes("/auth/refresh")
+          !error.config.url?.includes("/auth/refresh")
         ) {
           try {
             const response = await this.auth.refreshCreate({

@@ -2,10 +2,18 @@ import { Sections } from "@/entities/sections";
 import { routesMap } from "@/shared/routes";
 
 import { ResponsiveContainer } from "@/shared/ui/responsive-container";
-import { Flex, Drawer, Title, Group, Menu, Avatar } from "@mantine/core";
+import {
+  Flex,
+  Drawer,
+  Title,
+  Group,
+  Menu,
+  Avatar,
+  Button,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconMenu2, IconBasket } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Text } from "@mantine/core";
 import { useAuth } from "@/app/providers/auth/context";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -25,6 +33,7 @@ export const Header = () => {
       },
     });
   };
+  const navigate = useNavigate();
 
   return (
     <>
@@ -38,10 +47,11 @@ export const Header = () => {
             рать
           </Title>
           <Group gap={20} align="center">
-            {isAuthorized && (
+            {isAuthorized ? (
               <Menu>
                 <Menu.Target>
                   <Avatar
+                    color="green-shop-1"
                     name={user?.email}
                     variant="filled"
                     style={{ cursor: "pointer" }}
@@ -58,6 +68,14 @@ export const Header = () => {
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
+            ) : (
+              <Button
+                size="xs"
+                variant="filled-green-shop"
+                onClick={() => navigate(routesMap["/login"])}
+              >
+                Войти
+              </Button>
             )}
             <Link to={routesMap["/basket"]}>
               <IconBasket cursor="pointer" />
