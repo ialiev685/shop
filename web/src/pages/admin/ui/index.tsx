@@ -15,7 +15,7 @@ import { AddProductForm } from "@/entities/add-products-form";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
-export const Products = () => {
+export const AdminDashboard = () => {
   const theme = useMantineTheme();
   const { data, isLoading, onAdd } = useController();
   const [isOpen, setIsOpen] = useState(false);
@@ -55,8 +55,8 @@ export const Products = () => {
           </Group>
         </Flex>
         <Flex mt={40} gap={50} direction="column">
-          <ProductsTable data={data?.products} isLoading={isLoading} />
-          <Pagination totalItems={data?.total ?? 0} />
+          <ProductsTable data={[]} isLoading={isLoading} />
+          <Pagination totalItems={0} />
         </Flex>
       </Box>
       <AddProductForm

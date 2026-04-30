@@ -7,6 +7,7 @@ type RoutePath =
   | "/basket"
   | "/product-preview/:id"
   | "/reset-password/:token"
+  | "/admin"
   | "*";
 
 export type ComponentKey =
@@ -17,13 +18,15 @@ export type ComponentKey =
   | "login"
   | "register"
   | "forgotPassword"
-  | "resetPassword";
+  | "resetPassword"
+  | "admin";
 
 export type Route = {
   path: RoutePath;
   title?: string;
   withId?: boolean;
   isAuthRoute?: boolean;
+  isAdminRoute?: boolean;
   componentName: ComponentKey;
   children?: Route[];
 };
@@ -72,6 +75,11 @@ export const routes: Route[] = [
     path: "/reset-password/:token",
     componentName: "resetPassword",
     isAuthRoute: true,
+  },
+  {
+    path: "/admin",
+    componentName: "admin",
+    isAdminRoute: true,
   },
 ] as const;
 
