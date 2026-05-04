@@ -1,6 +1,6 @@
 import { type MultipartFile } from '@fastify/multipart';
 import { type UploadService } from '../services/upload-service';
-import { type FastifyRequestTypeBox, type UploadFile } from './type';
+import { type RemoveFileFile, type FastifyRequestTypeBox, type UploadFile } from './type';
 import { type FastifyReply } from 'fastify';
 import { ApiError } from '../exception/api-errors';
 
@@ -18,5 +18,10 @@ export class UploadController {
       return res.status(200).send(response);
     }
     throw ApiError.ValidationError('Поля в файле невалидны');
+  }
+
+  public async remove(req: FastifyRequestTypeBox<RemoveFileFile>, res: FastifyReply) {
+    await this.uploadService.remove(req.params.uuid);
+    res.status(200).send();
   }
 }

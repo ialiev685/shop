@@ -43,3 +43,4 @@ export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfo
 export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListRequestSchema;
 
 export type UploadFile = typeof uploadSchema.postUploadSchema;
+export type RemoveFileFile = typeof uploadSchema.removeFileRequestSchema;

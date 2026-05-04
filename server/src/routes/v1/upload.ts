@@ -1,5 +1,5 @@
 import { type FastifyPluginCallback } from 'fastify';
-import { postUploadSchema } from '../../schemas/upload';
+import { postRemoveFileSchema, postUploadSchema } from '../../schemas/upload';
 
 import { UploadController } from '../../controllers/upload-controller';
 import { UploadService } from '../../services/upload-service';
@@ -9,9 +9,15 @@ const uploadRoutes: FastifyPluginCallback = (instance) => {
   const uploadController = new UploadController(uploadService);
 
   instance.post(
-    '/upload',
+    '/uploadFile',
     { schema: postUploadSchema },
     uploadController.upload.bind(uploadController),
+  );
+
+  instance.delete(
+    '/removeFile/:uuid',
+    { schema: postRemoveFileSchema },
+    uploadController.remove.bind(uploadController),
   );
 };
 

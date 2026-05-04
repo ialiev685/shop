@@ -13,6 +13,12 @@ export const multipartFileRequestSchema = {
   }),
 };
 
+export const removeFileRequestSchema = {
+  params: Type.Object({
+    uuid: Type.String({ format: 'uuid' }),
+  }),
+};
+
 const fileResponseSchema = Type.Object({
   uuid: Type.String({ format: 'uuid' }),
   url: Type.String({ format: 'uri' }),
@@ -20,7 +26,7 @@ const fileResponseSchema = Type.Object({
 
 // POST Schema
 export const postUploadSchema = {
-  tags: ['upload'],
+  tags: ['file'],
   summary: 'Загрузить файл',
   body: multipartFileRequestSchema['body'],
   consumes: ['multipart/form-data'],
@@ -31,6 +37,22 @@ export const postUploadSchema = {
   ],
   response: {
     200: fileResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// POST Schema
+export const postRemoveFileSchema = {
+  tags: ['file'],
+  summary: 'Удалить файл',
+  params: removeFileRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: Type.Null(),
     500: errorResponseSchema,
   },
 };

@@ -26,6 +26,15 @@ export class UploadService {
     throw ApiError.FileSystemError('Ошибка при сохранении файла');
   }
 
+  public async remove(uuid: string) {
+    const filePath = path.join(this.basePath, uuid);
+    const hasDirectory = await this.hasDirectory(filePath);
+    if (!hasDirectory) {
+      throw ApiError.BadRequestError('Файла не существует');
+    }
+    await fs.rm(filePath, { recursive: true, force: true });
+  }
+
   private async hasDirectory(path: string) {
     const hasDirectory = await fs
       .access(path)
