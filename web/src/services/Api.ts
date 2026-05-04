@@ -10,7 +10,7 @@
  * ---------------------------------------------------------------
  */
 
-import {
+import type {
   V1AddNameTypeCreateData,
   V1AddNameTypeCreatePayload,
   V1AddProductCreateData,
@@ -26,6 +26,8 @@ import {
   V1ProductInfoListDetailParams,
   V1ProductListDetailData,
   V1ProductListDetailParams,
+  V1RemoveFileDeleteData,
+  V1RemoveFileDeleteParams,
   V1RemoveProductDeleteData,
   V1RemoveProductDeleteParams,
   V1RemoveProductFromBasketCreateData,
@@ -46,8 +48,10 @@ import {
   V1UpdateTypePartialUpdateData,
   V1UpdateTypePartialUpdateParams,
   V1UpdateTypePartialUpdatePayload,
+  V1UploadFileCreateData,
+  V1UploadFileCreatePayload,
 } from "./data-contracts";
-import { ContentType, HttpClient, RequestParams } from "./http-client";
+import { ContentType, HttpClient, type RequestParams } from "./http-client";
 
 export class Api<
   SecurityDataType = unknown,
@@ -504,6 +508,59 @@ export class Api<
       method: "GET",
       secure: true,
       format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags file
+   * @name V1UploadFileCreate
+   * @summary Загрузить файл
+   * @request POST:/api/v1/uploadFile
+   * @secure
+   */
+  v1UploadFileCreate = (
+    data: V1UploadFileCreatePayload,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      V1UploadFileCreateData,
+      {
+        error?: string;
+        message: string;
+      }
+    >({
+      path: `/api/v1/uploadFile`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.FormData,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags file
+   * @name V1RemoveFileDelete
+   * @summary Удалить файл
+   * @request DELETE:/api/v1/removeFile/{uuid}
+   * @secure
+   */
+  v1RemoveFileDelete = (
+    { uuid }: V1RemoveFileDeleteParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      V1RemoveFileDeleteData,
+      {
+        error?: string;
+        message: string;
+      }
+    >({
+      path: `/api/v1/removeFile/${uuid}`,
+      method: "DELETE",
+      secure: true,
       ...params,
     });
 }

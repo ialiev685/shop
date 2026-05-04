@@ -305,18 +305,31 @@ export interface V1RemoveTypeDeleteParams {
 
 export type V1RemoveTypeDeleteData = any;
 
-export interface V1TypeListListData {
+export type V1TypeListListData = {
   id: number;
   name: string;
+}[];
+
+export interface V1UploadFileCreatePayload {
+  file: {
+    type: "file";
+    filename: string;
+    encoding: string;
+    mimetype: string;
+    file: any;
+  };
 }
 
-export interface V1UploadCreatePayload {
-  file: any;
-  fields?: any;
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
+export interface V1UploadFileCreateData {
+  /** @format uuid */
+  uuid: string;
+  /** @format uri */
+  url: string;
 }
 
-export type V1UploadCreateData = any;
+export interface V1RemoveFileDeleteParams {
+  /** @format uuid */
+  uuid: string;
+}
+
+export type V1RemoveFileDeleteData = any;
