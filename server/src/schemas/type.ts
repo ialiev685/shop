@@ -37,7 +37,7 @@ export const getTypeSchema = {
     },
   ],
   response: {
-    200: typeResponseSchema,
+    200: Type.Array(typeResponseSchema),
     500: errorResponseSchema,
   },
 };
