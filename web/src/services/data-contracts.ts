@@ -309,3 +309,14 @@ export interface V1TypeListListData {
   id: number;
   name: string;
 }
+
+export interface V1UploadCreatePayload {
+  file: any;
+  fields?: any;
+  fieldname: string;
+  filename: string;
+  encoding: string;
+  mimetype: string;
+}
+
+export type V1UploadCreateData = any;

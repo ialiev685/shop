@@ -19,4 +19,8 @@ export class ApiError<T> extends Error {
   static ValidationError(message?: string) {
     return new ApiError(400, message ?? 'Поля невалидны');
   }
+
+  static FileSystemError(message: string, code: number = 500) {
+    return new ApiError(code, message);
+  }
 }

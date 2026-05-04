@@ -11,6 +11,7 @@ import {
   type basketSchema,
   type productSchema,
   type typeSchema,
+  type uploadSchema,
 } from '../schemas';
 
 export type FastifyRequestTypeBox<TSchema extends FastifySchema = FastifySchema> = FastifyRequest<
@@ -40,3 +41,5 @@ export type ProductInfoSchema = typeof productInfoSchema.productInfoRequestSchem
 export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoRequestSchema;
 export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfoRequestSchema;
 export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListRequestSchema;
+
+export type UploadFile = typeof uploadSchema.postUploadSchema;

@@ -1,12 +1,18 @@
 import { type FastifyPluginCallback } from 'fastify';
 import { postUploadSchema } from '../../schemas/upload';
 
-const uploadRoutes: FastifyPluginCallback = (instance) => {
-  instance.post('/upload', { schema: postUploadSchema }, async (req, _res) => {
-    const file = await req.file();
+import { UploadController } from '../../controllers/upload-controller';
+import { UploadService } from '../../services/upload-service';
 
-    console.log('file', file);
-  });
+const uploadRoutes: FastifyPluginCallback = (instance) => {
+  const uploadService = new UploadService();
+  const uploadController = new UploadController(uploadService);
+
+  instance.post(
+    '/upload',
+    { schema: postUploadSchema },
+    uploadController.upload.bind(uploadController),
+  );
 };
 
 export default uploadRoutes;

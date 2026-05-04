@@ -3,14 +3,20 @@ import { errorResponseSchema } from './error';
 
 export const multipartFileRequestSchema = {
   body: Type.Object({
-    file: Type.Any(),
-    fields: Type.Optional(Type.Any()),
-    fieldname: Type.String(),
-    filename: Type.String(),
-    encoding: Type.String(),
-    mimetype: Type.String(),
+    file: Type.Object({
+      type: Type.Literal('file'),
+      filename: Type.String(),
+      encoding: Type.String(),
+      mimetype: Type.String(),
+      file: Type.Any(),
+    }),
   }),
 };
+
+const fileResponseSchema = Type.Object({
+  uuid: Type.String({ format: 'uuid' }),
+  url: Type.String({ format: 'uri' }),
+});
 
 // POST Schema
 export const postUploadSchema = {
@@ -24,7 +30,7 @@ export const postUploadSchema = {
     },
   ],
   response: {
-    200: multipartFileRequestSchema,
+    200: fileResponseSchema,
     500: errorResponseSchema,
   },
 };

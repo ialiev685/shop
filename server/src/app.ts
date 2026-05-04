@@ -11,6 +11,9 @@ import cors from '@fastify/cors';
 import swaggerUi from '@fastify/swagger-ui';
 import { swaggerInit } from './plugin/swagger-plugin';
 import multipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 8000;
@@ -39,6 +42,11 @@ const app = Fastify({
   },
 }).withTypeProvider<TypeBoxTypeProvider>();
 
+app.register(fastifyStatic, {
+  root: path.join(__dirname, '../', 'static'),
+  prefix: '/static/',
+});
+
 app.register(cors, {
   origin: 'http://localhost:3000',
   credentials: true,
@@ -55,7 +63,7 @@ if (process.env.AUTH_URL) {
 } else {
   app.log.warn('AUTH_URL не установлен, маршрут /auth закрыт');
 }
-app.register(multipart);
+app.register(multipart, { attachFieldsToBody: true, limits: { fileSize: 10 * 1024 * 1024 } });
 
 if (NODE_ENV === 'development') {
   app.register(swaggerInit);
