@@ -10,6 +10,7 @@ import {
   Menu,
   Avatar,
   Button,
+  Anchor,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconMenu2, IconBasket } from "@tabler/icons-react";
@@ -25,6 +26,7 @@ export const Header = () => {
   const { isAuthorized, user } = useAuth();
   const logoutMutation = useMutation(userQueries.logoutMutation);
   const queryclient = useQueryClient();
+
   const handleLogout = async () => {
     await logoutMutation.mutateAsync(undefined, {
       onSuccess: () => {
@@ -62,6 +64,18 @@ export const Header = () => {
                     <Menu.Label>
                       <Text>{user?.email}</Text>
                     </Menu.Label>
+                  )}
+                  {user?.role === "admin" && (
+                    <Menu.Item>
+                      <Anchor
+                        variant="text"
+                        component={Link}
+                        to={routesMap["/admin"]}
+                        underline="never"
+                      >
+                        Администрирование
+                      </Anchor>
+                    </Menu.Item>
                   )}
                   <Menu.Item>
                     <Text onClick={handleLogout}>Выйти</Text>
