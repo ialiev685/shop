@@ -1,18 +1,19 @@
 import type { AxiosError } from "axios";
 import { type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
 import { Auth } from "./Auth";
+import { Api } from "./Api";
+
 import { TOKEN_KEY } from "@/shared/configs";
 
-class ApiClient {
-  public auth: Auth<unknown>;
+class InterceptorManager {
   private instance: AxiosInstance;
-
-  constructor() {
-    this.auth = new Auth({
-      baseURL: import.meta.env.VITE_APP_API_URL,
-      withCredentials: true,
-    });
-    this.instance = this.auth.instance;
+  private refreshHandler: () => Promise<string | null>;
+  constructor(
+    instance: AxiosInstance,
+    refreshHandler: () => Promise<string | null>,
+  ) {
+    this.instance = instance;
+    this.refreshHandler = refreshHandler;
     this.setupInterceptors();
   }
 
@@ -38,10 +39,7 @@ class ApiClient {
           !error.config.url?.includes("/auth/refresh")
         ) {
           try {
-            const response = await this.auth.refreshCreate({
-              withCredentials: true,
-            });
-            const accessToken = response.data.accessToken;
+            const accessToken = await this.refreshHandler();
             if (accessToken) {
               localStorage.setItem(TOKEN_KEY, accessToken);
             }
@@ -58,4 +56,31 @@ class ApiClient {
   }
 }
 
-export const auth = new ApiClient().auth;
+class ApiClient {
+  public auth: Auth<unknown>;
+  public api: Api<unknown>;
+
+  constructor() {
+    this.auth = new Auth({
+      baseURL: import.meta.env.VITE_APP_API_URL,
+      withCredentials: true,
+    });
+    this.api = new Api({
+      baseURL: import.meta.env.VITE_APP_API_URL,
+      withCredentials: true,
+    });
+    new InterceptorManager(this.auth.instance, () => this.refreshToken());
+    new InterceptorManager(this.api.instance, () => this.refreshToken());
+  }
+
+  public async refreshToken() {
+    const response = await this.auth.refreshCreate({
+      withCredentials: true,
+    });
+    return response.data.accessToken || null;
+  }
+}
+
+const client = new ApiClient();
+export const auth = client.auth;
+export const api = client.api;
