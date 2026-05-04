@@ -8,12 +8,11 @@ import {
 } from "@mantine/core";
 import { IconRefresh, IconCirclePlus } from "@tabler/icons-react";
 import { useController } from "../model";
-import { ProductsTable } from "@/entities/products-table";
-import { Pagination } from "@/entities/pagination";
 import { SearchInput } from "./search-input";
-import { AddProductForm } from "@/entities/add-products-form";
+import { AddProductForm } from "@/entities/admin/ui/add-product-form";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { Tabs } from "./tabs";
 
 export const AdminDashboard = () => {
   const theme = useMantineTheme();
@@ -30,41 +29,16 @@ export const AdminDashboard = () => {
         <SearchInput />
         <Box w={100} />
       </Flex>
+
       <Box p="44px 30px" mt={30} bg="#FFF">
-        <Flex justify="space-between" align="center">
-          <Title fw="bold" order={4} c="gray-main-1">
-            Все позиции
-          </Title>
-          <Group gap={8}>
-            <Button variant="outline-admin" radius={8}>
-              <IconRefresh
-                color={theme.colors["gray-auth-3"][0]}
-                onClick={() => {
-                  queryClient.invalidateQueries({ queryKey: ["products"] });
-                }}
-              />
-            </Button>
-            <Button
-              radius={6}
-              leftSection={<IconCirclePlus size={22} />}
-              fw="normal"
-              onClick={() => setIsOpen(true)}
-            >
-              Добавить
-            </Button>
-          </Group>
-        </Flex>
-        <Flex mt={40} gap={50} direction="column">
-          <ProductsTable data={[]} isLoading={isLoading} />
-          <Pagination totalItems={0} />
-        </Flex>
+        <Title fw="bold" order={4} c="gray-main-1">
+          Все позиции
+        </Title>
+
+        <Box mt={24}>
+          <Tabs />
+        </Box>
       </Box>
-      <AddProductForm
-        isLoading={isLoading}
-        onConfirm={(values) => onAdd(values)}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
     </>
   );
 };

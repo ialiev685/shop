@@ -1,29 +1,36 @@
-import type { Product } from "@/services/products-api";
-import { DataTable, type DataTableSortStatus } from "mantine-datatable";
+import {
+  DataTable,
+  type DataTableColumn,
+  type DataTableSortStatus,
+} from "mantine-datatable";
 
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import styles from "./styles.module.css";
 
 import { IconFilter2 } from "@tabler/icons-react";
-import { getColumns } from "./lib";
 import { useSearchParams } from "react-router-dom";
 
-type ProductsTableProps = {
-  data?: Product[];
+type ProductsTableProps<T> = {
+  data?: T[];
   isLoading?: boolean;
+  columns: DataTableColumn<T>[];
 };
 
-export const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
-  const [selectedRecords, setSelectedRecords] = useState<Product[]>([]);
+export const Table = <T,>({
+  data,
+  isLoading,
+  columns,
+}: ProductsTableProps<T>) => {
+  const [selectedRecords, setSelectedRecords] = useState<T[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const sortBy: DataTableSortStatus<Product>["columnAccessor"] =
+  const sortBy: DataTableSortStatus<T>["columnAccessor"] =
     searchParams.get("sortBy") || "title";
-  const order: DataTableSortStatus<Product>["direction"] =
+  const order: DataTableSortStatus<T>["direction"] =
     (searchParams.get("order") as "asc" | "desc") || "asc";
 
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus<Product>>({
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus<T>>({
     columnAccessor: sortBy,
     direction: order,
   });
@@ -38,18 +45,19 @@ export const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
     }
   }, []);
 
-  const handleSorting = (value: DataTableSortStatus<Product>) => {
+  const handleSorting = (value: DataTableSortStatus<T>) => {
     setSortStatus(value);
     setSearchParams((prevState) => ({
       ...Object.fromEntries(prevState),
-      sortBy: value.columnAccessor ?? "",
+      sortBy:
+        typeof value.columnAccessor === "string" ? value.columnAccessor : "",
       order: value.direction,
     }));
   };
 
-  const columns = getColumns();
   return (
     <DataTable
+      mih={140}
       fetching={isLoading}
       classNames={{ table: styles["table"] }}
       selectionCheckboxProps={{ size: "22px" }}

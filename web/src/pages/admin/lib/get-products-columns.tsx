@@ -1,8 +1,8 @@
-import type { Product } from "@/services/products-api";
 import { type DataTableColumn } from "mantine-datatable";
 import { Button, Flex, Group, Text, Image, Box } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { MenuButton } from "@/shared/ui/menu-button";
+import type { V1ProductListDetailData } from "@/services/data-contracts";
 
 const noImage = (
   <Box
@@ -16,7 +16,9 @@ const noImage = (
   ></Box>
 );
 
-export const getColumns = (): DataTableColumn<Product>[] => {
+export const getProductsColumns = (): DataTableColumn<
+  V1ProductListDetailData[number]
+>[] => {
   return [
     {
       accessor: "title",
@@ -29,37 +31,21 @@ export const getColumns = (): DataTableColumn<Product>[] => {
       ),
       render: (record) => (
         <Flex align="center" gap={18}>
-          {record.images && record.images?.length > 0 ? (
-            <Image
-              w={48}
-              h={48}
-              radius={8}
-              fit="cover"
-              src={record.images?.[0]}
-            />
+          {record.img ? (
+            <Image w={48} h={48} radius={8} fit="cover" src={record.img} />
           ) : (
             noImage
           )}
           <Flex direction="column" gap={10}>
-            <Text fw="bold">{record.title}</Text>
+            <Text fw="bold">{record.name}</Text>
             <Text fz={14} c="gray-main-4">
-              {record.category}
+              {record.typeId}
             </Text>
           </Flex>
         </Flex>
       ),
     },
-    {
-      accessor: "brand",
-      sortable: true,
-      width: 200,
-      title: (
-        <Text fw="bold" c="gray-main-4">
-          Вендор
-        </Text>
-      ),
-      render: (record) => <Text fw="bold">{record.brand}</Text>,
-    },
+
     {
       accessor: "sku",
       sortable: true,

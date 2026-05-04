@@ -1,15 +1,15 @@
 import { currentUser, logout } from "@/services/requests/auth";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
-const keys = {
+const userKeys = {
   currentUserKey: ["currentUser"],
 };
 
 export const userQueries = {
-  ...keys,
+  ...userKeys,
   logoutMutation: mutationOptions({ mutationFn: logout }),
   currentUserQuery: queryOptions({
-    queryKey: keys.currentUserKey,
+    queryKey: userKeys.currentUserKey,
     queryFn: currentUser,
     retry: 0,
   }),
