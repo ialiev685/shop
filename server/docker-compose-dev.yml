@@ -17,7 +17,6 @@ services:
       - db
     networks:
       - auth-network
-    command: ['yarn', 'dev:docker']
 
   db:
     container_name: shop-db

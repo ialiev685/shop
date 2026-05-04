@@ -13,7 +13,6 @@ import { swaggerInit } from './plugin/swagger-plugin';
 import multipart from '@fastify/multipart';
 import fastifyStatic from '@fastify/static';
 import path from 'node:path';
-import fs from 'node:fs/promises';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 8000;

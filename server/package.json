@@ -8,14 +8,17 @@
     "dev": "tsx watch --env-file=.env.dev src/app.ts",
     "dev:docker": "RUNNING_IN_DOCKER=true tsx watch --env-file=.env.dev src/app.ts",
     "clean": "rm -rf dist",
-    "start": "node dist/app.js",
+    "start": "yarn build && node dist/app.js",
     "lint": "eslint . --cache",
     "lint:fix": "eslint . --fix --cache",
     "type-check": "tsc --noEmit",
     "migrate:create": "tsx migrate.js create --prefix TIMESTAMP --folder src/database/migrations --name",
-    "migrate": "dotenv -e .env.dev -- tsx migrate.js up",
-    "migrate:pending": "dotenv -e .env.dev -- tsx migrate.js pending",
-    "migrate:down": "dotenv -e .env.dev -- tsx migrate.js down --name"
+    "premigrate": "yarn build",
+    "premigrate:pending": "yarn build",
+    "premigrate:down": "yarn build",
+    "migrate": "node --env-file=.env.${ENV:-dev} dist/database/migrate.js up",
+    "migrate:pending": "node --env-file=.env.${ENV:-dev} dist/database/migrate.js pending",
+    "migrate:down": "node --env-file=.env.${ENV:-dev} dist/database/migrate.js down --name"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
