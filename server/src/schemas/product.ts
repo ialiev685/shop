@@ -53,10 +53,26 @@ const productResponseSchema = Type.Object({
 });
 
 // GET schema
-export const getProductSchema = {
+export const getProductByTypeSchema = {
   tags: ['product'],
   summary: 'Получить список продуктов по типу',
   params: getProductListRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: Type.Array(productResponseSchema),
+    400: errorResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// GET schema
+export const getAllProductSchema = {
+  tags: ['product'],
+  summary: 'Получить список продуктов',
   security: [
     {
       bearerAuth: [],

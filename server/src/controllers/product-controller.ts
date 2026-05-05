@@ -29,8 +29,16 @@ export class ProductController {
     return res.status(200).send(product);
   }
 
-  public async getProductList(req: FastifyRequestTypeBox<ProductListSchema>, res: FastifyReply) {
-    const product = await this.productService.getProductList(req.params.typeId);
+  public async getProductListByType(
+    req: FastifyRequestTypeBox<ProductListSchema>,
+    res: FastifyReply,
+  ) {
+    const product = await this.productService.getProductListByType(req.params.typeId);
+    return res.status(200).send(product);
+  }
+
+  public async getAllProductList(_req: FastifyRequestTypeBox, res: FastifyReply) {
+    const product = await this.productService.getAllProductList();
     return res.status(200).send(product);
   }
 }

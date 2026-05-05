@@ -62,8 +62,13 @@ export class ProductService {
     return await product.update(updateData);
   }
 
-  public async getProductList(typeId: number) {
+  public async getProductListByType(typeId: number) {
     const productList = await this.fastifyInstance.db.Product.findAll({ where: { typeId } });
+    return productList;
+  }
+
+  public async getAllProductList() {
+    const productList = await this.fastifyInstance.db.Product.findAll();
     return productList;
   }
 }
