@@ -2,13 +2,20 @@ import { api } from "../client";
 import type {
   V1AddNameTypeCreatePayload,
   V1AddProductCreatePayload,
-  V1ProductListDetailParams,
+  V1ProductListByTypeDetailParams,
   V1RemoveProductDeleteParams,
   V1RemoveTypeDeleteParams,
 } from "../data-contracts";
 
-export const productList = async (params: V1ProductListDetailParams) => {
-  const { data } = await api.v1ProductListDetail(params);
+export const productListAll = async () => {
+  const { data } = await api.v1AllProductListList();
+  return data;
+};
+
+export const productListByType = async (
+  params: V1ProductListByTypeDetailParams,
+) => {
+  const { data } = await api.v1ProductListByTypeDetail(params);
   return data;
 };
 

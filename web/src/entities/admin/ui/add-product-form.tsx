@@ -12,13 +12,18 @@ import {
 import type {
   V1AddProductCreateData,
   V1AddProductCreatePayload,
+  V1UploadFileCreatePayload,
 } from "@/services/data-contracts";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { typeQueries } from "../api/type-queries";
 import { productQueries } from "../api/product-queries";
 import { useState } from "react";
+import { UploadFile } from "@/shared/ui/upload-file";
+import { uploadFile } from "@/services/requests/files";
 
-type FormValues = Required<V1AddProductCreatePayload>;
+type FormValues = Required<
+  V1AddProductCreatePayload & { files: File[] | null }
+>;
 interface AddProductFormProps {
   triggerButton: React.ReactNode;
 }
@@ -33,6 +38,7 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
       sku: "",
       typeId: 0,
       img: "",
+      files: null,
     },
     validate: {
       name: (value) =>
@@ -44,26 +50,43 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
       sku: (value) =>
         !value || value.length < 1 ? "Артикул обязателен" : null,
       typeId: (value) => (!value || value <= 0 ? "Выберите тип товара" : null),
-      img: (value) =>
-        !value || value.length < 1 ? "URL изображения обязателен" : null,
+      files: (value) =>
+        !value || value.length < 1 ? "Загрузите изображение" : null,
     },
   });
+
+  const hasTypeId = Boolean(form.getValues().typeId);
 
   const typeListQuery = useQuery(typeQueries.get);
   const queryClient = useQueryClient();
   const productMutation = useMutation(productQueries.add);
 
   const handleSubmit = form.onSubmit(async (values) => {
-    await productMutation.mutateAsync(values, {
-      onSuccess: (data) => {
-        queryClient.setQueryData(
-          productQueries.productListKey(values.typeId),
-          (oldData: V1AddProductCreateData[]) => [...oldData, data],
+    const { files, ...otherValues } = values;
+    if (!files || files.length < 1) return;
+    const formData = new FormData();
+    formData.set("file", files[0]);
+
+    uploadFile(formData as unknown as V1UploadFileCreatePayload).then(
+      async ({ url }) => {
+        await productMutation.mutateAsync(
+          {
+            ...otherValues,
+            img: `${import.meta.env.VITE_APP_API_URL}/${url}`,
+          },
+          {
+            onSuccess: (data) => {
+              queryClient.setQueryData(
+                productQueries.productListAllKey,
+                (oldData: V1AddProductCreateData[]) => [...oldData, data],
+              );
+            },
+          },
         );
+        form.reset();
+        setIsOpen(false);
       },
-    });
-    form.reset();
-    setIsOpen(false);
+    );
   });
 
   const handleClose = () => {
@@ -89,48 +112,8 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
       >
         <form onSubmit={handleSubmit}>
           <Stack gap={12}>
-            <TextInput
-              radius={8}
-              size="md"
-              label={<Text c="gray-main-2">Наименование</Text>}
-              placeholder="Введите наименование товара"
-              {...form.getInputProps("name")}
-            />
-
-            <TextInput
-              radius={8}
-              size="md"
-              label={<Text c="gray-main-2">Цена</Text>}
-              placeholder="Введите цену"
-              type="number"
-              {...form.getInputProps("price")}
-            />
-
-            <TextInput
-              radius={8}
-              size="md"
-              label={<Text c="gray-main-2">Вендор</Text>}
-              placeholder="Введите вендора"
-              {...form.getInputProps("vendor")}
-            />
-
-            <TextInput
-              radius={8}
-              size="md"
-              label={<Text c="gray-main-2">Артикул</Text>}
-              placeholder="Введите артикул"
-              {...form.getInputProps("sku")}
-            />
-
-            <TextInput
-              radius={8}
-              size="md"
-              label={<Text c="gray-main-2">URL изображения</Text>}
-              placeholder="Введите URL изображения"
-              {...form.getInputProps("img")}
-            />
-
             <Select
+              clearable
               radius={8}
               size="md"
               label={<Text c="gray-main-2">Тип товара</Text>}
@@ -140,6 +123,41 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
                 label: type.name,
               }))}
               {...form.getInputProps("typeId")}
+            />
+
+            <TextInput
+              disabled={!hasTypeId}
+              radius={8}
+              size="md"
+              label={<Text c="gray-main-2">Наименование</Text>}
+              placeholder="Введите наименование товара"
+              {...form.getInputProps("name")}
+            />
+
+            <TextInput
+              disabled={!hasTypeId}
+              radius={8}
+              size="md"
+              label={<Text c="gray-main-2">Цена</Text>}
+              placeholder="Введите цену"
+              type="number"
+              {...form.getInputProps("price")}
+            />
+
+            <TextInput
+              disabled={!hasTypeId}
+              radius={8}
+              size="md"
+              label={<Text c="gray-main-2">Артикул</Text>}
+              placeholder="Введите артикул"
+              {...form.getInputProps("sku")}
+            />
+
+            <UploadFile
+              title="Загрузите изображение"
+              accept={["jpeg", "png"]}
+              {...form.getInputProps("files")}
+              files={form.getInputProps("files").value}
             />
 
             <Group justify="flex-end" mt="md">

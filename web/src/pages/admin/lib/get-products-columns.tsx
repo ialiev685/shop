@@ -2,7 +2,7 @@ import { type DataTableColumn } from "mantine-datatable";
 import { Button, Flex, Group, Text, Image, Box } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { MenuButton } from "@/shared/ui/menu-button";
-import type { V1ProductListDetailData } from "@/services/data-contracts";
+import type { V1AllProductListListData } from "@/services/data-contracts";
 
 const noImage = (
   <Box
@@ -17,7 +17,7 @@ const noImage = (
 );
 
 export const getProductsColumns = (): DataTableColumn<
-  V1ProductListDetailData[number]
+  V1AllProductListListData[number]
 >[] => {
   return [
     {

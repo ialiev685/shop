@@ -1,17 +1,29 @@
-import { productList, addProduct } from "@/services/requests/api";
+import {
+  productListAll,
+  productListByType,
+  addProduct,
+} from "@/services/requests/api";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
+const PRIMARY_KEY = "productList";
+
 const productKeys = {
-  productListKey: (typeId: number) => ["productList", typeId],
+  productListAllKey: [PRIMARY_KEY],
+  productListByTypeKey: (typeId: number) => [PRIMARY_KEY, typeId],
 };
 
 export const productQueries = {
   ...productKeys,
-  get: (typeId: number) =>
+  getByType: (typeId: number) =>
     queryOptions({
-      queryKey: productKeys.productListKey(typeId),
-      queryFn: () => productList({ typeId }),
+      queryKey: productKeys.productListByTypeKey(typeId),
+      queryFn: () => productListByType({ typeId }),
     }),
+
+  getAll: queryOptions({
+    queryKey: productKeys.productListAllKey,
+    queryFn: () => productListAll(),
+  }),
   add: mutationOptions({
     mutationFn: addProduct,
   }),
