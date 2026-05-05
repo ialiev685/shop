@@ -19,13 +19,14 @@ import type {
   V1AddProductInfoCreatePayload,
   V1AddProductToBasketCreateData,
   V1AddProductToBasketCreatePayload,
+  V1AllProductListListData,
   V1BasketListListData,
   V1ClearBasketCreateData,
   V1ClearBasketCreatePayload,
   V1ProductInfoListDetailData,
   V1ProductInfoListDetailParams,
-  V1ProductListDetailData,
-  V1ProductListDetailParams,
+  V1ProductListByTypeDetailData,
+  V1ProductListByTypeDetailParams,
   V1RemoveFileDeleteData,
   V1RemoveFileDeleteParams,
   V1RemoveProductDeleteData,
@@ -275,23 +276,46 @@ export class Api<
    * No description
    *
    * @tags product
-   * @name V1ProductListDetail
+   * @name V1ProductListByTypeDetail
    * @summary Получить список продуктов по типу
-   * @request GET:/api/v1/productList/{typeId}
+   * @request GET:/api/v1/productListByType/{typeId}
    * @secure
    */
-  v1ProductListDetail = (
-    { typeId }: V1ProductListDetailParams,
+  v1ProductListByTypeDetail = (
+    { typeId }: V1ProductListByTypeDetailParams,
     params: RequestParams = {},
   ) =>
     this.request<
-      V1ProductListDetailData,
+      V1ProductListByTypeDetailData,
       {
         error?: string;
         message: string;
       }
     >({
-      path: `/api/v1/productList/${typeId}`,
+      path: `/api/v1/productListByType/${typeId}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags product
+   * @name V1AllProductListList
+   * @summary Получить список продуктов
+   * @request GET:/api/v1/allProductList
+   * @secure
+   */
+  v1AllProductListList = (params: RequestParams = {}) =>
+    this.request<
+      V1AllProductListListData,
+      {
+        error?: string;
+        message: string;
+      }
+    >({
+      path: `/api/v1/allProductList`,
       method: "GET",
       secure: true,
       format: "json",

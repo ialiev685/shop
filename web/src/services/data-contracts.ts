@@ -217,11 +217,21 @@ export interface V1RemoveProductDeleteParams {
 
 export type V1RemoveProductDeleteData = any;
 
-export interface V1ProductListDetailParams {
+export interface V1ProductListByTypeDetailParams {
   typeId: number;
 }
 
-export type V1ProductListDetailData = {
+export type V1ProductListByTypeDetailData = {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  typeId: number;
+  img: string;
+  sku: string;
+}[];
+
+export type V1AllProductListListData = {
   id: number;
   name: string;
   price: number;
