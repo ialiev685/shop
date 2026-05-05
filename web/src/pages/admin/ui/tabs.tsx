@@ -6,7 +6,6 @@ import {
   Tabs as MantineTabs,
   useMantineTheme,
 } from "@mantine/core";
-import { useSearchParams } from "react-router-dom";
 import { getProductsColumns } from "../lib/get-products-columns";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -18,23 +17,22 @@ import {
 import { typeQueries } from "@/entities/admin/api/type-queries";
 import { getTypesColumns } from "../lib/get-types-columns";
 import { IconCirclePlus, IconRefresh } from "@tabler/icons-react";
+import { useSearchParamsState } from "@/shared/hooks/use-search-params-state";
 
 export const Tabs = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const productListQuery = useQuery(productQueries.get(1));
+  const { getParam, setParam } = useSearchParamsState();
+
+  const productListQuery = useQuery(productQueries.getAll);
   const typeListQuery = useQuery(typeQueries.get);
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
 
   return (
     <MantineTabs
-      value={searchParams.get("tab")}
+      value={getParam("tab")}
       onChange={(value) => {
         if (!value) return;
-        setSearchParams((prevState) => ({
-          ...Object.fromEntries(prevState),
-          tab: value,
-        }));
+        setParam({ tab: value });
       }}
     >
       <MantineTabs.List>
