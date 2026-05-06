@@ -2,7 +2,6 @@ import { useMemo, type PropsWithChildren } from "react";
 import { AuthContext, type AuthContextType } from "./context";
 
 import { useQuery } from "@tanstack/react-query";
-import { currentUser } from "@/services/requests/auth";
 import { userQueries } from "@/entities/user";
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {

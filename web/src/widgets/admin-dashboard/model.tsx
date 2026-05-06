@@ -1,12 +1,13 @@
 import { useMantineTheme, Text } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { productQueries } from "@/entities/admin";
-import { typeQueries } from "@/entities/admin/api/type-queries";
+
 import { useSearchParamsState } from "@/shared/hooks/use-search-params-state";
 import type { V1AllProductListListParams } from "@/services/data-contracts";
 import { PAGINATION } from "@/shared/configs";
 import { TABS_VALUE } from "./configs";
 import { modals } from "@mantine/modals";
+import { productQueries } from "@/entities/product";
+import { typeQueries } from "@/entities/catalog";
 
 export const useController = () => {
   const { setParam, getParam } = useSearchParamsState();

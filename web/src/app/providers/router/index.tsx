@@ -18,7 +18,7 @@ import { ForgotPassword } from "@/pages/forgot-password/ui";
 import { ResetPassword } from "@/pages/reset-password/ui";
 import { PublicRoute } from "./public-route";
 import { AdminRoute } from "./amin-route";
-import { AdminDashboard } from "@/pages/admin/ui";
+import { Admin } from "@/pages/admin/ui";
 
 const pages: Record<ComponentKey, React.ComponentType> = {
   catalog: Catalog,
@@ -29,7 +29,7 @@ const pages: Record<ComponentKey, React.ComponentType> = {
   login: Login,
   forgotPassword: ForgotPassword,
   resetPassword: ResetPassword,
-  admin: AdminDashboard,
+  admin: Admin,
 };
 
 export const AppRoutes = () => {

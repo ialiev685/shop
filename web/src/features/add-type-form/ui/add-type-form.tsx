@@ -13,7 +13,7 @@ import type {
   V1TypeListListData,
 } from "@/services/data-contracts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { typeQueries } from "../api/type-queries";
+import { typeQueries } from "../../../entities/catalog/api/type-queries";
 import { useState, type ReactNode } from "react";
 
 type FormValues = Required<V1AddNameTypeCreatePayload>;
@@ -43,7 +43,7 @@ export const AddTypeForm = ({ triggerButton }: AddProductFormProps) => {
       {
         onSuccess: (data) => {
           queryClient.setQueryData(
-            typeQueries.typeListKey,
+            typeQueries.typeListKey(),
             (oldData: V1TypeListListData) => [...oldData, data],
           );
         },

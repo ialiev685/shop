@@ -3,8 +3,6 @@ import { SearchInput } from "./search-input";
 import { Tabs } from "./tabs";
 
 export const AdminDashboard = () => {
-  // const { data, isLoading, onAdd } = useController();
-
   return (
     <>
       <Flex p="26px 30px" bg="#FFF" justify="space-between" align="center">

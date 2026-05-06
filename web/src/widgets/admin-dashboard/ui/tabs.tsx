@@ -1,17 +1,16 @@
 import { Pagination } from "@/entities/pagination";
 import { Button, Flex, Group, Tabs as MantineTabs } from "@mantine/core";
 import { getProductsColumns } from "../lib/get-products-columns";
-import {
-  AddProductForm,
-  AddTypeForm,
-  productQueries,
-  Table,
-} from "@/entities/admin";
-import { typeQueries } from "@/entities/admin/api/type-queries";
+
+import { typeQueries } from "@/entities/catalog/api/type-queries";
 import { getTypesColumns } from "../lib/get-types-columns";
 import { IconCirclePlus, IconRefresh } from "@tabler/icons-react";
-import { useController } from "../models";
+import { useController } from "../model";
 import { TABS_VALUE } from "../configs";
+import { AddTypeForm } from "@/features/add-type-form";
+import { Table } from "@/entities/table/ui";
+import { AddProductForm } from "@/features/add-product-form";
+import { productQueries } from "@/entities/product";
 
 export const Tabs = () => {
   const {

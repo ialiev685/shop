@@ -14,11 +14,12 @@ import type {
   V1UploadFileCreatePayload,
 } from "@/services/data-contracts";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { typeQueries } from "../api/type-queries";
-import { productQueries } from "../api/product-queries";
+
+import { productQueries } from "../../../entities/product/api/product-queries";
 import { useState } from "react";
 import { UploadFile } from "@/shared/ui/upload-file";
 import { uploadFile } from "@/services/requests/files";
+import { typeQueries } from "@/entities/catalog";
 
 type FormValues = Required<
   V1AddProductCreatePayload & { files: File[] | null }
