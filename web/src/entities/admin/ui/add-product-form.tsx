@@ -10,7 +10,6 @@ import {
   Box,
 } from "@mantine/core";
 import type {
-  V1AddProductCreateData,
   V1AddProductCreatePayload,
   V1UploadFileCreatePayload,
 } from "@/services/data-contracts";
@@ -75,11 +74,10 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
             img: `${import.meta.env.VITE_APP_API_URL}/${url}`,
           },
           {
-            onSuccess: (data) => {
-              queryClient.setQueryData(
-                productQueries.productListAllKey,
-                (oldData: V1AddProductCreateData[]) => [...oldData, data],
-              );
+            onSuccess: () => {
+              queryClient.invalidateQueries({
+                queryKey: productQueries.primaryKey,
+              });
             },
           },
         );

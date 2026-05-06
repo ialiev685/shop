@@ -15,18 +15,20 @@ type ProductsTableProps<T> = {
   data?: T[];
   isLoading?: boolean;
   columns: DataTableColumn<T>[];
+  withSort?: boolean;
 };
 
 export const Table = <T,>({
   data,
   isLoading,
   columns,
+  withSort = false,
 }: ProductsTableProps<T>) => {
   const [selectedRecords, setSelectedRecords] = useState<T[]>([]);
   const { getParam, setParam } = useSearchParamsState();
 
   const sortBy: DataTableSortStatus<T>["columnAccessor"] =
-    getParam("sortBy") || "title";
+    getParam("sortBy") || "name";
   const order: DataTableSortStatus<T>["direction"] =
     (getParam("order") as "asc" | "desc") || "asc";
 
@@ -51,6 +53,8 @@ export const Table = <T,>({
   };
 
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <DataTable
       mih={140}
       fetching={isLoading}
@@ -81,8 +85,8 @@ export const Table = <T,>({
         sorted: <IconFilter2 style={{ transform: "rotate(180deg)" }} />,
         unsorted: <IconFilter2 />,
       }}
-      sortStatus={sortStatus}
-      onSortStatusChange={handleSorting}
+      sortStatus={withSort ? sortStatus : undefined}
+      onSortStatusChange={withSort ? handleSorting : undefined}
     />
   );
 };

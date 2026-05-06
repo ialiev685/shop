@@ -18,11 +18,23 @@ import { typeQueries } from "@/entities/admin/api/type-queries";
 import { getTypesColumns } from "../lib/get-types-columns";
 import { IconCirclePlus, IconRefresh } from "@tabler/icons-react";
 import { useSearchParamsState } from "@/shared/hooks/use-search-params-state";
+import type { V1AllProductListListParams } from "@/services/data-contracts";
+import { PAGINATION } from "@/shared/configs";
 
 export const Tabs = () => {
   const { getParam, setParam } = useSearchParamsState();
 
-  const productListQuery = useQuery(productQueries.getAll);
+  const productListQuery = useQuery(
+    productQueries.getAll({
+      search: getParam("search") ?? undefined,
+      page: Number(getParam("page")) || PAGINATION.PAGE,
+      limit: Number(getParam("limit")) || PAGINATION.LIMIT,
+      sortBy: getParam("sortBy") ?? undefined,
+      sortOrder: (
+        getParam("order") || ""
+      ).toUpperCase() as V1AllProductListListParams["sortOrder"],
+    }),
+  );
   const typeListQuery = useQuery(typeQueries.get);
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
@@ -70,7 +82,6 @@ export const Tabs = () => {
             isLoading={typeListQuery.isLoading}
             columns={getTypesColumns()}
           />
-          <Pagination totalItems={0} />
         </Flex>
       </MantineTabs.Panel>
       <MantineTabs.Panel value="products">
@@ -99,11 +110,15 @@ export const Tabs = () => {
             />
           </Group>
           <Table
-            data={productListQuery.data}
+            data={productListQuery.data?.data}
             isLoading={productListQuery.isLoading}
             columns={getProductsColumns()}
+            withSort
           />
-          <Pagination totalItems={0} />
+          <Pagination
+            totalItems={productListQuery.data?.pagination.total ?? 0}
+            limit={productListQuery.data?.pagination.limit}
+          />
         </Flex>
       </MantineTabs.Panel>
     </MantineTabs>

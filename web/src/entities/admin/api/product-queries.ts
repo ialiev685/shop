@@ -1,3 +1,4 @@
+import type { V1AllProductListListParams } from "@/services/data-contracts";
 import {
   productListAll,
   productListByType,
@@ -8,7 +9,11 @@ import { mutationOptions, queryOptions } from "@tanstack/react-query";
 const PRIMARY_KEY = "productList";
 
 const productKeys = {
-  productListAllKey: [PRIMARY_KEY],
+  primaryKey: [PRIMARY_KEY],
+  productListAllKey: (params: V1AllProductListListParams) => [
+    PRIMARY_KEY,
+    params,
+  ],
   productListByTypeKey: (typeId: number) => [PRIMARY_KEY, typeId],
 };
 
@@ -20,10 +25,11 @@ export const productQueries = {
       queryFn: () => productListByType({ typeId }),
     }),
 
-  getAll: queryOptions({
-    queryKey: productKeys.productListAllKey,
-    queryFn: () => productListAll(),
-  }),
+  getAll: (params: V1AllProductListListParams) =>
+    queryOptions({
+      queryKey: productKeys.productListAllKey(params),
+      queryFn: () => productListAll(params),
+    }),
   add: mutationOptions({
     mutationFn: addProduct,
   }),

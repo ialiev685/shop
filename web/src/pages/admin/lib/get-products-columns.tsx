@@ -17,11 +17,11 @@ const noImage = (
 );
 
 export const getProductsColumns = (): DataTableColumn<
-  V1AllProductListListData[number]
+  V1AllProductListListData["data"][number]
 >[] => {
   return [
     {
-      accessor: "title",
+      accessor: "name",
       sortable: true,
       width: 400,
       title: (
@@ -39,7 +39,7 @@ export const getProductsColumns = (): DataTableColumn<
           <Flex direction="column" gap={10}>
             <Text fw="bold">{record.name}</Text>
             <Text fz={14} c="gray-main-4">
-              {record.typeId}
+              {record.type.name}
             </Text>
           </Flex>
         </Flex>

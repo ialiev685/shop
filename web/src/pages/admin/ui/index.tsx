@@ -1,24 +1,9 @@
-import {
-  Box,
-  Flex,
-  Title,
-  useMantineTheme,
-  Button,
-  Group,
-} from "@mantine/core";
-import { IconRefresh, IconCirclePlus } from "@tabler/icons-react";
-import { useController } from "../model";
+import { Box, Flex, Title } from "@mantine/core";
 import { SearchInput } from "./search-input";
-import { AddProductForm } from "@/entities/admin/ui/add-product-form";
-import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { Tabs } from "./tabs";
 
 export const AdminDashboard = () => {
-  const theme = useMantineTheme();
-  const { data, isLoading, onAdd } = useController();
-  const [isOpen, setIsOpen] = useState(false);
-  const queryClient = useQueryClient();
+  // const { data, isLoading, onAdd } = useController();
 
   return (
     <>
