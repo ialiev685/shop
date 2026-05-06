@@ -6,6 +6,7 @@ import type {
   V1ProductListByTypeDetailParams,
   V1RemoveProductDeleteParams,
   V1RemoveTypeDeleteParams,
+  V1TypeListListParams,
 } from "../data-contracts";
 
 export const productListAll = async (params: V1AllProductListListParams) => {
@@ -30,8 +31,8 @@ export const removeProduct = async (params: V1RemoveProductDeleteParams) => {
   return data;
 };
 
-export const typeList = async () => {
-  const { data } = await api.v1TypeListList();
+export const typeList = async (params: V1TypeListListParams) => {
+  const { data } = await api.v1TypeListList(params);
   return data;
 };
 

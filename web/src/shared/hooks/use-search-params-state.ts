@@ -25,7 +25,7 @@ export const useSearchParamsState = <T extends QueryParams>() => {
   );
 
   const getParam = useCallback(
-    (key: keyof T) => searchParams.get(key as string),
+    (key: keyof T) => searchParams.get(key as string) ?? undefined,
     [searchParams],
   );
 

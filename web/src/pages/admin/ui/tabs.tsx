@@ -21,21 +21,31 @@ import { useSearchParamsState } from "@/shared/hooks/use-search-params-state";
 import type { V1AllProductListListParams } from "@/services/data-contracts";
 import { PAGINATION } from "@/shared/configs";
 
+const TABS_VALUE = {
+  types: "types",
+  products: "products",
+} as const;
+
 export const Tabs = () => {
   const { getParam, setParam } = useSearchParamsState();
 
-  const productListQuery = useQuery(
-    productQueries.getAll({
-      search: getParam("search") ?? undefined,
+  const productListQuery = useQuery({
+    ...productQueries.getAll({
+      search: getParam("search"),
       page: Number(getParam("page")) || PAGINATION.PAGE,
       limit: Number(getParam("limit")) || PAGINATION.LIMIT,
-      sortBy: getParam("sortBy") ?? undefined,
+      sortBy: getParam("sortBy"),
       sortOrder: (
         getParam("order") || ""
       ).toUpperCase() as V1AllProductListListParams["sortOrder"],
     }),
-  );
-  const typeListQuery = useQuery(typeQueries.get);
+    enabled: getParam("tab") === TABS_VALUE.products,
+  });
+
+  const typeListQuery = useQuery({
+    ...typeQueries.get({ search: getParam("search") }),
+    enabled: getParam("tab") === TABS_VALUE.types,
+  });
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
 
@@ -48,10 +58,10 @@ export const Tabs = () => {
       }}
     >
       <MantineTabs.List>
-        <MantineTabs.Tab value="types">Типы</MantineTabs.Tab>
-        <MantineTabs.Tab value="products">Продукты</MantineTabs.Tab>
+        <MantineTabs.Tab value={TABS_VALUE.types}>Типы</MantineTabs.Tab>
+        <MantineTabs.Tab value={TABS_VALUE.products}>Продукты</MantineTabs.Tab>
       </MantineTabs.List>
-      <MantineTabs.Panel value="types">
+      <MantineTabs.Panel value={TABS_VALUE.types}>
         <Flex gap={24} direction="column" mt={24}>
           <Group gap={8} justify="flex-end">
             <Button variant="outline-admin" radius={8}>
@@ -59,7 +69,7 @@ export const Tabs = () => {
                 color={theme.colors["gray-auth-3"][0]}
                 onClick={() => {
                   queryClient.invalidateQueries({
-                    queryKey: typeQueries.typeListKey,
+                    queryKey: typeQueries.typeListKey(),
                   });
                 }}
               />
@@ -84,7 +94,7 @@ export const Tabs = () => {
           />
         </Flex>
       </MantineTabs.Panel>
-      <MantineTabs.Panel value="products">
+      <MantineTabs.Panel value={TABS_VALUE.products}>
         <Flex gap={24} direction="column" mt={24}>
           <Group gap={8} justify="flex-end">
             <Button variant="outline-admin" radius={8}>
@@ -92,7 +102,7 @@ export const Tabs = () => {
                 color={theme.colors["gray-auth-3"][0]}
                 onClick={() => {
                   queryClient.invalidateQueries({
-                    queryKey: typeQueries.typeListKey,
+                    queryKey: productQueries.productListAllKey({}),
                   });
                 }}
               />

@@ -56,7 +56,7 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
 
   const hasTypeId = Boolean(form.getValues().typeId);
 
-  const typeListQuery = useQuery(typeQueries.get);
+  const typeListQuery = useQuery(typeQueries.get({}));
   const queryClient = useQueryClient();
   const productMutation = useMutation(productQueries.add);
 
