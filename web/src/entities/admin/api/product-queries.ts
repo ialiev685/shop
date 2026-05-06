@@ -3,6 +3,7 @@ import {
   productListAll,
   productListByType,
   addProduct,
+  removeProduct,
 } from "@/services/requests/api";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
@@ -32,5 +33,8 @@ export const productQueries = {
     }),
   add: mutationOptions({
     mutationFn: addProduct,
+  }),
+  delete: mutationOptions({
+    mutationFn: removeProduct,
   }),
 };

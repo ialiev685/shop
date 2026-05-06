@@ -1,5 +1,5 @@
 import { type DataTableColumn } from "mantine-datatable";
-import { Flex, Group, Text, Image, Box } from "@mantine/core";
+import { Flex, Group, Text, Image, Box, Menu } from "@mantine/core";
 import { MenuButton } from "@/shared/ui/menu-button";
 import type { V1AllProductListListData } from "@/services/data-contracts";
 
@@ -15,9 +15,9 @@ const noImage = (
   ></Box>
 );
 
-export const getProductsColumns = (): DataTableColumn<
-  V1AllProductListListData["data"][number]
->[] => {
+export const getProductsColumns = (
+  onRemove: (typeId: number) => Promise<void>,
+): DataTableColumn<V1AllProductListListData["data"][number]>[] => {
   return [
     {
       accessor: "name",
@@ -99,8 +99,17 @@ export const getProductsColumns = (): DataTableColumn<
     },
     {
       accessor: "",
-      width: 200,
-      render: () => <MenuButton />,
+      width: 60,
+      render: (record) => (
+        <Menu>
+          <Menu.Target>
+            <MenuButton />
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item onClick={() => onRemove(record.id)}>Удалить</Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      ),
     },
   ];
 };

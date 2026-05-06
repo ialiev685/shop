@@ -1,13 +1,6 @@
 import { Pagination } from "@/entities/pagination";
-import {
-  Button,
-  Flex,
-  Group,
-  Tabs as MantineTabs,
-  useMantineTheme,
-} from "@mantine/core";
+import { Button, Flex, Group, Tabs as MantineTabs } from "@mantine/core";
 import { getProductsColumns } from "../lib/get-products-columns";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AddProductForm,
   AddTypeForm,
@@ -17,37 +10,21 @@ import {
 import { typeQueries } from "@/entities/admin/api/type-queries";
 import { getTypesColumns } from "../lib/get-types-columns";
 import { IconCirclePlus, IconRefresh } from "@tabler/icons-react";
-import { useSearchParamsState } from "@/shared/hooks/use-search-params-state";
-import type { V1AllProductListListParams } from "@/services/data-contracts";
-import { PAGINATION } from "@/shared/configs";
-
-const TABS_VALUE = {
-  types: "types",
-  products: "products",
-} as const;
+import { useController } from "../models";
+import { TABS_VALUE } from "../configs";
 
 export const Tabs = () => {
-  const { getParam, setParam } = useSearchParamsState();
-
-  const productListQuery = useQuery({
-    ...productQueries.getAll({
-      search: getParam("search"),
-      page: Number(getParam("page")) || PAGINATION.PAGE,
-      limit: Number(getParam("limit")) || PAGINATION.LIMIT,
-      sortBy: getParam("sortBy"),
-      sortOrder: (
-        getParam("order") || ""
-      ).toUpperCase() as V1AllProductListListParams["sortOrder"],
-    }),
-    enabled: getParam("tab") === TABS_VALUE.products,
-  });
-
-  const typeListQuery = useQuery({
-    ...typeQueries.get({ search: getParam("search") }),
-    enabled: getParam("tab") === TABS_VALUE.types,
-  });
-  const theme = useMantineTheme();
-  const queryClient = useQueryClient();
+  const {
+    productList,
+    typeList,
+    isLoading,
+    handleRemoveType,
+    handleRemoveProduct,
+    theme,
+    setParam,
+    getParam,
+    queryClient,
+  } = useController();
 
   return (
     <MantineTabs
@@ -88,9 +65,9 @@ export const Tabs = () => {
           </Group>
 
           <Table
-            data={typeListQuery.data}
-            isLoading={typeListQuery.isLoading}
-            columns={getTypesColumns()}
+            data={typeList}
+            isLoading={isLoading}
+            columns={getTypesColumns(handleRemoveType)}
           />
         </Flex>
       </MantineTabs.Panel>
@@ -120,14 +97,14 @@ export const Tabs = () => {
             />
           </Group>
           <Table
-            data={productListQuery.data?.data}
-            isLoading={productListQuery.isLoading}
-            columns={getProductsColumns()}
+            data={productList?.data}
+            isLoading={isLoading}
+            columns={getProductsColumns(handleRemoveProduct)}
             withSort
           />
           <Pagination
-            totalItems={productListQuery.data?.pagination.total ?? 0}
-            limit={productListQuery.data?.pagination.limit}
+            totalItems={productList?.pagination.total ?? 0}
+            limit={productList?.pagination.limit}
           />
         </Flex>
       </MantineTabs.Panel>

@@ -1,5 +1,5 @@
 import type { V1TypeListListParams } from "@/services/data-contracts";
-import { typeList, addType } from "@/services/requests/api";
+import { typeList, addType, removeType } from "@/services/requests/api";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
 const typeKeys = {
@@ -14,4 +14,7 @@ export const typeQueries = {
       queryFn: () => typeList(params),
     }),
   add: mutationOptions({ mutationFn: addType }),
+  delete: mutationOptions({
+    mutationFn: removeType,
+  }),
 };
