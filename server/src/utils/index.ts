@@ -1,3 +1,5 @@
+import { validate as isUuid } from 'uuid';
+
 interface SwaggerPaths {
   paths: {
     [path: string]: {
@@ -79,3 +81,15 @@ export function createPaginatedResponse<T>({
     },
   };
 }
+
+export const extractUUIDFromUrl = (url: string): string | null => {
+  const parts = url.split('/');
+
+  for (const part of parts) {
+    if (isUuid(part)) {
+      return part;
+    }
+  }
+
+  return null;
+};

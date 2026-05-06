@@ -3,15 +3,19 @@ import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
 import { type updateProductRequestSchema, type addProductRequestSchema } from '../schemas/product';
 import { type GetProductListOptions } from './types';
-import { createPaginatedResponse } from '../utils';
+import { createPaginatedResponse, extractUUIDFromUrl } from '../utils';
 import { Op } from 'sequelize';
+import { type UploadService } from './upload-service';
 
 type ProductParams = Static<(typeof addProductRequestSchema)['body']>;
 type updateProductParams = Static<(typeof updateProductRequestSchema)['body']> &
   Static<(typeof updateProductRequestSchema)['params']>;
 
 export class ProductService {
-  constructor(private fastifyInstance: FastifyInstance) {}
+  constructor(
+    private fastifyInstance: FastifyInstance,
+    private uploadService: UploadService,
+  ) {}
 
   public async addProduct(params: ProductParams) {
     const existingProduct = await this.fastifyInstance.db.Product.findOne({
@@ -39,6 +43,10 @@ export class ProductService {
     const product = await this.fastifyInstance.db.Product.findByPk(productId);
     if (!product) {
       throw ApiError.BadRequestError(`Продукт со значением '${productId}' не существует`);
+    }
+    const imageId = extractUUIDFromUrl(product.img);
+    if (imageId) {
+      await this.uploadService.remove(imageId);
     }
     await product.destroy();
   }

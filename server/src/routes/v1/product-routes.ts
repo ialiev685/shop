@@ -2,9 +2,11 @@ import { type FastifyPluginCallback } from 'fastify';
 import { ProductController } from '../../controllers/product-controller';
 import { ProductService } from '../../services/product-service';
 import { productSchema } from '../../schemas';
+import { UploadService } from '../../services/upload-service';
 
 const productRoutes: FastifyPluginCallback = (instance) => {
-  const productService = new ProductService(instance);
+  const uploadService = new UploadService();
+  const productService = new ProductService(instance, uploadService);
   const productController = new ProductController(productService);
 
   instance.post(
