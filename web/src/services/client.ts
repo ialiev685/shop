@@ -4,6 +4,9 @@ import { Auth } from "./Auth";
 import { Api } from "./Api";
 
 import { TOKEN_KEY } from "@/shared/configs";
+import { notifications } from "@mantine/notifications";
+
+type AxiosErrorResponse = AxiosError<{ message?: string }>;
 
 class InterceptorManager {
   private instance: AxiosInstance;
@@ -32,7 +35,7 @@ class InterceptorManager {
 
     this.instance.interceptors.response.use(
       (response) => response,
-      async (error: AxiosError) => {
+      async (error: AxiosErrorResponse) => {
         if (
           error.response?.status === 401 &&
           error.config &&
@@ -48,6 +51,18 @@ class InterceptorManager {
           } catch (error) {
             console.log("Ошибка авторизации", error);
           }
+        }
+
+        if (error.response?.status !== 401) {
+          notifications.show({
+            position: "top-center",
+            title: "Ошибка",
+            message:
+              error.response?.data.message ||
+              "Произошла ошибка при выполнении запроса",
+            color: "red",
+            autoClose: 5000,
+          });
         }
 
         throw error;
