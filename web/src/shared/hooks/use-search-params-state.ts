@@ -1,11 +1,21 @@
 import { useSearchParams } from "react-router-dom";
 import { useCallback } from "react";
+import type { DataTableSortStatus } from "mantine-datatable";
 
-export const useSearchParamsState = () => {
+type QueryParams = {
+  page?: string;
+  limit?: string;
+  search?: string;
+  sortBy?: string;
+  order?: DataTableSortStatus["direction"];
+  tab?: string;
+};
+
+export const useSearchParamsState = <T extends QueryParams>() => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setParam = useCallback(
-    (params: Record<string, string>) => {
+    (params: T) => {
       setSearchParams((prev) => ({
         ...Object.fromEntries(prev),
         ...params,
@@ -15,7 +25,7 @@ export const useSearchParamsState = () => {
   );
 
   const getParam = useCallback(
-    (key: string) => searchParams.get(key),
+    (key: keyof T) => searchParams.get(key as string),
     [searchParams],
   );
 
