@@ -6,8 +6,8 @@ import {
 } from "@mantine/core";
 import ArrowLeft from "@shared/assets/arrow-left.svg?react";
 import ArrowRight from "@shared/assets/arrow-right.svg?react";
-import { useSearchParams } from "react-router-dom";
 import styles from "./styles.module.css";
+import { useSearchParamsState } from "@/shared/hooks/use-search-params-state";
 
 type PaginationProps = {
   totalItems: number;
@@ -15,13 +15,14 @@ type PaginationProps = {
 };
 
 export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const skip = Number(searchParams.get("skip") ?? 0);
-  const from = skip;
-  const to = skip + limit;
-  const currentPage = skip / limit + 1;
+  const { getParam, setParam } = useSearchParamsState();
+  const page = Number(getParam("page") ?? 1);
+  const from = (page - 1) * limit + 1;
+  const to = Math.min(page * limit, totalItems);
+  const currentPage = page;
 
   const showArrow = totalItems > limit;
+  const totalPages = Math.ceil(totalItems / limit);
 
   return (
     <Flex justify="space-between" align="center">
@@ -40,19 +41,13 @@ export const Pagination = ({ totalItems, limit = 10 }: PaginationProps) => {
 
       <MantinePagination.Root
         value={currentPage}
-        onChange={(page) => {
-          const skipItems = (page - 1) * limit;
-          if (skipItems < totalItems) {
-            setSearchParams((prevState) => {
-              return {
-                ...Object.fromEntries(prevState),
-                skip: String(skipItems),
-                limit: limit.toString(),
-              };
-            });
-          }
+        onChange={(nextPage) => {
+          setParam({
+            page: String(nextPage),
+            limit: limit.toString(),
+          });
         }}
-        total={totalItems / limit}
+        total={totalPages}
         classNames={{ control: styles.paginationControl }}
       >
         <Group gap={8}>

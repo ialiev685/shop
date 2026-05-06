@@ -2,6 +2,11 @@ import { colorsTuple, type MantineColorsTuple } from "@mantine/core";
 
 export const TOKEN_KEY = "accessToken";
 
+export const PAGINATION = {
+  PAGE: 1,
+  LIMIT: 6,
+} as const;
+
 export type CustomColors =
   | "gray-auth-1"
   | "gray-auth-2"
