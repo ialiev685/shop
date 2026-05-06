@@ -366,6 +366,11 @@
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-8.3.18.tgz#7e5601c0683ed2411e3aee8fcb81a151e5341ad2"
   integrity sha512-QoWr9+S8gg5050TQ06aTSxtlpGjYOpIllRbjYYXlRvZeTsUqiTbVfvQROLexu4rEaK+yy9Wwriwl9PMRgbLqPw==
 
+"@mantine/modals@^9.1.1":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@mantine/modals/-/modals-9.1.1.tgz#4089a1f29564ca8a688d0dabe4bf3378f14cf7dd"
+  integrity sha512-SjJ2kIheJaWoKMsSuYQlLFvuJTxCQTOl3gr+wDj/bLmGBgfUykLStRNm9s1H7vFxMIWtN20N8mwtcZV2dGeYBg==
+
 "@mantine/notifications@^8.3.18":
   version "8.3.18"
   resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-8.3.18.tgz#50b9463afab3af0ea3de375dd92cf2fa60aed964"

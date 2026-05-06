@@ -3,6 +3,7 @@ import { MantineProvider, mergeThemeOverrides } from "@mantine/core";
 import { buttonTheme, inputTheme } from "@/shared/theme";
 import { colors } from "@/shared/configs";
 import { Notifications } from "@mantine/notifications";
+import { ModalsProvider } from "@mantine/modals";
 
 const theme = mergeThemeOverrides(buttonTheme, inputTheme, {
   colors,
@@ -37,7 +38,7 @@ export const UIProvider = ({ children }: PropsWithChildren) => {
   return (
     <MantineProvider theme={theme}>
       <Notifications />
-      {children}
+      <ModalsProvider>{children}</ModalsProvider>
     </MantineProvider>
   );
 };
