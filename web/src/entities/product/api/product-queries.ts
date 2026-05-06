@@ -4,6 +4,7 @@ import {
   productListByType,
   addProduct,
   removeProduct,
+  productById,
 } from "@/services/requests/api";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
@@ -16,6 +17,7 @@ const productKeys = {
     params,
   ],
   productListByTypeKey: (typeId: number) => [PRIMARY_KEY, typeId],
+  productByIdKey: (productId: number) => [PRIMARY_KEY, productId],
 };
 
 export const productQueries = {
@@ -30,6 +32,12 @@ export const productQueries = {
     queryOptions({
       queryKey: productKeys.productListAllKey(params),
       queryFn: () => productListAll(params),
+    }),
+
+  getById: (productId: number) =>
+    queryOptions({
+      queryKey: productKeys.productByIdKey(productId),
+      queryFn: () => productById({ productId }),
     }),
   add: mutationOptions({
     mutationFn: addProduct,

@@ -3,6 +3,7 @@ import type {
   V1AddNameTypeCreatePayload,
   V1AddProductCreatePayload,
   V1AllProductListListParams,
+  V1ProductByIdDetailParams,
   V1ProductListByTypeDetailParams,
   V1RemoveProductDeleteParams,
   V1RemoveTypeDeleteParams,
@@ -11,6 +12,11 @@ import type {
 
 export const productListAll = async (params: V1AllProductListListParams) => {
   const { data } = await api.v1AllProductListList(params);
+  return data;
+};
+
+export const productById = async (params: V1ProductByIdDetailParams) => {
+  const { data } = await api.v1ProductByIdDetail(params);
   return data;
 };
 
