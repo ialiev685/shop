@@ -17,8 +17,13 @@ export class TypeService {
     }
   }
 
-  public async getTypeList() {
+  public async getTypeList(search?: string) {
     const types = await this.fastifyInstance.db.Type.findAll({
+      where: search
+        ? {
+            name: { [Op.iLike]: `%${search}%` },
+          }
+        : {},
       order: [['name', 'ASC']],
     });
     return types;

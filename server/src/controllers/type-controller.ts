@@ -4,19 +4,20 @@ import {
   type FastifyRequestTypeBox,
   type UpdateTypeSchema,
   type RemoveTypeSchema,
-  type TypeSchema,
+  type AddTypeSchema,
+  type GetTypeSchema,
 } from './type';
 
 export class TypeController {
   constructor(private typeService: TypeService) {}
-  public async addNameType(req: FastifyRequestTypeBox<TypeSchema>, res: FastifyReply) {
+  public async addNameType(req: FastifyRequestTypeBox<AddTypeSchema>, res: FastifyReply) {
     const { name } = req.body;
     const nameType = await this.typeService.addNameType(name);
     return res.status(201).send(nameType);
   }
 
-  public async getTypeList(_req: FastifyRequestTypeBox, res: FastifyReply) {
-    const types = await this.typeService.getTypeList();
+  public async getTypeList(req: FastifyRequestTypeBox<GetTypeSchema>, res: FastifyReply) {
+    const types = await this.typeService.getTypeList(req.query.search);
     return res.status(200).send(types);
   }
 

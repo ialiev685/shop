@@ -1,25 +1,33 @@
 import Type from 'typebox';
 import { errorResponseSchema } from './error';
 
-export const typeRequestSchema = {
+const typeRequestSchema = {
+  querystring: Type.Object({
+    search: Type.String(),
+  }),
   body: Type.Object({
     name: Type.String(),
   }),
+  params: Type.Object({
+    typeId: Type.Number(),
+  }),
+};
+
+export const addTypeRequestSchema = {
+  body: typeRequestSchema['body'],
+};
+
+export const getTypeRequestSchema = {
+  querystring: typeRequestSchema['querystring'],
 };
 
 export const updateTypeRequestSchema = {
-  params: Type.Object({
-    typeId: Type.Number(),
-  }),
-  body: Type.Object({
-    name: Type.String(),
-  }),
+  params: typeRequestSchema['params'],
+  body: typeRequestSchema['body'],
 };
 
 export const removeTypeRequestSchema = {
-  params: Type.Object({
-    typeId: Type.Number(),
-  }),
+  params: typeRequestSchema['params'],
 };
 
 export const typeResponseSchema = Type.Object({
@@ -31,6 +39,7 @@ export const typeResponseSchema = Type.Object({
 export const getTypeSchema = {
   tags: ['type'],
   summary: 'Получить типы',
+  querystring: getTypeRequestSchema['querystring'],
   security: [
     {
       bearerAuth: [],

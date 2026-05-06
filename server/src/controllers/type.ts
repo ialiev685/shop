@@ -22,7 +22,8 @@ export type FastifyRequestTypeBox<TSchema extends FastifySchema = FastifySchema>
   TypeBoxTypeProvider
 >;
 
-export type TypeSchema = typeof typeSchema.typeRequestSchema;
+export type GetTypeSchema = typeof typeSchema.getTypeRequestSchema;
+export type AddTypeSchema = typeof typeSchema.addTypeRequestSchema;
 export type UpdateTypeSchema = typeof typeSchema.updateTypeRequestSchema;
 export type RemoveTypeSchema = typeof typeSchema.removeTypeRequestSchema;
 
@@ -32,10 +33,10 @@ export type RemoveProductFromBasketSchema =
   typeof basketSchema.removeProductFromBasketRequestSchema;
 export type ClearBasketSchema = typeof basketSchema.clearBasketRequestSchema;
 
-export type ProductSchema = typeof productSchema.productRequestSchema;
+export type ProductSchema = typeof productSchema.addProductRequestSchema;
 export type RemoveProductSchema = typeof productSchema.removeProductRequestSchema;
 export type UpdateProductSchema = typeof productSchema.updateProductRequestSchema;
-export type ProductListSchema = typeof productSchema.getProductListRequestSchema;
+export type ProductListSchema = typeof productSchema.getAllProductSchema;
 
 export type ProductInfoSchema = typeof productInfoSchema.productInfoRequestSchema;
 export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoRequestSchema;
