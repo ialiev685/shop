@@ -24,6 +24,8 @@ import type {
   V1BasketListListData,
   V1ClearBasketCreateData,
   V1ClearBasketCreatePayload,
+  V1ProductByIdDetailData,
+  V1ProductByIdDetailParams,
   V1ProductInfoListDetailData,
   V1ProductInfoListDetailParams,
   V1ProductListByTypeDetailData,
@@ -324,6 +326,32 @@ export class Api<
       path: `/api/v1/allProductList`,
       method: "GET",
       query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags product
+   * @name V1ProductByIdDetail
+   * @summary Получить продукт по id
+   * @request GET:/api/v1/productById/{productId}
+   * @secure
+   */
+  v1ProductByIdDetail = (
+    { productId }: V1ProductByIdDetailParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      V1ProductByIdDetailData,
+      {
+        error?: string;
+        message: string;
+      }
+    >({
+      path: `/api/v1/productById/${productId}`,
+      method: "GET",
       secure: true,
       format: "json",
       ...params,

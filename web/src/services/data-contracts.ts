@@ -312,6 +312,24 @@ export interface V1AllProductListListData {
   };
 }
 
+export interface V1ProductByIdDetailParams {
+  productId: number;
+}
+
+export interface V1ProductByIdDetailData {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  typeId: number;
+  img: string;
+  sku: string;
+  type: {
+    id: number;
+    name: string;
+  };
+}
+
 export interface V1AddProductInfoCreatePayload {
   name: string;
   description: string;
