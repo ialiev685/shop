@@ -22,7 +22,7 @@ export const removeTypeRequestSchema = {
   }),
 };
 
-const typeResponseSchema = Type.Object({
+export const typeResponseSchema = Type.Object({
   id: Type.Number(),
   name: Type.String(),
 });

@@ -54,8 +54,28 @@ class SwaggerAggregator {
 
 export const swaggerAggregator = new SwaggerAggregator();
 
-//   'x-proxy': {
-//     enabled: true,
-//     upstream: this.serviceUrl,
-//     originalPath: path,
-//   },
+export function createPaginatedResponse<T>({
+  data,
+  total,
+  page,
+  limit,
+}: {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+}) {
+  const totalPages = Math.ceil(total / limit);
+
+  return {
+    data,
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages,
+      hasNextPage: page < totalPages,
+      hasPrevPage: page > 1,
+    },
+  };
+}

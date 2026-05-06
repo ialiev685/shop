@@ -2,6 +2,9 @@ import { type FastifyInstance } from 'fastify';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
 import { type updateProductRequestSchema, type productRequestSchema } from '../schemas/product';
+import { type GetProductListOptions } from './types';
+import { createPaginatedResponse } from '../utils';
+import { Op } from 'sequelize';
 
 type ProductParams = Static<(typeof productRequestSchema)['body']>;
 type updateProductParams = Static<(typeof updateProductRequestSchema)['body']> &
@@ -62,13 +65,48 @@ export class ProductService {
     return await product.update(updateData);
   }
 
-  public async getProductListByType(typeId: number) {
-    const productList = await this.fastifyInstance.db.Product.findAll({ where: { typeId } });
-    return productList;
+  public async getProductListByType(typeId: number, options: GetProductListOptions) {
+    const { page = 1, limit = 10, search, sortBy = 'name', sortOrder = 'DESC' } = options;
+    const offset = (page - 1) * limit;
+    const { count, rows } = await this.fastifyInstance.db.Product.findAndCountAll({
+      limit,
+      offset,
+      order: [[sortBy, sortOrder]],
+      where: {
+        typeId,
+        ...(search && { name: { [Op.iLike]: `%${search}%` } }),
+      },
+
+      include: [
+        {
+          model: this.fastifyInstance.db.Type,
+          as: 'type',
+        },
+      ],
+    });
+    return createPaginatedResponse({ data: rows, total: count, page, limit });
   }
 
-  public async getAllProductList() {
-    const productList = await this.fastifyInstance.db.Product.findAll();
-    return productList;
+  public async getAllProductList(options: GetProductListOptions) {
+    const { page = 1, limit = 10, search, sortBy = 'name', sortOrder = 'DESC' } = options;
+
+    const offset = (page - 1) * limit;
+    const { count, rows } = await this.fastifyInstance.db.Product.findAndCountAll({
+      limit,
+      offset,
+      order: [[sortBy, sortOrder]],
+      where: search
+        ? {
+            name: { [Op.iLike]: `%${search}%` },
+          }
+        : {},
+      include: [
+        {
+          model: this.fastifyInstance.db.Type,
+          as: 'type',
+        },
+      ],
+    });
+    return createPaginatedResponse({ data: rows, total: count, page, limit });
   }
 }

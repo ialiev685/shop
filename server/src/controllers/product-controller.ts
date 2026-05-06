@@ -33,12 +33,15 @@ export class ProductController {
     req: FastifyRequestTypeBox<ProductListSchema>,
     res: FastifyReply,
   ) {
-    const product = await this.productService.getProductListByType(req.params.typeId);
+    const product = await this.productService.getProductListByType(req.params.typeId, req.query);
     return res.status(200).send(product);
   }
 
-  public async getAllProductList(_req: FastifyRequestTypeBox, res: FastifyReply) {
-    const product = await this.productService.getAllProductList();
+  public async getAllProductList(
+    req: FastifyRequestTypeBox<Omit<ProductListSchema, 'params'>>,
+    res: FastifyReply,
+  ) {
+    const product = await this.productService.getAllProductList(req.query);
     return res.status(200).send(product);
   }
 }

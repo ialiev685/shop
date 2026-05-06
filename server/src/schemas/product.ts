@@ -1,5 +1,7 @@
 import Type from 'typebox';
 import { errorResponseSchema } from './error';
+import { typeResponseSchema } from './type';
+import { getPaginatedResponseSchema } from './pagination-schema';
 
 export const productRequestSchema = {
   body: Type.Object(
@@ -40,6 +42,15 @@ export const getProductListRequestSchema = {
   params: Type.Object({
     typeId: Type.Number(),
   }),
+  querystring: Type.Object({
+    page: Type.Optional(Type.Number({ default: 1, minimum: 1 })),
+    limit: Type.Optional(Type.Number({ default: 10, minimum: 1, maximum: 100 })),
+    search: Type.Optional(Type.String()),
+    sortBy: Type.Optional(Type.String({ default: 'name' })),
+    sortOrder: Type.Optional(
+      Type.Union([Type.Literal('ASC'), Type.Literal('DESC')], { default: 'DESC' }),
+    ),
+  }),
 };
 
 const productResponseSchema = Type.Object({
@@ -50,6 +61,7 @@ const productResponseSchema = Type.Object({
   typeId: Type.Number(),
   img: Type.String(),
   sku: Type.String(),
+  type: typeResponseSchema,
 });
 
 // GET schema
@@ -57,13 +69,14 @@ export const getProductByTypeSchema = {
   tags: ['product'],
   summary: 'Получить список продуктов по типу',
   params: getProductListRequestSchema['params'],
+  querystring: getProductListRequestSchema['querystring'],
   security: [
     {
       bearerAuth: [],
     },
   ],
   response: {
-    200: Type.Array(productResponseSchema),
+    200: getPaginatedResponseSchema(productResponseSchema),
     400: errorResponseSchema,
     500: errorResponseSchema,
   },
@@ -72,6 +85,7 @@ export const getProductByTypeSchema = {
 // GET schema
 export const getAllProductSchema = {
   tags: ['product'],
+  querystring: getProductListRequestSchema['querystring'],
   summary: 'Получить список продуктов',
   security: [
     {
@@ -79,7 +93,7 @@ export const getAllProductSchema = {
     },
   ],
   response: {
-    200: Type.Array(productResponseSchema),
+    200: getPaginatedResponseSchema(productResponseSchema),
     400: errorResponseSchema,
     500: errorResponseSchema,
   },
