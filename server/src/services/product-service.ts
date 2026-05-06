@@ -117,4 +117,20 @@ export class ProductService {
     });
     return createPaginatedResponse({ data: rows, total: count, page, limit });
   }
+
+  public async getProductById(productId: number) {
+    const product = await this.fastifyInstance.db.Product.findByPk(productId, {
+      include: [
+        {
+          model: this.fastifyInstance.db.Type,
+          as: 'type',
+        },
+      ],
+    });
+
+    if (!product) {
+      throw ApiError.BadRequestError(`Продукт со значением '${productId}' не существует`);
+    }
+    return product;
+  }
 }

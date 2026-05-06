@@ -33,6 +33,12 @@ export const getProductRequestSchema = {
   querystring: productRequestSchema['querystring'],
 };
 
+export const getProductByIdRequestSchema = {
+  params: Type.Object({
+    productId: Type.Number(),
+  }),
+};
+
 export const addProductRequestSchema = {
   body: productRequestSchema['body'],
 };
@@ -91,6 +97,23 @@ export const getAllProductSchema = {
   ],
   response: {
     200: getPaginatedResponseSchema(productResponseSchema),
+    400: errorResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// GET schema
+export const getProductByIdSchema = {
+  tags: ['product'],
+  summary: 'Получить продукт по id',
+  params: getProductByIdRequestSchema['params'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: productResponseSchema,
     400: errorResponseSchema,
     500: errorResponseSchema,
   },
