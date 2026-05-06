@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Main } from "@/pages/main/ui";
 import { Basket } from "@/pages/basket/ui";
 
-import { Catalog } from "@/pages/catalog";
+import { Catalog } from "@/pages/catalog/ui";
 import {
   routes,
   routesMap,

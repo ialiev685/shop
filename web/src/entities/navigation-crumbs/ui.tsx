@@ -7,10 +7,9 @@ import { routes, type Route } from "@/shared/routes";
 const createAnchors = (
   routes: Route[],
   currentPath: string,
-  prefix: string = "/",
 ): React.ReactNode[] | null => {
   for (const route of routes) {
-    const fullPath = prefix + route.path;
+    const fullPath = route.path;
     if (matchPath({ path: fullPath, end: true }, currentPath)) {
       return [
         <Text fz={12} key={fullPath} c="gray-shop-1">
