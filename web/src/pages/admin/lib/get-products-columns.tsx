@@ -1,6 +1,5 @@
 import { type DataTableColumn } from "mantine-datatable";
-import { Button, Flex, Group, Text, Image, Box } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
+import { Flex, Group, Text, Image, Box } from "@mantine/core";
 import { MenuButton } from "@/shared/ui/menu-button";
 import type { V1AllProductListListData } from "@/services/data-contracts";
 
@@ -101,14 +100,7 @@ export const getProductsColumns = (): DataTableColumn<
     {
       accessor: "",
       width: 200,
-      render: () => (
-        <Group gap={32}>
-          <Button radius={22} size="xs" h={27}>
-            <IconPlus />
-          </Button>
-          <MenuButton />
-        </Group>
-      ),
+      render: () => <MenuButton />,
     },
   ];
 };

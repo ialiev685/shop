@@ -3,42 +3,7 @@ import { errorResponseSchema } from './error';
 import { typeResponseSchema } from './type';
 import { getPaginatedResponseSchema } from './pagination-schema';
 
-export const productRequestSchema = {
-  body: Type.Object(
-    {
-      name: Type.String(),
-      price: Type.Number(),
-      typeId: Type.Number(),
-      img: Type.String(),
-      sku: Type.String(),
-    },
-    { additionalProperties: false },
-  ),
-};
-
-export const removeProductRequestSchema = {
-  params: Type.Object({
-    productId: Type.Number(),
-  }),
-};
-
-export const updateProductRequestSchema = {
-  params: Type.Object({
-    productId: Type.Number(),
-  }),
-  body: Type.Object(
-    {
-      name: Type.Optional(Type.String()),
-      price: Type.Optional(Type.Number()),
-      typeId: Type.Optional(Type.Number()),
-      img: Type.Optional(Type.String()),
-      sku: Type.Optional(Type.String()),
-    },
-    { additionalProperties: false },
-  ),
-};
-
-export const getProductListRequestSchema = {
+const productRequestSchema = {
   params: Type.Object({
     typeId: Type.Number(),
   }),
@@ -51,6 +16,38 @@ export const getProductListRequestSchema = {
       Type.Union([Type.Literal('ASC'), Type.Literal('DESC')], { default: 'DESC' }),
     ),
   }),
+  body: Type.Object(
+    {
+      name: Type.String(),
+      price: Type.Number(),
+      typeId: Type.Number(),
+      img: Type.String(),
+      sku: Type.String(),
+    },
+    { additionalProperties: false },
+  ),
+};
+
+export const getProductRequestSchema = {
+  params: productRequestSchema['params'],
+  querystring: productRequestSchema['querystring'],
+};
+
+export const addProductRequestSchema = {
+  body: productRequestSchema['body'],
+};
+
+export const removeProductRequestSchema = {
+  params: Type.Object({
+    productId: Type.Number(),
+  }),
+};
+
+export const updateProductRequestSchema = {
+  params: Type.Object({
+    productId: Type.Number(),
+  }),
+  body: productRequestSchema['body'],
 };
 
 const productResponseSchema = Type.Object({
@@ -68,8 +65,8 @@ const productResponseSchema = Type.Object({
 export const getProductByTypeSchema = {
   tags: ['product'],
   summary: 'Получить список продуктов по типу',
-  params: getProductListRequestSchema['params'],
-  querystring: getProductListRequestSchema['querystring'],
+  params: productRequestSchema['params'],
+  querystring: productRequestSchema['querystring'],
   security: [
     {
       bearerAuth: [],
@@ -85,7 +82,7 @@ export const getProductByTypeSchema = {
 // GET schema
 export const getAllProductSchema = {
   tags: ['product'],
-  querystring: getProductListRequestSchema['querystring'],
+  querystring: productRequestSchema['querystring'],
   summary: 'Получить список продуктов',
   security: [
     {

@@ -1,12 +1,12 @@
 import { type FastifyInstance } from 'fastify';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
-import { type updateProductRequestSchema, type productRequestSchema } from '../schemas/product';
+import { type updateProductRequestSchema, type addProductRequestSchema } from '../schemas/product';
 import { type GetProductListOptions } from './types';
 import { createPaginatedResponse } from '../utils';
 import { Op } from 'sequelize';
 
-type ProductParams = Static<(typeof productRequestSchema)['body']>;
+type ProductParams = Static<(typeof addProductRequestSchema)['body']>;
 type updateProductParams = Static<(typeof updateProductRequestSchema)['body']> &
   Static<(typeof updateProductRequestSchema)['params']>;
 
