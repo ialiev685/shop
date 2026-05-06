@@ -187,6 +187,10 @@ export interface V1AddProductCreateData {
   typeId: number;
   img: string;
   sku: string;
+  type: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface V1UpdateProductPartialUpdatePayload {
@@ -209,6 +213,10 @@ export interface V1UpdateProductPartialUpdateData {
   typeId: number;
   img: string;
   sku: string;
+  type: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface V1RemoveProductDeleteParams {
@@ -218,28 +226,91 @@ export interface V1RemoveProductDeleteParams {
 export type V1RemoveProductDeleteData = any;
 
 export interface V1ProductListByTypeDetailParams {
+  /**
+   * @min 1
+   * @default 1
+   */
+  page?: number;
+  /**
+   * @min 1
+   * @max 100
+   * @default 10
+   */
+  limit?: number;
+  search?: string;
+  /** @default "name" */
+  sortBy?: string;
+  /** @default "DESC" */
+  sortOrder?: "ASC" | "DESC";
   typeId: number;
 }
 
-export type V1ProductListByTypeDetailData = {
-  id: number;
-  name: string;
-  price: number;
-  rating: number;
-  typeId: number;
-  img: string;
-  sku: string;
-}[];
+export interface V1ProductListByTypeDetailData {
+  data: {
+    id: number;
+    name: string;
+    price: number;
+    rating: number;
+    typeId: number;
+    img: string;
+    sku: string;
+    type: {
+      id: number;
+      name: string;
+    };
+  }[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}
 
-export type V1AllProductListListData = {
-  id: number;
-  name: string;
-  price: number;
-  rating: number;
-  typeId: number;
-  img: string;
-  sku: string;
-}[];
+export interface V1AllProductListListParams {
+  /**
+   * @min 1
+   * @default 1
+   */
+  page?: number;
+  /**
+   * @min 1
+   * @max 100
+   * @default 10
+   */
+  limit?: number;
+  search?: string;
+  /** @default "name" */
+  sortBy?: string;
+  /** @default "DESC" */
+  sortOrder?: "ASC" | "DESC";
+}
+
+export interface V1AllProductListListData {
+  data: {
+    id: number;
+    name: string;
+    price: number;
+    rating: number;
+    typeId: number;
+    img: string;
+    sku: string;
+    type: {
+      id: number;
+      name: string;
+    };
+  }[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}
 
 export interface V1AddProductInfoCreatePayload {
   name: string;

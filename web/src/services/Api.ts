@@ -20,6 +20,7 @@ import type {
   V1AddProductToBasketCreateData,
   V1AddProductToBasketCreatePayload,
   V1AllProductListListData,
+  V1AllProductListListParams,
   V1BasketListListData,
   V1ClearBasketCreateData,
   V1ClearBasketCreatePayload,
@@ -282,7 +283,7 @@ export class Api<
    * @secure
    */
   v1ProductListByTypeDetail = (
-    { typeId }: V1ProductListByTypeDetailParams,
+    { typeId, ...query }: V1ProductListByTypeDetailParams,
     params: RequestParams = {},
   ) =>
     this.request<
@@ -294,6 +295,7 @@ export class Api<
     >({
       path: `/api/v1/productListByType/${typeId}`,
       method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,
@@ -307,7 +309,10 @@ export class Api<
    * @request GET:/api/v1/allProductList
    * @secure
    */
-  v1AllProductListList = (params: RequestParams = {}) =>
+  v1AllProductListList = (
+    query: V1AllProductListListParams,
+    params: RequestParams = {},
+  ) =>
     this.request<
       V1AllProductListListData,
       {
@@ -317,6 +322,7 @@ export class Api<
     >({
       path: `/api/v1/allProductList`,
       method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,
