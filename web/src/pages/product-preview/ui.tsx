@@ -4,17 +4,6 @@ import { Flex, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
-// MOCK
-const product = {
-  id: 1,
-  name: "Яблоко Гренни Смит",
-  price: 89.99,
-  rating: 4.5,
-  typeId: 101,
-  img: "https://placehold.co/600x400/4CAF50/white?text=🍎+Яблоко",
-  sku: "FRUIT-APPLE-001",
-};
-
 export const ProductPreview = () => {
   const { productId } = useParams<string>();
 
