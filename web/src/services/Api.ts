@@ -39,6 +39,7 @@ import type {
   V1RemoveTypeDeleteData,
   V1RemoveTypeDeleteParams,
   V1TypeListListData,
+  V1TypeListListParams,
   V1UpdateProductInfoPartialUpdateData,
   V1UpdateProductInfoPartialUpdateParams,
   V1UpdateProductInfoPartialUpdatePayload,
@@ -526,7 +527,7 @@ export class Api<
    * @request GET:/api/v1/typeList
    * @secure
    */
-  v1TypeListList = (params: RequestParams = {}) =>
+  v1TypeListList = (query: V1TypeListListParams, params: RequestParams = {}) =>
     this.request<
       V1TypeListListData,
       {
@@ -536,6 +537,7 @@ export class Api<
     >({
       path: `/api/v1/typeList`,
       method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,

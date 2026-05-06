@@ -194,11 +194,11 @@ export interface V1AddProductCreateData {
 }
 
 export interface V1UpdateProductPartialUpdatePayload {
-  name?: string;
-  price?: number;
-  typeId?: number;
-  img?: string;
-  sku?: string;
+  name: string;
+  price: number;
+  typeId: number;
+  img: string;
+  sku: string;
 }
 
 export interface V1UpdateProductPartialUpdateParams {
@@ -385,6 +385,10 @@ export interface V1RemoveTypeDeleteParams {
 }
 
 export type V1RemoveTypeDeleteData = any;
+
+export interface V1TypeListListParams {
+  search?: string;
+}
 
 export type V1TypeListListData = {
   id: number;
