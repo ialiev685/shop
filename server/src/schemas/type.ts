@@ -3,7 +3,7 @@ import { errorResponseSchema } from './error';
 
 const typeRequestSchema = {
   querystring: Type.Object({
-    search: Type.String(),
+    search: Type.Optional(Type.String()),
   }),
   body: Type.Object({
     name: Type.String(),
