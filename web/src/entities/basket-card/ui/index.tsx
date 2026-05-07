@@ -1,30 +1,20 @@
 import { Card, Flex, Grid, Group, Image, Paper, Text } from "@mantine/core";
-import { Counter } from "./counter";
+
 import { IconTrash } from "@tabler/icons-react";
+import type { V1BasketListListData } from "@/services/data-contracts";
+import { Counter } from "@/shared/ui/counter";
 
 type BasketCardProps = {
-  id: number;
-  basketId: number;
-  productId: number;
-  quantity: number;
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    rating: number;
-    typeId: number;
-    img: string;
-    sku: string;
-  };
+  basketProduct: V1BasketListListData["basketProducts"][number];
 };
 
-export const BasketCard = ({ product, quantity }: BasketCardProps) => {
+export const BasketCard = ({ basketProduct }: BasketCardProps) => {
   return (
     <Card shadow="sm">
       <Card.Section>
         <Group gap={8}>
           <Paper shadow="sm" radius={4}>
-            <Image fit="cover" src={product.img} h={80} />
+            <Image fit="cover" src={basketProduct.product.img} h={80} />
           </Paper>
           <Flex
             p="8px 8px 0 8px"
@@ -37,17 +27,17 @@ export const BasketCard = ({ product, quantity }: BasketCardProps) => {
             <Grid gutter={0}>
               <Grid.Col span="auto">
                 <Text c="gray-shop-1" fz={12} lineClamp={3}>
-                  {product.name}
+                  {basketProduct.product.name}
                 </Text>
               </Grid.Col>
               <Grid.Col span="content">
-                <IconTrash size={20} />
+                <IconTrash size={20} cursor="pointer" />
               </Grid.Col>
             </Grid>
 
             <Group align="flex-start" gap={8}>
               <Text c="gray-shop-1" fz={12} fw={700}>
-                {product.price} ₽
+                {basketProduct.product.price.toFixed(2)} ₽
               </Text>
               <Text fz={8} c="gray-shop-2">
                 за штуку
@@ -58,9 +48,9 @@ export const BasketCard = ({ product, quantity }: BasketCardProps) => {
       </Card.Section>
 
       <Group mt={12} justify="space-between" align="center">
-        <Counter quantity={quantity} />
+        <Counter quantity={basketProduct.quantity} />
         <Text c="gray-shop-1" fw={700}>
-          {product.price * quantity} ₽
+          {(basketProduct.product.price * basketProduct.quantity).toFixed(2)} ₽
         </Text>
       </Group>
     </Card>

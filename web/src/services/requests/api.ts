@@ -2,12 +2,14 @@ import { api } from "../client";
 import type {
   V1AddNameTypeCreatePayload,
   V1AddProductCreatePayload,
+  V1AddProductToBasketCreatePayload,
   V1AllProductListListParams,
   V1ProductByIdDetailParams,
   V1ProductListByTypeDetailParams,
   V1RemoveProductDeleteParams,
   V1RemoveTypeDeleteParams,
   V1TypeListListParams,
+  V1UpdateQuantityProductCreatePayload,
 } from "../data-contracts";
 
 export const productListAll = async (params: V1AllProductListListParams) => {
@@ -49,5 +51,24 @@ export const addType = async (params: V1AddNameTypeCreatePayload) => {
 
 export const removeType = async (params: V1RemoveTypeDeleteParams) => {
   const { data } = await api.v1RemoveTypeDelete(params);
+  return data;
+};
+
+export const basketProductList = async () => {
+  const { data } = await api.v1BasketListList();
+  return data;
+};
+
+export const addProductToBasket = async (
+  params: V1AddProductToBasketCreatePayload,
+) => {
+  const { data } = await api.v1AddProductToBasketCreate(params);
+  return data;
+};
+
+export const updateQuantityProductFromBasket = async (
+  params: V1UpdateQuantityProductCreatePayload,
+) => {
+  const { data } = await api.v1UpdateQuantityProductCreate(params);
   return data;
 };
