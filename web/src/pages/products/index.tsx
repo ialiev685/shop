@@ -7,11 +7,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
 import { basketProductsQueries } from "@/entities/basket-products";
 import type { V1BasketListListData } from "@/services/data-contracts";
+import type { UpdateQuantityOptions } from "@/entities/product-card/types";
 
 export const Products = () => {
   const navigate = useNavigate();
   const { id } = useParams<string>();
   const queryClient = useQueryClient();
+
   const productsQuery = useQuery({
     ...productQueries.getByType(Number(id)),
     enabled: Boolean(id),
@@ -32,7 +34,38 @@ export const Products = () => {
     },
   });
 
+  const updateQuantityMutation = useMutation({
+    ...basketProductsQueries.updateQuantity,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: basketProductsQueries.basketProductsListKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: productQueries.getByType(Number(id)).queryKey,
+      });
+    },
+  });
+
+  const basketProductsQuery = useQuery(basketProductsQueries.get);
+
+  const handleUpdateQuantity = async ({
+    productId,
+    quantity,
+    basketId,
+  }: UpdateQuantityOptions) => {
+    await updateQuantityMutation.mutateAsync({
+      productId,
+      quantity,
+      basketId,
+    });
+  };
+
   const products = productsQuery.data?.data ?? [];
+
+  const findProductInBasket = (productId: number) =>
+    basketProductsQuery.data?.basketProducts.find(
+      (basketProduct) => basketProduct.productId === productId,
+    );
 
   const handleAddToBasket = async (id: number) => {
     await addProductToBasketMutation.mutateAsync({ productId: id });
@@ -56,6 +89,8 @@ export const Products = () => {
             product={product}
             onPreview={handlePreview}
             onAddToBasket={handleAddToBasket}
+            onUpdateQuantity={handleUpdateQuantity}
+            productInBasket={findProductInBasket(product.id)}
           />
         ))}
       </SimpleGrid>

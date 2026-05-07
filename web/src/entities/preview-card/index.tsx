@@ -23,11 +23,11 @@ const PreviewCard = ({
           <Rating value={rating} c="accent-shop-1" readOnly />
         </Card.Section>
         <Card.Section>
-          <Image src={img} alt={name} />
+          <Image src={img} alt={name} w="100%" h={248} fit="cover" />
         </Card.Section>
         <Card.Section>
           <Text fz={24} fw={700} ta="right">
-            {price} руб.
+            {price.toFixed(2)} руб.
           </Text>
         </Card.Section>
         <Card.Section>
