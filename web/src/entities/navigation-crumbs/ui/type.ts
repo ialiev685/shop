@@ -8,3 +8,5 @@ export type LinkState = {
   to: LinkProps["to"];
   title: string;
 };
+
+export type StoragePath = Record<string, LinkState>;
