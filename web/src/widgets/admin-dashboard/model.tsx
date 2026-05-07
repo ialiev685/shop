@@ -55,9 +55,9 @@ export const useController = () => {
     modals.openConfirmModal({
       modalId,
       centered: true,
+      closeOnConfirm: false,
       title: "Удаление типа",
       children: <Text size="sm">Вы уверены, что хотите удалить тип?</Text>,
-
       labels: { confirm: "Удалить", cancel: "Отмена" },
       confirmProps: { bg: "red", bd: "1px solid red" },
       onConfirm: async () => {

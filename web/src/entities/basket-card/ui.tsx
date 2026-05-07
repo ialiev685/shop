@@ -3,18 +3,25 @@ import { Card, Flex, Grid, Group, Image, Paper, Text } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import type { V1BasketListListData } from "@/services/data-contracts";
 import { Counter } from "@/shared/ui/counter";
+import type { DeleteOptions, UpdateQuantityOptions } from "./types";
 
 type BasketCardProps = {
   basketProduct: V1BasketListListData["basketProducts"][number];
+  onUpdateQuantity: (options: UpdateQuantityOptions) => void;
+  onDelete: (options: DeleteOptions) => void;
 };
 
-export const BasketCard = ({ basketProduct }: BasketCardProps) => {
+export const BasketCard = ({
+  basketProduct,
+  onDelete,
+  onUpdateQuantity,
+}: BasketCardProps) => {
   return (
     <Card shadow="sm">
       <Card.Section>
         <Group gap={8}>
           <Paper shadow="sm" radius={4}>
-            <Image fit="cover" src={basketProduct.product.img} h={80} />
+            <Image fit="cover" src={basketProduct.product.img} h={80} w={100} />
           </Paper>
           <Flex
             p="8px 8px 0 8px"
@@ -31,7 +38,17 @@ export const BasketCard = ({ basketProduct }: BasketCardProps) => {
                 </Text>
               </Grid.Col>
               <Grid.Col span="content">
-                <IconTrash size={20} cursor="pointer" />
+                <IconTrash
+                  size={20}
+                  cursor="pointer"
+                  onClick={() =>
+                    onDelete({
+                      basketId: basketProduct.basketId,
+                      productId: basketProduct.productId,
+                      name: basketProduct.product.name,
+                    })
+                  }
+                />
               </Grid.Col>
             </Grid>
 
@@ -48,7 +65,16 @@ export const BasketCard = ({ basketProduct }: BasketCardProps) => {
       </Card.Section>
 
       <Group mt={12} justify="space-between" align="center">
-        <Counter quantity={basketProduct.quantity} />
+        <Counter
+          quantity={basketProduct.quantity}
+          onUpdateQuantity={(quantity) =>
+            onUpdateQuantity({
+              quantity,
+              basketId: basketProduct.basketId,
+              productId: basketProduct.productId,
+            })
+          }
+        />
         <Text c="gray-shop-1" fw={700}>
           {(basketProduct.product.price * basketProduct.quantity).toFixed(2)} ₽
         </Text>

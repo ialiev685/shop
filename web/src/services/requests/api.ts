@@ -7,6 +7,7 @@ import type {
   V1ProductByIdDetailParams,
   V1ProductListByTypeDetailParams,
   V1RemoveProductDeleteParams,
+  V1RemoveProductFromBasketCreatePayload,
   V1RemoveTypeDeleteParams,
   V1TypeListListParams,
   V1UpdateQuantityProductCreatePayload,
@@ -70,5 +71,12 @@ export const updateQuantityProductFromBasket = async (
   params: V1UpdateQuantityProductCreatePayload,
 ) => {
   const { data } = await api.v1UpdateQuantityProductCreate(params);
+  return data;
+};
+
+export const deleteProductFromBasket = async (
+  params: V1RemoveProductFromBasketCreatePayload,
+) => {
+  const { data } = await api.v1RemoveProductFromBasketCreate(params);
   return data;
 };
