@@ -17,15 +17,18 @@ import { IconMenu2, IconBasket } from "@tabler/icons-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Text } from "@mantine/core";
 import { useAuth } from "@/app/providers/auth/context";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { userQueries } from "@/entities/user";
 import { TOKEN_KEY } from "@/shared/configs";
+import { typeQueries } from "@/entities/catalog";
 
 export const Header = () => {
   const [isOpen, { close, toggle }] = useDisclosure(false);
   const { isAuthorized, user } = useAuth();
   const logoutMutation = useMutation(userQueries.logoutMutation);
   const queryclient = useQueryClient();
+  const navigate = useNavigate();
+  const { data = [], isLoading } = useQuery(typeQueries.get({}));
 
   const handleLogout = async () => {
     await logoutMutation.mutateAsync(undefined, {
@@ -35,7 +38,6 @@ export const Header = () => {
       },
     });
   };
-  const navigate = useNavigate();
 
   return (
     <>
@@ -100,7 +102,7 @@ export const Header = () => {
       </ResponsiveContainer>
 
       <Drawer title="Меню" opened={isOpen} onClose={close} position="right">
-        <Sections />
+        <Sections data={data} isLoading={isLoading} />
       </Drawer>
     </>
   );
