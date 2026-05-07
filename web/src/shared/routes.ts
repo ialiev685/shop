@@ -3,9 +3,9 @@ type RoutePath =
   | "/login"
   | "/forgot-password"
   | "/catalog"
-  | "/catalog/:typeId"
+  | "/products/:id"
   | "/basket"
-  | "/product-preview/:productId"
+  | "/product-preview/:id"
   | "/reset-password/:token"
   | "/admin"
   | "*";
@@ -38,12 +38,12 @@ export const routes: Route[] = [
     withId: false,
     children: [
       {
-        path: "/catalog/:typeId",
+        path: "/products/:id",
         componentName: "products",
         withId: true,
         children: [
           {
-            path: "/product-preview/:productId",
+            path: "/product-preview/:id",
             componentName: "productPreview",
             withId: true,
           },

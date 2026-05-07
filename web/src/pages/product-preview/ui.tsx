@@ -5,11 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 export const ProductPreview = () => {
-  const { productId } = useParams<string>();
+  const { id } = useParams<string>();
 
   const { data } = useQuery({
-    ...productQueries.getById(Number(productId)),
-    enabled: Boolean(productId),
+    ...productQueries.getById(Number(id)),
+    enabled: Boolean(id),
   });
   if (!data) {
     return null;

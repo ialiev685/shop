@@ -1,8 +1,10 @@
 import { LoadingOverlay, SimpleGrid } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { generatePath } from "react-router-dom";
 import { Card } from "./card";
 import styles from "./styles.module.css";
 import type { V1TypeListListData } from "@/services/data-contracts";
+import { LinkWithState } from "../navigation-crumbs";
+import { routesMap } from "@/shared/routes";
 
 type SectionsProps = {
   showCard?: boolean;
@@ -19,15 +21,22 @@ export const Sections = ({
     <SimpleGrid pt={12} cols={2} spacing={16} verticalSpacing={16}>
       <LoadingOverlay visible={isLoading} />
       {data.map(({ id, name }) => {
-        const linkTo = `/catalog/${id}`;
+        const linkTo = generatePath(routesMap["/products/:id"], {
+          id,
+        });
         return showCard ? (
-          <Link key={id} to={linkTo}>
+          <LinkWithState key={id} to={linkTo} title={name}>
             <Card title={name} />
-          </Link>
+          </LinkWithState>
         ) : (
-          <Link to={linkTo} key={id} className={styles["nav-link"]}>
+          <LinkWithState
+            to={linkTo}
+            key={id}
+            title={name}
+            className={styles["nav-link"]}
+          >
             {name}
-          </Link>
+          </LinkWithState>
         );
       })}
     </SimpleGrid>

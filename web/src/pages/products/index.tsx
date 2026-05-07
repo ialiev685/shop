@@ -1,3 +1,4 @@
+import type { LinkState } from "@/entities/navigation-crumbs";
 import { productQueries } from "@/entities/product";
 import { ProductCard } from "@/entities/product-card/ui";
 import { routesMap } from "@/shared/routes";
@@ -7,11 +8,11 @@ import { generatePath, useNavigate, useParams } from "react-router-dom";
 
 export const Products = () => {
   const navigate = useNavigate();
-  const { typeId } = useParams<string>();
+  const { id } = useParams<string>();
 
   const productsQuery = useQuery({
-    ...productQueries.getByType(Number(typeId)),
-    enabled: Boolean(typeId),
+    ...productQueries.getByType(Number(id)),
+    enabled: Boolean(id),
   });
 
   const products = productsQuery.data?.data ?? [];
@@ -27,11 +28,10 @@ export const Products = () => {
           <ProductCard
             {...product}
             onPreview={() => {
-              navigate(
-                generatePath(routesMap["/product-preview/:productId"], {
-                  productId: product.id.toString(),
-                }),
-              );
+              const to = generatePath(routesMap["/product-preview/:id"], {
+                id: product.id.toString(),
+              });
+              navigate(to, { state: { title: product.name, to } as LinkState });
             }}
             onAddToBasket={() => {
               // Implementation for adding to basket
