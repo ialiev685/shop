@@ -1,3 +1,14 @@
+import { Admin } from "@/pages/admin/ui";
+import { Basket } from "@/pages/basket/ui";
+import { Catalog } from "@/pages/catalog/ui";
+import { ForgotPassword } from "@/pages/forgot-password/ui";
+import { Login } from "@/pages/login/ui";
+import { ProductPreview } from "@/pages/product-preview/ui";
+import { Products } from "@/pages/products";
+import { Register } from "@/pages/register/ui";
+import { ResetPassword } from "@/pages/reset-password/ui";
+import type { ComponentType } from "react";
+
 type RoutePath =
   | "/register"
   | "/login"
@@ -24,10 +35,9 @@ export type ComponentKey =
 export type Route = {
   path: RoutePath;
   title?: string;
-  withId?: boolean;
   isAuthRoute?: boolean;
   isAdminRoute?: boolean;
-  componentName: ComponentKey;
+  component: ComponentType;
   children?: Route[];
 };
 
@@ -35,53 +45,48 @@ export const routes: Route[] = [
   {
     path: "/catalog",
     title: "Каталог",
-    withId: false,
+    component: Catalog,
     children: [
       {
         path: "/products/:id",
-        componentName: "products",
-        withId: true,
+        component: Products,
         children: [
           {
             path: "/product-preview/:id",
-            componentName: "productPreview",
-            withId: true,
+            component: ProductPreview,
           },
         ],
       },
     ],
-    componentName: "catalog",
   },
   {
     path: "/basket",
     title: "Корзина",
-    componentName: "basket",
-    withId: false,
+    component: Basket,
   },
-
   {
     path: "/login",
-    componentName: "login",
+    component: Login,
     isAuthRoute: true,
   },
   {
     path: "/register",
-    componentName: "register",
+    component: Register,
     isAuthRoute: true,
   },
   {
     path: "/forgot-password",
-    componentName: "forgotPassword",
+    component: ForgotPassword,
     isAuthRoute: true,
   },
   {
     path: "/reset-password/:token",
-    componentName: "resetPassword",
+    component: ResetPassword,
     isAuthRoute: true,
   },
   {
     path: "/admin",
-    componentName: "admin",
+    component: Admin,
     isAdminRoute: true,
   },
 ] as const;

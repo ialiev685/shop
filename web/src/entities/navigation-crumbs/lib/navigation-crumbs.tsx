@@ -1,4 +1,4 @@
-import type { Route } from "@/shared/routes";
+import type { Route } from "@/app/routes";
 import type { LinkState, StoragePath } from "../ui/type";
 import { matchPath } from "react-router-dom";
 import { Anchor, Text } from "@mantine/core";

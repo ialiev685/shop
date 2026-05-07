@@ -4,7 +4,7 @@ import { Card } from "./card";
 import styles from "./styles.module.css";
 import type { V1TypeListListData } from "@/services/data-contracts";
 import { LinkWithState } from "../navigation-crumbs";
-import { routesMap } from "@/shared/routes";
+import { routesMap } from "@/app/routes";
 
 type SectionsProps = {
   showCard?: boolean;

@@ -1,4 +1,4 @@
-import { routesMap } from "@/shared/routes";
+import { routesMap } from "@/app/routes";
 import {
   TextInput,
   PasswordInput,

@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/context";
 import { Center, Loader } from "@mantine/core";
-import { routesMap } from "@/shared/routes";
+import { routesMap } from "@/app/routes";
 
 export const PublicRoute = () => {
   const { isAuthorized, isLoading } = useAuth();

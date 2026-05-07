@@ -1,4 +1,4 @@
-import { routesMap } from "@/shared/routes";
+import { routesMap } from "@/app/routes";
 import { TextInput, Button, Paper, Title, Flex, Text } from "@mantine/core";
 import { useForm, isEmail } from "@mantine/form";
 import { useNavigate } from "react-router-dom";

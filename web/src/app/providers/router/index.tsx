@@ -1,36 +1,10 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { Main } from "@/pages/main/ui";
-import { Basket } from "@/pages/basket/ui";
 
-import { Catalog } from "@/pages/catalog/ui";
-import {
-  routes,
-  routesMap,
-  type ComponentKey,
-  type Route as RouteType,
-} from "@/shared/routes";
-import { Products } from "@/pages/products";
-import { ProductPreview } from "@/pages/product-preview/ui";
-import { Register } from "@/pages/register/ui";
-import { Login } from "@/pages/login/ui";
-import { ForgotPassword } from "@/pages/forgot-password/ui";
-import { ResetPassword } from "@/pages/reset-password/ui";
+import { routes, routesMap, type Route as RouteType } from "@/app/routes";
 import { PublicRoute } from "./public-route";
 import { AdminRoute } from "./amin-route";
-import { Admin } from "@/pages/admin/ui";
-
-const pages: Record<ComponentKey, React.ComponentType> = {
-  catalog: Catalog,
-  products: Products,
-  basket: Basket,
-  productPreview: ProductPreview,
-  register: Register,
-  login: Login,
-  forgotPassword: ForgotPassword,
-  resetPassword: ResetPassword,
-  admin: Admin,
-};
 
 export const AppRoutes = () => {
   return (
@@ -54,7 +28,7 @@ export const AppRoutes = () => {
 
 const createRoutes = (routes: RouteType[]): React.ReactNode[] => {
   return routes.reduce<React.ReactNode[]>((acc, item) => {
-    const Page = pages[item.componentName];
+    const Page = item.component;
     acc.push(<Route key={item.path} path={item.path} element={<Page />} />);
     if (item.children) {
       const childRoutes = createRoutes(item.children);

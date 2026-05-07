@@ -1,5 +1,5 @@
 import { Sections } from "@/entities/sections";
-import { routesMap } from "@/shared/routes";
+import { routesMap } from "@/app/routes";
 
 import { ResponsiveContainer } from "@/shared/ui/responsive-container";
 import {

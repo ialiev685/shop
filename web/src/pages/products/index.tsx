@@ -1,7 +1,7 @@
 import type { LinkState } from "@/entities/navigation-crumbs";
 import { productQueries } from "@/entities/product";
 import { ProductCard } from "@/entities/product-card/ui";
-import { routesMap } from "@/shared/routes";
+import { routesMap } from "@/app/routes";
 import { Flex, SimpleGrid, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
