@@ -6,7 +6,7 @@ import {
   type RemoveProductSchema,
   type UpdateProductSchema,
   type ProductListSchema,
-  ProductByIdSchema,
+  type ProductByIdSchema,
 } from './type';
 
 export class ProductController {

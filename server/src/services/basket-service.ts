@@ -46,6 +46,18 @@ export class BasketService {
         await basketProduct.save();
       }
 
+      if (created) {
+        await basketProduct.reload({
+          include: [
+            {
+              model: this.fastifyInstance.db.Product,
+              as: 'product',
+              required: false,
+            },
+          ],
+        });
+      }
+
       return basketProduct;
     } catch (error) {
       if (error instanceof ForeignKeyConstraintError) {
