@@ -3,73 +3,21 @@ import { productQueries } from "@/entities/product";
 import { ProductCard } from "@/entities/product-card/ui";
 import { routesMap } from "@/app/routes";
 import { Flex, SimpleGrid, Title } from "@mantine/core";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
-import { basketProductsQueries } from "@/entities/basket-products";
-import type { V1BasketListListData } from "@/services/data-contracts";
-import type { UpdateQuantityOptions } from "@/entities/product-card/types";
+import { AddProductToBasketControl } from "@/features/add-product--to-basket-control/ui";
 
 export const Products = () => {
   const navigate = useNavigate();
   const { id } = useParams<string>();
-  const queryClient = useQueryClient();
 
   const productsQuery = useQuery({
     ...productQueries.getByType(Number(id)),
     enabled: Boolean(id),
   });
 
-  const addProductToBasketMutation = useMutation({
-    ...basketProductsQueries.add,
-    onSuccess: (data) => {
-      queryClient.setQueryData(
-        basketProductsQueries.basketProductsListKey,
-        (oldData: V1BasketListListData): V1BasketListListData => {
-          return {
-            ...oldData,
-            basketProducts: [...oldData.basketProducts, data],
-          };
-        },
-      );
-    },
-  });
-
-  const updateQuantityMutation = useMutation({
-    ...basketProductsQueries.updateQuantity,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: basketProductsQueries.basketProductsListKey,
-      });
-      queryClient.invalidateQueries({
-        queryKey: productQueries.getByType(Number(id)).queryKey,
-      });
-    },
-  });
-
-  const basketProductsQuery = useQuery(basketProductsQueries.get);
-
-  const handleUpdateQuantity = async ({
-    productId,
-    quantity,
-    basketId,
-  }: UpdateQuantityOptions) => {
-    await updateQuantityMutation.mutateAsync({
-      productId,
-      quantity,
-      basketId,
-    });
-  };
-
   const products = productsQuery.data?.data ?? [];
 
-  const findProductInBasket = (productId: number) =>
-    basketProductsQuery.data?.basketProducts.find(
-      (basketProduct) => basketProduct.productId === productId,
-    );
-
-  const handleAddToBasket = async (id: number) => {
-    await addProductToBasketMutation.mutateAsync({ productId: id });
-  };
   const handlePreview = (id: number, name: string) => {
     const to = generatePath(routesMap["/product-preview/:id"], {
       id: id.toString(),
@@ -88,9 +36,7 @@ export const Products = () => {
           <ProductCard
             product={product}
             onPreview={handlePreview}
-            onAddToBasket={handleAddToBasket}
-            onUpdateQuantity={handleUpdateQuantity}
-            productInBasket={findProductInBasket(product.id)}
+            control={<AddProductToBasketControl productId={product.id} />}
           />
         ))}
       </SimpleGrid>

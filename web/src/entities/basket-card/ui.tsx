@@ -1,23 +1,18 @@
 import { Card, Flex, Grid, Group, Image, Paper, Text } from "@mantine/core";
 
 import { IconTrash } from "@tabler/icons-react";
-import type { V1BasketListListData } from "@/services/data-contracts";
-import { Counter } from "@/shared/ui/counter";
-import type { DeleteOptions, UpdateQuantityOptions } from "./types";
-
-type BasketCardProps = {
-  basketProduct: V1BasketListListData["basketProducts"][number];
-  onUpdateQuantity: (options: UpdateQuantityOptions) => void;
-  onDelete: (options: DeleteOptions) => void;
-};
+import type { BasketCardProps } from "./types";
+import { LoadingOverlay } from "@mantine/core";
 
 export const BasketCard = ({
   basketProduct,
   onDelete,
-  onUpdateQuantity,
+  control,
+  isLoading,
 }: BasketCardProps) => {
   return (
     <Card shadow="sm">
+      <LoadingOverlay visible={isLoading} />
       <Card.Section>
         <Group gap={8}>
           <Paper shadow="sm" radius={4}>
@@ -45,7 +40,6 @@ export const BasketCard = ({
                     onDelete({
                       basketId: basketProduct.basketId,
                       productId: basketProduct.productId,
-                      name: basketProduct.product.name,
                     })
                   }
                 />
@@ -63,22 +57,15 @@ export const BasketCard = ({
           </Flex>
         </Group>
       </Card.Section>
-
-      <Group mt={12} justify="space-between" align="center">
-        <Counter
-          quantity={basketProduct.quantity}
-          onUpdateQuantity={(quantity) =>
-            onUpdateQuantity({
-              quantity,
-              basketId: basketProduct.basketId,
-              productId: basketProduct.productId,
-            })
-          }
-        />
-        <Text c="gray-shop-1" fw={700}>
-          {(basketProduct.product.price * basketProduct.quantity).toFixed(2)} ₽
-        </Text>
-      </Group>
+      {
+        <Group mt={12} justify="space-between" align="center">
+          {control}
+          <Text c="gray-shop-1" fw={700}>
+            {(basketProduct.product.price * basketProduct.quantity).toFixed(2)}{" "}
+            ₽
+          </Text>
+        </Group>
+      }
     </Card>
   );
 };

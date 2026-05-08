@@ -5,13 +5,14 @@ import type { MouseEventHandler } from "react";
 interface CounterProps {
   quantity: number;
   onUpdateQuantity: (quantity: number) => void;
+  onDelete?: () => void;
 }
 
 export const Counter: React.FC<CounterProps> = ({
   quantity,
   onUpdateQuantity,
+  onDelete,
 }) => {
-  console.log("пришло", quantity);
   const handleIncrement: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     if (quantity < 999) {
@@ -22,6 +23,8 @@ export const Counter: React.FC<CounterProps> = ({
     event.stopPropagation();
     if (quantity > 1) {
       onUpdateQuantity(Math.max(0, quantity - 1));
+    } else {
+      onDelete?.();
     }
   };
 
@@ -29,6 +32,8 @@ export const Counter: React.FC<CounterProps> = ({
     <Paper bg="green-shop-1" withBorder={false}>
       <Group preventGrowOverflow={false} grow wrap="nowrap" gap={0}>
         <Button
+          pl={12}
+          pr={12}
           radius={4}
           variant="filled-green-shop"
           onClick={handleDecrement}
@@ -39,6 +44,8 @@ export const Counter: React.FC<CounterProps> = ({
           {quantity}
         </Text>
         <Button
+          pl={12}
+          pr={12}
           variant="filled-green-shop"
           onClick={handleIncrement}
           radius={4}

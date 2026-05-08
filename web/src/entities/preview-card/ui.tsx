@@ -1,20 +1,20 @@
-import { Card, Image, Button, Text, Rating, Flex, Grid } from "@mantine/core";
-import { IconBasket } from "@tabler/icons-react";
+import { Card, Image, Text, Rating, Flex, Grid } from "@mantine/core";
+import type { ReactNode } from "react";
 
 interface PreviewCardProps {
   name: string;
   price: number;
   rating: number;
   img: string;
-  onAddToBasket: () => void;
+  control?: ReactNode;
 }
 
-const PreviewCard = ({
+export const PreviewCard = ({
   name,
   price,
   rating,
   img,
-  onAddToBasket,
+  control,
 }: PreviewCardProps) => {
   return (
     <Card bg="transparent">
@@ -46,19 +46,8 @@ const PreviewCard = ({
           </Grid>
         </Card.Section>
 
-        <Card.Section>
-          <Button
-            leftSection={<IconBasket cursor="pointer" />}
-            onClick={onAddToBasket}
-            w="100%"
-            variant="filled-accent-shop"
-          >
-            В корзину
-          </Button>
-        </Card.Section>
+        <Card.Section>{control}</Card.Section>
       </Flex>
     </Card>
   );
 };
-
-export default PreviewCard;

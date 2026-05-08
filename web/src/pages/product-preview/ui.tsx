@@ -1,6 +1,8 @@
-import PreviewCard from "@/entities/preview-card";
+import { PreviewCard } from "@/entities/preview-card/ui";
 import { productQueries } from "@/entities/product";
+import { AddProductToBasketControl } from "@/features/add-product--to-basket-control/ui";
 import { Flex, Title } from "@mantine/core";
+import { IconBasket } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
@@ -20,7 +22,16 @@ export const ProductPreview = () => {
       <Title order={2} c="gray-shop-1">
         Предпросмотр товара
       </Title>
-      <PreviewCard {...data} onAddToBasket={() => {}} />
+      <PreviewCard
+        {...data}
+        control={
+          <AddProductToBasketControl
+            productId={data.id}
+            leftSection={<IconBasket cursor="pointer" />}
+            variant="filled-accent-shop"
+          />
+        }
+      />
     </Flex>
   );
 };

@@ -1,11 +1,14 @@
-import type { V1RemoveProductFromBasketCreatePayload } from "@/services/data-contracts";
+import type {
+  V1BasketListListData,
+  V1RemoveProductFromBasketCreatePayload,
+} from "@/services/data-contracts";
+import type { ReactNode } from "react";
 
-export type UpdateQuantityOptions = {
-  productId: number;
-  quantity: number;
-  basketId: number;
-};
+export type DeleteOptions = V1RemoveProductFromBasketCreatePayload;
 
-export type DeleteOptions = V1RemoveProductFromBasketCreatePayload & {
-  name: string;
+export type BasketCardProps = {
+  basketProduct: V1BasketListListData["basketProducts"][number];
+  onDelete: (options: DeleteOptions) => void;
+  control?: ReactNode;
+  isLoading?: boolean;
 };
