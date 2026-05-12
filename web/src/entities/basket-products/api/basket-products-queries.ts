@@ -12,7 +12,6 @@ const basketProductsKeys = {
 
 export const basketProductsQueries = {
   ...basketProductsKeys,
-  basketProductsListKey: ["basketProductsList"],
   get: queryOptions({
     queryFn: basketProductList,
     queryKey: basketProductsKeys.basketProductsListKey,

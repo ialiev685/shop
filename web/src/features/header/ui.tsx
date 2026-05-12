@@ -11,6 +11,7 @@ import {
   Avatar,
   Button,
   Anchor,
+  Indicator,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconMenu2, IconBasket } from "@tabler/icons-react";
@@ -19,13 +20,15 @@ import { Text } from "@mantine/core";
 import { useAuth } from "@/app/providers/auth/context";
 import { useQuery } from "@tanstack/react-query";
 import { typeQueries } from "@/entities/catalog";
+import { basketProductsQueries } from "@/entities/basket-products";
 
 export const Header = () => {
   const [isOpen, { close, toggle }] = useDisclosure(false);
   const { isAuthorized, user, logout } = useAuth();
 
   const navigate = useNavigate();
-  const { data = [], isLoading } = useQuery(typeQueries.get({}));
+  const typesQuery = useQuery(typeQueries.get({}));
+  const basketQuery = useQuery(basketProductsQueries.get);
 
   return (
     <>
@@ -82,7 +85,15 @@ export const Header = () => {
               </Button>
             )}
             <Link to={routesMap["/basket"]}>
-              <IconBasket cursor="pointer" />
+              <Indicator
+                hidden
+                label={basketQuery.data?.basketProducts.length}
+                color="accent-shop-1"
+                size={16}
+                disabled={!basketQuery.data?.basketProducts.length}
+              >
+                <IconBasket cursor="pointer" />
+              </Indicator>
             </Link>
             <IconMenu2 onClick={toggle} cursor="pointer" />
           </Group>
@@ -90,7 +101,10 @@ export const Header = () => {
       </ResponsiveContainer>
 
       <Drawer title="Меню" opened={isOpen} onClose={close} position="right">
-        <Sections data={data} isLoading={isLoading} />
+        <Sections
+          data={typesQuery.data ?? []}
+          isLoading={typesQuery.isLoading}
+        />
       </Drawer>
     </>
   );
