@@ -341,6 +341,19 @@ export interface V1AddProductInfoCreateData {
   name: string;
   description: string;
   productId: number;
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    rating: number;
+    typeId: number;
+    img: string;
+    sku: string;
+    type: {
+      id: number;
+      name: string;
+    };
+  };
 }
 
 export interface V1UpdateProductInfoPartialUpdatePayload {
@@ -357,6 +370,19 @@ export interface V1UpdateProductInfoPartialUpdateData {
   name: string;
   description: string;
   productId: number;
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    rating: number;
+    typeId: number;
+    img: string;
+    sku: string;
+    type: {
+      id: number;
+      name: string;
+    };
+  };
 }
 
 export interface V1RemoveProductInfoDeleteParams {
@@ -365,16 +391,74 @@ export interface V1RemoveProductInfoDeleteParams {
 
 export type V1RemoveProductInfoDeleteData = any;
 
-export interface V1ProductInfoListDetailParams {
+export interface V1ProductInfoListByIdDetailParams {
   productId: number;
 }
 
-export type V1ProductInfoListDetailData = {
+export type V1ProductInfoListByIdDetailData = {
   id: number;
   name: string;
   description: string;
   productId: number;
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    rating: number;
+    typeId: number;
+    img: string;
+    sku: string;
+    type: {
+      id: number;
+      name: string;
+    };
+  };
 }[];
+
+export interface V1AllProductInfoListListParams {
+  /**
+   * @min 1
+   * @default 1
+   */
+  page?: number;
+  /**
+   * @min 1
+   * @max 100
+   * @default 10
+   */
+  limit?: number;
+  search?: string;
+}
+
+export interface V1AllProductInfoListListData {
+  data: {
+    id: number;
+    name: string;
+    description: string;
+    productId: number;
+    product: {
+      id: number;
+      name: string;
+      price: number;
+      rating: number;
+      typeId: number;
+      img: string;
+      sku: string;
+      type: {
+        id: number;
+        name: string;
+      };
+    };
+  }[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}
 
 export interface V1AddNameTypeCreatePayload {
   name: string;

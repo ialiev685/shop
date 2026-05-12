@@ -19,6 +19,8 @@ import type {
   V1AddProductInfoCreatePayload,
   V1AddProductToBasketCreateData,
   V1AddProductToBasketCreatePayload,
+  V1AllProductInfoListListData,
+  V1AllProductInfoListListParams,
   V1AllProductListListData,
   V1AllProductListListParams,
   V1BasketListListData,
@@ -26,8 +28,8 @@ import type {
   V1ClearBasketCreatePayload,
   V1ProductByIdDetailData,
   V1ProductByIdDetailParams,
-  V1ProductInfoListDetailData,
-  V1ProductInfoListDetailParams,
+  V1ProductInfoListByIdDetailData,
+  V1ProductInfoListByIdDetailParams,
   V1ProductListByTypeDetailData,
   V1ProductListByTypeDetailParams,
   V1RemoveFileDeleteData,
@@ -442,24 +444,51 @@ export class Api<
    * No description
    *
    * @tags productInfo
-   * @name V1ProductInfoListDetail
+   * @name V1ProductInfoListByIdDetail
    * @summary Получить информацию о продукте
-   * @request GET:/api/v1/productInfoList/{productId}
+   * @request GET:/api/v1/productInfoListById/{productId}
    * @secure
    */
-  v1ProductInfoListDetail = (
-    { productId }: V1ProductInfoListDetailParams,
+  v1ProductInfoListByIdDetail = (
+    { productId }: V1ProductInfoListByIdDetailParams,
     params: RequestParams = {},
   ) =>
     this.request<
-      V1ProductInfoListDetailData,
+      V1ProductInfoListByIdDetailData,
       {
         error?: string;
         message: string;
       }
     >({
-      path: `/api/v1/productInfoList/${productId}`,
+      path: `/api/v1/productInfoListById/${productId}`,
       method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags productInfo
+   * @name V1AllProductInfoListList
+   * @summary Получить список информации о продуктах
+   * @request GET:/api/v1/allProductInfoList
+   * @secure
+   */
+  v1AllProductInfoListList = (
+    query: V1AllProductInfoListListParams,
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      V1AllProductInfoListListData,
+      {
+        error?: string;
+        message: string;
+      }
+    >({
+      path: `/api/v1/allProductInfoList`,
+      method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,
