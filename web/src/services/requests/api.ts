@@ -2,12 +2,16 @@ import { api } from "../client";
 import type {
   V1AddNameTypeCreatePayload,
   V1AddProductCreatePayload,
+  V1AddProductInfoCreatePayload,
   V1AddProductToBasketCreatePayload,
+  V1AllProductInfoListListParams,
   V1AllProductListListParams,
   V1ProductByIdDetailParams,
+  V1ProductInfoListByIdDetailParams,
   V1ProductListByTypeDetailParams,
   V1RemoveProductDeleteParams,
   V1RemoveProductFromBasketCreatePayload,
+  V1RemoveProductInfoDeleteParams,
   V1RemoveTypeDeleteParams,
   V1TypeListListParams,
   V1UpdateQuantityProductCreatePayload,
@@ -78,5 +82,31 @@ export const deleteProductFromBasket = async (
   params: V1RemoveProductFromBasketCreatePayload,
 ) => {
   const { data } = await api.v1RemoveProductFromBasketCreate(params);
+  return data;
+};
+
+export const addProductInfo = async (params: V1AddProductInfoCreatePayload) => {
+  const { data } = await api.v1AddProductInfoCreate(params);
+  return data;
+};
+
+export const productInfoListById = async (
+  params: V1ProductInfoListByIdDetailParams,
+) => {
+  const { data } = await api.v1ProductInfoListByIdDetail(params);
+  return data;
+};
+
+export const productInfoListAll = async (
+  params: V1AllProductInfoListListParams,
+) => {
+  const { data } = await api.v1AllProductInfoListList(params);
+  return data;
+};
+
+export const deleteProductInfo = async (
+  params: V1RemoveProductInfoDeleteParams,
+) => {
+  const { data } = await api.v1RemoveProductInfoDelete(params);
   return data;
 };

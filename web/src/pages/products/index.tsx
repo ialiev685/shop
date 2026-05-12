@@ -1,6 +1,6 @@
 import type { LinkState } from "@/entities/navigation-crumbs";
 import { productQueries } from "@/entities/product";
-import { ProductCard } from "@/entities/product-card/ui";
+import { ProductCard } from "@/entities/product/ui/product-card";
 import { routesMap } from "@/app/routes";
 import { Flex, SimpleGrid, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";

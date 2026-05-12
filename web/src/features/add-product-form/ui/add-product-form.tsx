@@ -82,8 +82,7 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
             },
           },
         );
-        form.reset();
-        setIsOpen(false);
+        handleClose();
       },
     );
   });
@@ -104,7 +103,7 @@ export const AddProductForm = ({ triggerButton }: AddProductFormProps) => {
         onClose={handleClose}
         title={
           <Text fw="bold" c="gray-main-1" size="lg">
-            Добавление товара
+            Добавление продукта
           </Text>
         }
         centered

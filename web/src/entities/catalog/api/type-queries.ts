@@ -2,8 +2,11 @@ import type { V1TypeListListParams } from "@/services/data-contracts";
 import { typeList, addType, removeType } from "@/services/requests/api";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
+const PRIMARY_KEY = "typeList";
+
 const typeKeys = {
-  typeListKey: (params?: V1TypeListListParams) => ["typeList", params],
+  primaryKey: [PRIMARY_KEY],
+  typeListKey: (params?: V1TypeListListParams) => [PRIMARY_KEY, params],
 };
 
 export const typeQueries = {

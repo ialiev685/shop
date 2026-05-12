@@ -4,7 +4,7 @@ export const TOKEN_KEY = "accessToken";
 
 export const PAGINATION = {
   PAGE: 1,
-  LIMIT: 6,
+  LIMIT: 10,
 } as const;
 
 export type CustomColors =

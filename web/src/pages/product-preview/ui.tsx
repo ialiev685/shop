@@ -1,4 +1,4 @@
-import { PreviewCard } from "@/entities/preview-card/ui";
+import { PreviewCard } from "@/entities/product/ui/preview-card";
 import { productQueries } from "@/entities/product";
 import { AddProductToBasketControl } from "@/features/add-product--to-basket-control/ui";
 import { Flex, Title } from "@mantine/core";

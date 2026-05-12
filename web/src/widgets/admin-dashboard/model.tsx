@@ -1,4 +1,4 @@
-import { useMantineTheme, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useSearchParamsState } from "@/shared/hooks/use-search-params-state";
@@ -8,10 +8,10 @@ import { TABS_VALUE } from "./configs";
 import { modals } from "@mantine/modals";
 import { productQueries } from "@/entities/product";
 import { typeQueries } from "@/entities/catalog";
+import { productInfoQueries } from "@/entities/product-info/api/product-info-queries";
 
 export const useController = () => {
   const { setParam, getParam } = useSearchParamsState();
-  const theme = useMantineTheme();
   const queryClient = useQueryClient();
 
   const searchParams = {
@@ -24,20 +24,29 @@ export const useController = () => {
     ).toUpperCase() as V1AllProductListListParams["sortOrder"],
   };
 
+  const productInfoQuery = useQuery({
+    ...productInfoQueries.getAll({
+      page: searchParams.page,
+      limit: searchParams.limit,
+      search: searchParams.search,
+    }),
+    enabled: getParam("tab") === TABS_VALUE.productInfo,
+  });
+
   const productListQuery = useQuery({
     ...productQueries.getAll(searchParams),
     enabled: getParam("tab") === TABS_VALUE.products,
   });
 
   const typeListQuery = useQuery({
-    ...typeQueries.get({ search: getParam("search") || "" }),
+    ...typeQueries.get({ search: searchParams.search }),
     enabled: getParam("tab") === TABS_VALUE.types,
   });
 
   const removeType = useMutation({
     ...typeQueries.delete,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["typeList"] });
+      queryClient.invalidateQueries({ queryKey: typeQueries.primaryKey });
     },
   });
 
@@ -45,7 +54,16 @@ export const useController = () => {
     ...productQueries.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["productList", searchParams],
+        queryKey: productQueries.primaryKey,
+      });
+    },
+  });
+
+  const removeProductInfo = useMutation({
+    ...productInfoQueries.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: productInfoQueries.primaryKey,
       });
     },
   });
@@ -73,7 +91,7 @@ export const useController = () => {
       modalId,
       centered: true,
       closeOnConfirm: false,
-      title: "Удаление товара",
+      title: "Удаление продукта",
       children: <Text size="sm">Вы уверены, что хотите удалить продукт?</Text>,
       labels: { confirm: "Удалить", cancel: "Отмена" },
       confirmProps: { bg: "red", bd: "1px solid red" },
@@ -84,14 +102,33 @@ export const useController = () => {
     });
   };
 
+  const handleRemoveProductInfo = async (productInfoId: number) => {
+    const modalId = `delete-product-info-${productInfoId}`;
+    modals.openConfirmModal({
+      modalId,
+      centered: true,
+      closeOnConfirm: false,
+      title: "Удаление характеристики",
+      children: (
+        <Text size="sm">Вы уверены, что хотите удалить характеристики??</Text>
+      ),
+      labels: { confirm: "Удалить", cancel: "Отмена" },
+      confirmProps: { bg: "red", bd: "1px solid red" },
+      onConfirm: async () => {
+        await removeProductInfo.mutateAsync({ productInfoId });
+        modals.close(modalId);
+      },
+    });
+  };
+
   return {
     productList: productListQuery.data,
+    productInfoList: productInfoQuery.data,
     typeList: typeListQuery.data,
     isLoading: productListQuery.isLoading || typeListQuery.isLoading,
     handleRemoveType,
     handleRemoveProduct,
-    theme,
-    queryClient,
+    handleRemoveProductInfo,
     setParam,
     getParam,
   };

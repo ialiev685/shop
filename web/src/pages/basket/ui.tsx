@@ -1,4 +1,4 @@
-import { BasketCard } from "@/entities/basket-card/ui";
+import { BasketCard } from "@/entities/basket-products/ui/basket-card";
 import { AddProductToBasketControl } from "@/features/add-product--to-basket-control/ui";
 import { Flex, Title } from "@mantine/core";
 import { useController } from "./model";
