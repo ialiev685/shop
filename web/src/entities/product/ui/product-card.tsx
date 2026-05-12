@@ -20,7 +20,7 @@ export const ProductCard = ({
       </Card.Section>
       <Flex direction="column" justify="space-between" h="100%" gap={8}>
         <Text c="gray-shop-1" fw={700} fz={18}>
-          {product.price.toFixed(2)}
+          {product.price.toFixed(2)} ₽
         </Text>
         <Text c="gray-shop-1">{product.name}</Text>
         <Rating value={product.rating} c="accent-shop-1" readOnly />

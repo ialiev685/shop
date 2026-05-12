@@ -30,7 +30,7 @@ export const PreviewCard = ({
         </Card.Section>
         <Card.Section>
           <Text fz={24} fw={700} ta="right">
-            {price.toFixed(2)} руб.
+            {price.toFixed(2)} ₽
           </Text>
         </Card.Section>
         {productInfo && (
