@@ -21,7 +21,7 @@ export const Tabs = () => {
   } = useController();
 
   return (
-    <Flex direction="column" gap={24}>
+    <Flex direction="column" gap={24} justify="space-between">
       <MantineTabs
         value={getParam("tab")}
         onChange={(value) => {
@@ -29,7 +29,7 @@ export const Tabs = () => {
           setParam({ tab: value });
         }}
       >
-        <MantineTabs.List>
+        <MantineTabs.List grow>
           <MantineTabs.Tab value={TABS_VALUE.types}>Типы</MantineTabs.Tab>
           <MantineTabs.Tab value={TABS_VALUE.products}>
             Продукты

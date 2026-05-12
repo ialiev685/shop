@@ -17,27 +17,15 @@ import { IconMenu2, IconBasket } from "@tabler/icons-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Text } from "@mantine/core";
 import { useAuth } from "@/app/providers/auth/context";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { userQueries } from "@/entities/user";
-import { TOKEN_KEY } from "@/shared/configs";
+import { useQuery } from "@tanstack/react-query";
 import { typeQueries } from "@/entities/catalog";
 
 export const Header = () => {
   const [isOpen, { close, toggle }] = useDisclosure(false);
-  const { isAuthorized, user } = useAuth();
-  const logoutMutation = useMutation(userQueries.logoutMutation);
-  const queryclient = useQueryClient();
+  const { isAuthorized, user, logout } = useAuth();
+
   const navigate = useNavigate();
   const { data = [], isLoading } = useQuery(typeQueries.get({}));
-
-  const handleLogout = async () => {
-    await logoutMutation.mutateAsync(undefined, {
-      onSuccess: () => {
-        queryclient.setQueryData(userQueries.currentUserKey, null);
-        localStorage.removeItem(TOKEN_KEY);
-      },
-    });
-  };
 
   return (
     <>
@@ -80,7 +68,7 @@ export const Header = () => {
                     </Menu.Item>
                   )}
                   <Menu.Item>
-                    <Text onClick={handleLogout}>Выйти</Text>
+                    <Text onClick={logout}>Выйти</Text>
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>

@@ -5,6 +5,7 @@ export type AuthContextType = {
   user?: CurrentUserListData;
   isAuthorized: boolean;
   isLoading: boolean;
+  logout: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(

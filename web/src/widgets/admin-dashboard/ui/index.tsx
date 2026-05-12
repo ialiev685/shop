@@ -4,7 +4,7 @@ import { Tabs } from "./tabs";
 
 export const AdminDashboard = () => {
   return (
-    <>
+    <Flex h="100%" direction="column" gap={24}>
       <Flex p="26px 30px" bg="#FFF" justify="space-between" align="center">
         <Title fw="bold" order={3} w={100} c="gray-main-1">
           Товары
@@ -13,15 +13,15 @@ export const AdminDashboard = () => {
         <Box w={100} />
       </Flex>
 
-      <Box p="44px 30px" mt={30} bg="#FFF">
+      <Flex p="44px 30px" bg="#FFF" flex={1} gap={24} direction="column">
         <Title fw="bold" order={4} c="gray-main-1">
           Все позиции
         </Title>
 
-        <Box mt={24}>
+        <Box flex={1}>
           <Tabs />
         </Box>
-      </Box>
-    </>
+      </Flex>
+    </Flex>
   );
 };
