@@ -117,7 +117,7 @@ export const AddProductInfoForm = ({
               radius={8}
               size="md"
               label={<Text c="gray-main-2">Наименование</Text>}
-              placeholder="Введите наименование товара"
+              placeholder="Введите наименование характеристики"
               {...form.getInputProps("name")}
             />
 
@@ -126,7 +126,7 @@ export const AddProductInfoForm = ({
               radius={8}
               size="md"
               label={<Text c="gray-main-2">Описание</Text>}
-              placeholder="Введите цену"
+              placeholder="Введите описание"
               {...form.getInputProps("description")}
             />
 

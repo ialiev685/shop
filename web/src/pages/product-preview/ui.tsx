@@ -5,15 +5,22 @@ import { Flex, Title } from "@mantine/core";
 import { IconBasket } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { productInfoQueries } from "@/entities/product-info/api/product-info-queries";
 
 export const ProductPreview = () => {
   const { id } = useParams<string>();
 
-  const { data } = useQuery({
+  const productQuery = useQuery({
     ...productQueries.getById(Number(id)),
     enabled: Boolean(id),
   });
-  if (!data) {
+
+  const productInfoQuery = useQuery({
+    ...productInfoQueries.getById(productQuery.data?.id ?? NaN),
+    enabled: Boolean(productQuery.data?.id),
+  });
+
+  if (!productQuery.data) {
     return null;
   }
 
@@ -23,10 +30,11 @@ export const ProductPreview = () => {
         Предпросмотр товара
       </Title>
       <PreviewCard
-        {...data}
+        productInfo={productInfoQuery.data}
+        {...productQuery.data}
         control={
           <AddProductToBasketControl
-            productId={data.id}
+            productId={productQuery.data.id}
             leftSection={<IconBasket cursor="pointer" />}
             variant="filled-accent-shop"
           />

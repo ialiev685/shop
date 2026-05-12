@@ -36,7 +36,7 @@ export const ResponseProductInfoSchema = Type.Object({
   name: Type.String(),
   description: Type.String(),
   productId: Type.Number(),
-  product: Type.Omit(productResponseSchema, ['type']),
+  product: Type.Optional(Type.Omit(productResponseSchema, ['type'])),
 });
 
 export const QuerystringProductListSchema = Type.Object({
