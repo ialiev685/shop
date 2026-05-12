@@ -13,8 +13,9 @@ import type {
   V1TypeListListData,
 } from "@/services/data-contracts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { typeQueries } from "../../../entities/catalog/api/type-queries";
+
 import { useState, type ReactNode } from "react";
+import { typeQueries } from "@/entities/catalog";
 
 type FormValues = Required<V1AddNameTypeCreatePayload>;
 interface AddProductFormProps {
