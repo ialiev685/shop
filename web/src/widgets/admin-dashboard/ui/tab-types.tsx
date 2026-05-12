@@ -5,8 +5,9 @@ import { Table } from "@/entities/table/ui";
 import { useQueryClient } from "@tanstack/react-query";
 import type { V1TypeListListData } from "@/services/data-contracts";
 import { typeQueries } from "@/entities/catalog";
-import { AddTypeForm } from "@/features/add-type-form";
+
 import { getTypesColumns } from "../lib/get-types-columns";
+import { AddTypeForm } from "@/features/add-type-form/ui";
 
 interface TabProductProps {
   isLoading: boolean;

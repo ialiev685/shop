@@ -6,7 +6,7 @@ import type { V1AllProductInfoListListData } from "@/services/data-contracts";
 import { getProductInfoColumns } from "../lib/get-product-info-columns";
 import { useQueryClient } from "@tanstack/react-query";
 import { productInfoQueries } from "@/entities/product-info/api/product-info-queries";
-import { AddProductInfoForm } from "@/features/add-product-info-form";
+import { AddProductInfoForm } from "@/features/add-product-info-form/ui";
 
 interface TabProductInfoProps {
   isLoading: boolean;

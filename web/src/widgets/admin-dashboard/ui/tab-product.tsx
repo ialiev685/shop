@@ -3,10 +3,11 @@ import { getProductsColumns } from "../lib/get-products-columns";
 
 import { IconCirclePlus, IconRefresh } from "@tabler/icons-react";
 import { Table } from "@/entities/table/ui";
-import { AddProductForm } from "@/features/add-product-form";
+
 import { productQueries } from "@/entities/product";
 import { useQueryClient } from "@tanstack/react-query";
 import type { V1AllProductListListData } from "@/services/data-contracts";
+import { AddProductForm } from "@/features/add-product-form/ui";
 
 interface TabProductProps {
   isLoading: boolean;
