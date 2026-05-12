@@ -23,9 +23,14 @@ const productInfoRoutes: FastifyPluginCallback = (instance) => {
     productInfoController.removeProductInfo.bind(productInfoController),
   );
   instance.get(
-    '/productInfoList/:productId',
-    { schema: productInfoSchema.getProductInfoSchema },
-    productInfoController.getProductInfoList.bind(productInfoController),
+    '/productInfoListById/:productId',
+    { schema: productInfoSchema.getProductInfoListByIdSchema },
+    productInfoController.getProductInfoListById.bind(productInfoController),
+  );
+  instance.get(
+    '/allProductInfoList',
+    { schema: productInfoSchema.getAllProductInfoListSchema },
+    productInfoController.getAllProductInfoList.bind(productInfoController),
   );
 };
 

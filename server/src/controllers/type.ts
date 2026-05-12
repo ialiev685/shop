@@ -43,6 +43,9 @@ export type ProductInfoSchema = typeof productInfoSchema.productInfoRequestSchem
 export type UpdateProductInfoSchema = typeof productInfoSchema.updateProductInfoRequestSchema;
 export type RemoveProductInfoSchema = typeof productInfoSchema.removeProductInfoRequestSchema;
 export type ProductInfoListSchema = typeof productInfoSchema.getProductInfoListRequestSchema;
+export type AllProductInfoListRequest = FastifyRequestTypeBox<{
+  querystring: typeof productInfoSchema.QuerystringProductListSchema;
+}>;
 
 export type UploadFile = typeof uploadSchema.postUploadSchema;
 export type RemoveFileFile = typeof uploadSchema.removeFileRequestSchema;

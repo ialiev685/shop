@@ -20,7 +20,7 @@ ProductModel.hasOne(BasketProductModel, {
 BasketProductModel.belongsTo(ProductModel, { as: 'product', foreignKey: 'productId' });
 
 ProductModel.hasMany(ProductInfoModel, { foreignKey: 'productId', onDelete: 'CASCADE' });
-ProductInfoModel.belongsTo(ProductModel, { foreignKey: 'productId' });
+ProductInfoModel.belongsTo(ProductModel, { foreignKey: 'productId', as: 'product' });
 
 TypeModel.hasMany(ProductModel, { foreignKey: 'typeId', onDelete: 'RESTRICT' });
 ProductModel.belongsTo(TypeModel, { foreignKey: 'typeId', as: 'type' });

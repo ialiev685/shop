@@ -6,6 +6,7 @@ import {
   type FastifyRequestTypeBox,
   type ProductInfoSchema,
   type ProductInfoListSchema,
+  type AllProductInfoListRequest,
 } from './type';
 
 export class ProductInfoController {
@@ -39,11 +40,16 @@ export class ProductInfoController {
     return res.status(200).send(productInfo);
   }
 
-  public async getProductInfoList(
+  public async getProductInfoListById(
     req: FastifyRequestTypeBox<ProductInfoListSchema>,
     res: FastifyReply,
   ) {
-    const productInfos = await this.productInfoService.getProductInfoList(req.params.productId);
+    const productInfos = await this.productInfoService.getProductInfoListById(req.params.productId);
+    return res.status(200).send(productInfos);
+  }
+
+  public async getAllProductInfoList(req: AllProductInfoListRequest, res: FastifyReply) {
+    const productInfos = await this.productInfoService.getAllProductInfoList(req.query);
     return res.status(200).send(productInfos);
   }
 }

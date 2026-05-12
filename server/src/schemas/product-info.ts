@@ -1,5 +1,7 @@
 import { Type } from '@fastify/type-provider-typebox';
 import { errorResponseSchema } from './error';
+import { productResponseSchema } from './product';
+import { getPaginatedResponseSchema } from './pagination-schema';
 
 export const productInfoRequestSchema = {
   body: Type.Object({
@@ -29,15 +31,22 @@ export const getProductInfoListRequestSchema = {
   }),
 };
 
-const productInfoResponseSchema = Type.Object({
+export const ResponseProductInfoSchema = Type.Object({
   id: Type.Number(),
   name: Type.String(),
   description: Type.String(),
   productId: Type.Number(),
+  product: Type.Omit(productResponseSchema, ['type']),
+});
+
+export const QuerystringProductListSchema = Type.Object({
+  page: Type.Optional(Type.Number({ default: 1, minimum: 1 })),
+  limit: Type.Optional(Type.Number({ default: 10, minimum: 1, maximum: 100 })),
+  search: Type.Optional(Type.String()),
 });
 
 // GET schema
-export const getProductInfoSchema = {
+export const getProductInfoListByIdSchema = {
   tags: ['productInfo'],
   summary: 'Получить информацию о продукте',
   params: getProductInfoListRequestSchema['params'],
@@ -47,7 +56,24 @@ export const getProductInfoSchema = {
     },
   ],
   response: {
-    200: Type.Array(productInfoResponseSchema),
+    200: Type.Array(ResponseProductInfoSchema),
+    400: errorResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// GET schema
+export const getAllProductInfoListSchema = {
+  tags: ['productInfo'],
+  summary: 'Получить список информации о продуктах',
+  querystring: QuerystringProductListSchema,
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: getPaginatedResponseSchema(ResponseProductInfoSchema),
     400: errorResponseSchema,
     500: errorResponseSchema,
   },
@@ -64,7 +90,7 @@ export const postProductInfoSchema = {
     },
   ],
   response: {
-    201: productInfoResponseSchema,
+    201: ResponseProductInfoSchema,
     400: errorResponseSchema,
     500: errorResponseSchema,
   },
@@ -82,7 +108,7 @@ export const patchProductSchema = {
     },
   ],
   response: {
-    200: productInfoResponseSchema,
+    200: ResponseProductInfoSchema,
     400: errorResponseSchema,
     500: errorResponseSchema,
   },

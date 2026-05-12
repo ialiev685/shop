@@ -56,7 +56,7 @@ export const updateProductRequestSchema = {
   body: productRequestSchema['body'],
 };
 
-const productResponseSchema = Type.Object({
+export const productResponseSchema = Type.Object({
   id: Type.Number(),
   name: Type.String(),
   price: Type.Number(),

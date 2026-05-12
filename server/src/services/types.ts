@@ -6,14 +6,4 @@ export interface GetProductListOptions {
   sortOrder?: 'ASC' | 'DESC';
 }
 
-export interface PaginatedResponse<T> {
-  data: T[];
-  pagination: {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-  };
-}
+export type GetProductInfoListOptions = Omit<GetProductListOptions, 'sortBy' | 'sortOrder'>;
