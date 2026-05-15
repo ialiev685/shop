@@ -6,16 +6,16 @@ import { Table } from "@/entities/table/ui";
 
 import { productQueries } from "@/entities/product";
 import { useQueryClient } from "@tanstack/react-query";
-import type { V1AllProductListListData } from "@/services/data-contracts";
 import { AddProductForm } from "@/features/add-product-form/ui";
+import type { TabProductProps } from "./types";
+import { Pagination } from "@/entities/pagination";
 
-interface TabProductProps {
-  isLoading: boolean;
-  data: V1AllProductListListData["data"];
-  onRemove: (id: number) => Promise<void>;
-}
-
-export const TabProduct = ({ data, isLoading, onRemove }: TabProductProps) => {
+export const TabProduct = ({
+  data,
+  isLoading,
+  onRemove,
+  pagination,
+}: TabProductProps) => {
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
 
@@ -50,6 +50,7 @@ export const TabProduct = ({ data, isLoading, onRemove }: TabProductProps) => {
         columns={getProductsColumns(onRemove)}
         withSort
       />
+      <Pagination totalItems={pagination.total} limit={pagination.limit} />
     </Flex>
   );
 };

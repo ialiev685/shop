@@ -1,4 +1,3 @@
-import { Pagination } from "@/entities/pagination";
 import { Flex, Tabs as MantineTabs } from "@mantine/core";
 
 import { useController } from "../model";
@@ -19,11 +18,11 @@ export const Tabs = () => {
     getParam,
     productInfoList,
   } = useController();
-
+  const tabValue = getParam("tab") ?? "";
   return (
     <Flex direction="column" gap={24} justify="space-between">
       <MantineTabs
-        value={getParam("tab")}
+        value={tabValue}
         onChange={(value) => {
           if (!value) return;
           setParam({ tab: value });
@@ -50,6 +49,10 @@ export const Tabs = () => {
             data={productList?.data ?? []}
             isLoading={isLoading}
             onRemove={handleRemoveProduct}
+            pagination={{
+              limit: productList?.pagination.limit ?? 0,
+              total: productList?.pagination.total ?? 0,
+            }}
           />
         </MantineTabs.Panel>
         <MantineTabs.Panel value={TABS_VALUE.productInfo}>
@@ -57,14 +60,13 @@ export const Tabs = () => {
             data={productInfoList?.data ?? []}
             isLoading={isLoading}
             onRemove={handleRemoveProductInfo}
+            pagination={{
+              limit: productInfoList?.pagination.limit ?? 0,
+              total: productInfoList?.pagination.total ?? 0,
+            }}
           />
         </MantineTabs.Panel>
       </MantineTabs>
-
-      <Pagination
-        totalItems={productInfoList?.pagination.total ?? 0}
-        limit={productInfoList?.pagination.limit}
-      />
     </Flex>
   );
 };

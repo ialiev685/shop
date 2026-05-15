@@ -8,10 +8,7 @@ import {
   Text,
   Box,
 } from "@mantine/core";
-import type {
-  V1AddNameTypeCreatePayload,
-  V1TypeListListData,
-} from "@/services/data-contracts";
+import type { V1AddNameTypeCreatePayload } from "@/services/data-contracts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useState, type ReactNode } from "react";
@@ -42,11 +39,8 @@ export const AddTypeForm = ({ triggerButton }: AddProductFormProps) => {
     await typeMutation.mutateAsync(
       { name },
       {
-        onSuccess: (data) => {
-          queryClient.setQueryData(
-            typeQueries.typeListKey(),
-            (oldData: V1TypeListListData) => [...oldData, data],
-          );
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: typeQueries.primaryKey });
         },
       },
     );

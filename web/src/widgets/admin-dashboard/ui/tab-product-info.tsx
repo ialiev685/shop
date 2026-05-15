@@ -2,22 +2,18 @@ import { Button, Flex, Group, useMantineTheme } from "@mantine/core";
 
 import { IconCirclePlus, IconRefresh } from "@tabler/icons-react";
 import { Table } from "@/entities/table/ui";
-import type { V1AllProductInfoListListData } from "@/services/data-contracts";
 import { getProductInfoColumns } from "../lib/get-product-info-columns";
 import { useQueryClient } from "@tanstack/react-query";
 import { productInfoQueries } from "@/entities/product-info/api/product-info-queries";
 import { AddProductInfoForm } from "@/features/add-product-info-form/ui";
-
-interface TabProductInfoProps {
-  isLoading: boolean;
-  data: V1AllProductInfoListListData["data"];
-  onRemove: (id: number) => Promise<void>;
-}
+import type { TabProductInfoProps } from "./types";
+import { Pagination } from "@/entities/pagination";
 
 export const TabProductInfo = ({
   isLoading,
   data,
   onRemove,
+  pagination,
 }: TabProductInfoProps) => {
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
@@ -51,6 +47,7 @@ export const TabProductInfo = ({
         isLoading={isLoading}
         columns={getProductInfoColumns(onRemove)}
       />
+      <Pagination totalItems={pagination.total} limit={pagination.limit} />
     </Flex>
   );
 };
