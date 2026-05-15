@@ -1,4 +1,10 @@
-import { currentUser, logout, register } from "@/services/requests/auth";
+import {
+  currentUser,
+  logout,
+  register,
+  forgotPassword,
+  resetPassword,
+} from "@/services/requests/auth";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 
 const userKeys = {
@@ -14,4 +20,6 @@ export const userQueries = {
     retry: 0,
   }),
   register: mutationOptions({ mutationFn: register }),
+  forgotPassword: mutationOptions({ mutationFn: forgotPassword }),
+  resetPassword: mutationOptions({ mutationFn: resetPassword }),
 };
