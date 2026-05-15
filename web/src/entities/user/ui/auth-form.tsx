@@ -43,6 +43,7 @@ export const AuthForm = ({ type, onSubmit, isLoading }: AuthFormProps) => {
 
   const handleSubmit = async (values: typeof form.values) => {
     await onSubmit(values);
+    form.reset();
   };
 
   const isLogin = type === "login";
@@ -97,6 +98,7 @@ export const AuthForm = ({ type, onSubmit, isLoading }: AuthFormProps) => {
             onClick={() => {
               navigate(isLogin ? routesMap["/register"] : routesMap["/login"]);
             }}
+            loading={isLoading}
           >
             {isLogin ? "Регистрация" : "Войти"}
           </Button>
@@ -109,6 +111,7 @@ export const AuthForm = ({ type, onSubmit, isLoading }: AuthFormProps) => {
             onClick={() => {
               navigate(routesMap["/forgot-password"]);
             }}
+            loading={isLoading}
           >
             Забыли пароль?
           </Button>
