@@ -4,11 +4,24 @@ import { useForm } from "@mantine/form";
 import { useNavigate, useParams } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 
-export const ResetPasswordForm = () => {
+interface ResetPasswordFormProps {
+  onSubmit: (params: FormValues & { uuid: string }) => Promise<void>;
+  isLoading: boolean;
+}
+
+type FormValues = {
+  password: string;
+  confirmPassword: string;
+};
+
+export const ResetPasswordForm = ({
+  onSubmit,
+  isLoading,
+}: ResetPasswordFormProps) => {
   const navigate = useNavigate();
   const { token } = useParams();
 
-  const form = useForm({
+  const form = useForm<FormValues>({
     initialValues: {
       password: "",
       confirmPassword: "",
@@ -21,17 +34,18 @@ export const ResetPasswordForm = () => {
     },
   });
 
-  const handleSubmit = (values: typeof form.values) => {
-    notifications.show({
-      title: "Пароль изменён",
-      message: "Ваш пароль успешно обновлён. Теперь вы можете войти.",
-      color: "green",
-    });
-
-    // Перенаправляем на страницу входа
-    setTimeout(() => {
-      navigate(routesMap["/login"]);
-    }, 2000);
+  const handleSubmit = async (values: typeof form.values) => {
+    if (!token) {
+      notifications.show({
+        title: "Неверная ссылка",
+        message: "Попробуйте запросить восстановление пароля заново",
+        color: "red",
+        position: "top-center",
+      });
+      return;
+    }
+    await onSubmit({ ...values, uuid: token });
+    form.reset();
   };
 
   return (
@@ -62,7 +76,13 @@ export const ResetPasswordForm = () => {
           {...form.getInputProps("confirmPassword")}
         />
 
-        <Button mt={24} fullWidth type="submit" variant="filled-accent-shop">
+        <Button
+          mt={24}
+          fullWidth
+          type="submit"
+          variant="filled-accent-shop"
+          loading={isLoading}
+        >
           Сохранить пароль
         </Button>
 
@@ -75,6 +95,7 @@ export const ResetPasswordForm = () => {
             onClick={() => {
               navigate(routesMap["/login"]);
             }}
+            loading={isLoading}
           >
             Войти
           </Button>
@@ -86,6 +107,7 @@ export const ResetPasswordForm = () => {
             onClick={() => {
               navigate(routesMap["/register"]);
             }}
+            loading={isLoading}
           >
             Регистрация
           </Button>
