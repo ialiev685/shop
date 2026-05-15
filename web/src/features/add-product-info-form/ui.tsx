@@ -7,15 +7,18 @@ import {
   Stack,
   Text,
   Box,
-  Select,
 } from "@mantine/core";
 import type { V1AddProductInfoCreatePayload } from "@/services/data-contracts";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import { useState } from "react";
 import { productInfoQueries } from "@/entities/product-info/api/product-info-queries";
 import { productQueries } from "@/entities/product";
-import { useDebouncedCallback } from "@mantine/hooks";
+import { Select } from "@/shared/ui/select";
 
 type FormValues = V1AddProductInfoCreatePayload;
 interface AddProductInfoFormProps {
@@ -28,10 +31,6 @@ export const AddProductInfoForm = ({
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState<string>("");
   const queryClient = useQueryClient();
-
-  const debouncedSearch = useDebouncedCallback((value: string) => {
-    setSearch(value);
-  }, 250);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -54,11 +53,14 @@ export const AddProductInfoForm = ({
   });
 
   const productMutation = useMutation(productInfoQueries.add);
-  const productQuery = useQuery(productQueries.getAll({}));
-  const hasProductId = Boolean(form.getValues().productId);
+  const productInfinityQuery = useInfiniteQuery(
+    productQueries.getAllInfinity({ search }),
+  );
+  const productsList =
+    productInfinityQuery.data?.pages.flatMap(({ data }) => data) ?? [];
 
+  const hasProductId = Boolean(form.getValues().productId);
   const handleSubmit = form.onSubmit(async (values) => {
-    console.log("values", values);
     const { name, description, productId } = values;
     await productMutation.mutateAsync(
       { name, description, productId },
@@ -78,6 +80,7 @@ export const AddProductInfoForm = ({
     setIsOpen(false);
   };
   const { value, ...otherSelectProps } = form.getInputProps("productId");
+
   return (
     <>
       <Box component="span" onClick={() => setIsOpen(true)}>
@@ -97,19 +100,20 @@ export const AddProductInfoForm = ({
         <form onSubmit={handleSubmit}>
           <Stack gap={12}>
             <Select
-              clearable
-              searchValue={search}
-              onSearchChange={debouncedSearch}
+              search={search}
               radius={8}
               size="md"
+              onSearchChange={setSearch}
               label={<Text c="gray-main-2">Продукт</Text>}
               placeholder="Выберите продукт"
-              data={productQuery.data?.data.map((product) => ({
+              data={productsList.map((product) => ({
                 value: String(product.id),
                 label: product.name,
               }))}
               {...otherSelectProps}
               value={value ? value : null}
+              hasNextPage={productInfinityQuery.hasNextPage}
+              onLoadMore={productInfinityQuery.fetchNextPage}
             />
 
             <TextInput

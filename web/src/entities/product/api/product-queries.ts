@@ -6,7 +6,12 @@ import {
   removeProduct,
   productById,
 } from "@/services/requests/api";
-import { mutationOptions, queryOptions } from "@tanstack/react-query";
+import { PAGINATION } from "@/shared/configs";
+import {
+  infiniteQueryOptions,
+  mutationOptions,
+  queryOptions,
+} from "@tanstack/react-query";
 
 const PRIMARY_KEY = "productList";
 
@@ -27,13 +32,32 @@ export const productQueries = {
       queryKey: productKeys.productListByTypeKey(typeId),
       queryFn: () => productListByType({ typeId }),
     }),
-
   getAll: (params: V1AllProductListListParams) =>
     queryOptions({
       queryKey: productKeys.productListAllKey(params),
       queryFn: () => productListAll(params),
     }),
-
+  getAllInfinity: (params: V1AllProductListListParams) =>
+    infiniteQueryOptions({
+      queryKey: productKeys.productListAllKey(params),
+      queryFn: ({ queryKey, pageParam = 1 }) => {
+        const [_, params] = queryKey;
+        if (typeof params !== "string") {
+          return productListAll({
+            ...params,
+            page: pageParam,
+            limit: PAGINATION.LIMIT,
+          });
+        }
+        throw Error("Ошибка в параметрах infinity");
+      },
+      getNextPageParam: (lastPage) => {
+        return lastPage.pagination.hasNextPage
+          ? lastPage.pagination.page + 1
+          : undefined;
+      },
+      initialPageParam: 1,
+    }),
   getById: (productId: number) =>
     queryOptions({
       queryKey: productKeys.productByIdKey(productId),
