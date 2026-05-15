@@ -14,7 +14,10 @@ export const Register = () => {
     params: Omit<RegisterCreatePayload, "redirectUrl">,
   ) => {
     await registerMutation.mutateAsync(
-      { ...params, redirectUrl: import.meta.env.VITE_APP_HOST },
+      {
+        ...params,
+        redirectUrl: `${import.meta.env.VITE_APP_HOST}${routesMap["/login"]}`,
+      },
       {
         onSuccess: (data) => {
           notifications.show({
