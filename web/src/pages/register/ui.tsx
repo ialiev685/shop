@@ -3,7 +3,7 @@ import { userQueries } from "@/entities/user";
 import { AuthForm } from "@/entities/user/ui/auth-form";
 import type { RegisterCreatePayload } from "@/services/data-contracts";
 import { notifications } from "@mantine/notifications";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
