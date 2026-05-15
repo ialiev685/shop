@@ -1,5 +1,5 @@
-import { LoadingOverlay, SimpleGrid } from "@mantine/core";
-import { generatePath } from "react-router-dom";
+import { LoadingOverlay, SimpleGrid, Text } from "@mantine/core";
+import { generatePath, useLocation } from "react-router-dom";
 import { Card } from "./card";
 import styles from "./styles.module.css";
 import type { V1TypeListListData } from "@/services/data-contracts";
@@ -17,6 +17,7 @@ export const Sections = ({
   isLoading,
   data,
 }: SectionsProps) => {
+  const location = useLocation();
   return (
     <SimpleGrid pt={12} cols={2} spacing={16} verticalSpacing={16}>
       <LoadingOverlay visible={isLoading} />
@@ -35,7 +36,13 @@ export const Sections = ({
             title={name}
             className={styles["nav-link"]}
           >
-            {name}
+            <Text
+              c={location.pathname === linkTo ? "accent-shop-1" : "gray-shop-1"}
+              fw={600}
+              fz={16}
+            >
+              {name}
+            </Text>
           </LinkWithState>
         );
       })}
