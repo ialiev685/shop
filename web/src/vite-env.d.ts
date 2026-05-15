@@ -9,6 +9,7 @@ declare module "*.module.css" {
 interface ImportMetaEnv {
   readonly VITE_APP_API_URL: string;
   readonly VITE_APP_NODE_ENV: string;
+  readonly VITE_APP_HOST: string;
 }
 
 interface ImportMeta {

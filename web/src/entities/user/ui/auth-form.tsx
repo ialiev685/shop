@@ -22,7 +22,7 @@ interface FormValues {
   confirmPassword?: string;
 }
 
-export const AuthFrom = ({ type, onSubmit, isLoading }: AuthFormProps) => {
+export const AuthForm = ({ type, onSubmit, isLoading }: AuthFormProps) => {
   const navigate = useNavigate();
   const form = useForm<FormValues>({
     initialValues: {

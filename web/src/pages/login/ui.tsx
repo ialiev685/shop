@@ -1,4 +1,4 @@
-import { AuthFrom } from "@/entities/auth-form/ui";
+import { AuthForm } from "@/entities/user/ui/auth-form";
 import { userQueries } from "@/entities/user/api/user-queries";
 import type { LoginCreatePayload } from "@/services/data-contracts";
 import { login } from "@/services/requests/auth";
@@ -14,7 +14,7 @@ export const Login = () => {
   const handleSubmit = async (params: LoginCreatePayload) => {
     await loginMutation.mutateAsync(params, {
       onSuccess: (data) => {
-        if (data.accessToken) {
+        if (data.isActivate && data.accessToken) {
           localStorage.setItem(TOKEN_KEY, data.accessToken);
           queryClient.setQueryData(userQueries.currentUserKey, data);
         }
@@ -22,7 +22,7 @@ export const Login = () => {
     });
   };
   return (
-    <AuthFrom
+    <AuthForm
       isLoading={loginMutation.isPending}
       type="login"
       onSubmit={handleSubmit}
