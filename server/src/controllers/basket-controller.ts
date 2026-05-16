@@ -7,13 +7,20 @@ import {
   type RemoveProductFromBasketSchema,
   type ClearBasketSchema,
 } from './type';
+import { SESSION_ID } from '../middleware/constants';
 
 export class BasketController {
   constructor(private basketService: BasketService) {}
+  private getSessionId(req: FastifyRequest) {
+    if (req?.user?.id) return undefined;
+    return req.cookies[SESSION_ID];
+  }
+
   public async getProducts(req: FastifyRequest, res: FastifyReply) {
-    const basket = await this.basketService.getProducts(req.user?.id ?? NaN);
+    const basket = await this.basketService.getProducts(req?.user?.id, this.getSessionId(req));
     return res.status(200).send(basket);
   }
+
   public async addProduct(req: FastifyRequestTypeBox<AddProductToBasketSchema>, res: FastifyReply) {
     const basketProduct = await this.basketService.addProduct(
       req.user?.id ?? NaN,

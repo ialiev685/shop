@@ -1,5 +1,5 @@
 import { type FastifyInstance } from 'fastify';
-import { ForeignKeyConstraintError } from 'sequelize';
+import { ForeignKeyConstraintError, type Includeable } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
 import { type Static } from 'typebox';
 import { type updateQuantityProductRequestSchema } from '../schemas/basket';
@@ -136,47 +136,55 @@ export class BasketService {
     });
   }
 
-  public async getProducts(userId: number) {
+  public async getProducts(userId?: number, sessionId?: string) {
+    const include: Includeable[] = [
+      {
+        model: this.fastifyInstance.db.BasketProduct,
+        required: false,
+        as: 'basketProducts',
+        include: [
+          {
+            model: this.fastifyInstance.db.Product,
+            as: 'product',
+            attributes: ['id', 'name', 'price', 'img', 'sku', 'rating'],
+          },
+        ],
+      },
+    ];
+
+    if (userId && sessionId) {
+      const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
+        where: { sessionId },
+        defaults: { sessionId },
+        include,
+      });
+
+      if (!basket.userId) {
+        basket.userId = userId;
+        await basket.save();
+      }
+
+      await basket.reload({ include });
+      return basket;
+    }
+
+    if (userId) {
+      const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
+        where: { userId },
+        defaults: { userId },
+        include,
+      });
+      await basket.reload({ include });
+      return basket;
+    }
+
+    const finalSessionId = sessionId ?? '';
     const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
-      where: {
-        userId,
-      },
-      defaults: {
-        userId,
-      },
-      include: [
-        {
-          model: this.fastifyInstance.db.BasketProduct,
-          required: false,
-          as: 'basketProducts',
-          include: [
-            {
-              model: this.fastifyInstance.db.Product,
-              as: 'product',
-              attributes: ['id', 'name', 'price', 'img', 'sku', 'rating'],
-            },
-          ],
-        },
-      ],
+      where: { sessionId: finalSessionId },
+      defaults: { sessionId: finalSessionId },
+      include,
     });
-
-    await basket.reload({
-      include: [
-        {
-          model: this.fastifyInstance.db.BasketProduct,
-          required: false,
-          as: 'basketProducts',
-          include: [
-            {
-              model: this.fastifyInstance.db.Product,
-              as: 'product',
-              attributes: ['id', 'name', 'price', 'img', 'sku', 'rating'],
-            },
-          ],
-        },
-      ],
-    });
-
+    await basket.reload({ include });
     return basket;
   }
 }
