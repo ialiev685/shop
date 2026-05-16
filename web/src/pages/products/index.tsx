@@ -18,7 +18,7 @@ export const Products = () => {
         {title}
       </Title>
 
-      <SimpleGrid cols={2} spacing={16} verticalSpacing={16}>
+      <SimpleGrid cols={{ xs: 2, md: 3 }} spacing={16} verticalSpacing={16}>
         {products.map((product) => (
           <ProductCard
             product={product}

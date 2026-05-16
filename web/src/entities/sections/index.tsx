@@ -19,7 +19,12 @@ export const Sections = ({
 }: SectionsProps) => {
   const location = useLocation();
   return (
-    <SimpleGrid pt={12} cols={2} spacing={16} verticalSpacing={16}>
+    <SimpleGrid
+      pt={12}
+      cols={{ xs: 2, md: 3 }}
+      spacing={16}
+      verticalSpacing={16}
+    >
       <LoadingOverlay visible={isLoading} />
       {data.map(({ id, name }) => {
         const linkTo = generatePath(routesMap["/products/:id"], {
