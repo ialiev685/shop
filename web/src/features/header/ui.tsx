@@ -37,9 +37,9 @@ export const Header = () => {
           <Title order={3} c="gray-shop-1">
             по
             <Text span c="green" inherit>
-              Ж
+              Е
             </Text>
-            рать
+            сть
           </Title>
           <Group gap={20} align="center">
             {isAuthorized ? (
