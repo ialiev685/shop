@@ -1,17 +1,26 @@
-import { useCallback, useMemo, type PropsWithChildren } from "react";
+import { useCallback, useEffect, useMemo, type PropsWithChildren } from "react";
 import { AuthContext, type AuthContextType } from "./context";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { userQueries } from "@/entities/user";
 import { TOKEN_KEY } from "@/shared/configs";
+import { basketProductsQueries } from "@/entities/basket-products";
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     ...userQueries.currentUserQuery,
     staleTime: 0,
   });
   const queryclient = useQueryClient();
   const logoutMutation = useMutation(userQueries.logoutMutation);
+
+  useEffect(() => {
+    if (isSuccess) {
+      queryclient.invalidateQueries({
+        queryKey: basketProductsQueries.basketProductsListKey,
+      });
+    }
+  }, [data, isSuccess, queryclient]);
 
   const handleLogout = useCallback(async () => {
     await logoutMutation.mutateAsync(undefined, {
