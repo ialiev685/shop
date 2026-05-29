@@ -9,7 +9,6 @@ export const addProductToBasketRequestSchema = {
 
 export const updateQuantityProductRequestSchema = {
   body: Type.Object({
-    basketId: Type.Number(),
     productId: Type.Number(),
     quantity: Type.Number({ minimum: 1, maximum: 999 }),
   }),
@@ -19,12 +18,6 @@ export const removeProductFromBasketRequestSchema = {
   body: Type.Object({
     basketId: Type.Number(),
     productId: Type.Number(),
-  }),
-};
-
-export const clearBasketRequestSchema = {
-  body: Type.Object({
-    basketId: Type.Number(),
   }),
 };
 
@@ -121,7 +114,6 @@ export const postRemoveSchema = {
 export const postClearSchema = {
   tags: ['basket'],
   summary: 'Очистить корзину',
-  body: clearBasketRequestSchema['body'],
   security: [
     {
       bearerAuth: [],

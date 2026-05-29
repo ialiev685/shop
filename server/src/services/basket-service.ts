@@ -1,25 +1,19 @@
 import { type FastifyInstance } from 'fastify';
 import { ForeignKeyConstraintError, type Includeable } from 'sequelize';
 import { ApiError } from '../exception/api-errors';
-import { type Static } from 'typebox';
-import { type updateQuantityProductRequestSchema } from '../schemas/basket';
+import {
+  type RemoveProductOptions,
+  type UpdateBasketProductOptions,
+  type AddProductOptions,
+  type BasketWithProducts,
+} from './types';
 
-type BasketProduct = Static<(typeof updateQuantityProductRequestSchema)['body']> & {
-  userId: number;
-};
 export class BasketService {
   constructor(private fastifyInstance: FastifyInstance) {}
 
-  public async addProduct(userId: number, productId: number) {
+  public async addProduct({ userId, productId, sessionId }: AddProductOptions) {
     try {
-      const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
-        where: {
-          userId,
-        },
-        defaults: {
-          userId,
-        },
-      });
+      const basket = await this.getProducts(userId, sessionId);
 
       const [basketProduct, created] = await this.fastifyInstance.db.BasketProduct.findOrCreate({
         where: {
@@ -67,17 +61,16 @@ export class BasketService {
     }
   }
 
-  public async updateQuantityProduct({ quantity, basketId, productId, userId }: BasketProduct) {
+  public async updateQuantityProduct({
+    quantity,
+    productId,
+    userId,
+    sessionId,
+  }: UpdateBasketProductOptions) {
     if (!Number.isInteger(quantity) || quantity < 1) {
       throw ApiError.BadRequestError('Количество не должно быть меньше 1');
     }
-
-    const basket = await this.fastifyInstance.db.Basket.findOne({
-      where: {
-        id: basketId,
-        userId: userId,
-      },
-    });
+    const basket = await this.getProducts(userId, sessionId);
 
     if (!basket) {
       throw ApiError.BadRequestError('Корзина не найдена');
@@ -104,17 +97,17 @@ export class BasketService {
     return basketProduct;
   }
 
-  public async removeProduct({ basketId, productId, userId }: Omit<BasketProduct, 'quantity'>) {
+  public async removeProduct({ basketId, productId, userId, sessionId }: RemoveProductOptions) {
     const basketProduct = await this.fastifyInstance.db.BasketProduct.findOne({
+      where: { productId, basketId },
       include: [
         {
           model: this.fastifyInstance.db.Basket,
           as: 'basket',
-          where: { userId },
+          where: userId ? { userId } : { sessionId },
           required: true,
         },
       ],
-      where: { productId, basketId },
     });
     if (!basketProduct) {
       throw ApiError.BadRequestError('Продукт не найден в корзине');
@@ -122,10 +115,8 @@ export class BasketService {
     await basketProduct.destroy();
   }
 
-  public async clearBasket({ basketId, userId }: Omit<BasketProduct, 'quantity' | 'productId'>) {
-    const basket = await this.fastifyInstance.db.Basket.findOne({
-      where: { id: basketId, userId },
-    });
+  public async clearBasket(userId?: number, sessionId?: string) {
+    const basket = await this.getProducts(userId, sessionId);
 
     if (!basket) {
       throw ApiError.BadRequestError('Корзина не найдена');
@@ -153,38 +144,62 @@ export class BasketService {
     ];
 
     if (userId && sessionId) {
-      const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
-        where: { sessionId },
-        defaults: { sessionId },
-        include,
-      });
+      const transaction = await this.fastifyInstance.db.sequelize.transaction();
+      try {
+        const sessionBasket = (await this.fastifyInstance.db.Basket.findOne({
+          where: { sessionId },
+          include,
+          transaction,
+        })) as BasketWithProducts | null;
 
-      if (!basket.userId) {
-        basket.userId = userId;
-        await basket.save();
+        const [userBasket] = await this.fastifyInstance.db.Basket.findOrCreate({
+          where: { userId },
+          defaults: { userId },
+          include,
+          transaction,
+        });
+        if (sessionBasket?.basketProducts?.length) {
+          for (const sessionBasketProduct of sessionBasket.basketProducts) {
+            await this.fastifyInstance.db.BasketProduct.upsert(
+              {
+                basketId: userBasket.id,
+                productId: sessionBasketProduct.productId,
+                quantity: sessionBasketProduct.quantity,
+              },
+              { transaction },
+            );
+          }
+
+          await sessionBasket.destroy();
+        }
+
+        await userBasket.reload({ include });
+        await transaction.commit();
+
+        return userBasket;
+      } catch (error) {
+        await transaction.rollback();
+        throw error;
       }
-
-      await basket.reload({ include });
-      return basket;
     }
 
     if (userId) {
-      const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
+      const [userBasket] = await this.fastifyInstance.db.Basket.findOrCreate({
         where: { userId },
         defaults: { userId },
         include,
       });
-      await basket.reload({ include });
-      return basket;
+      await userBasket.reload({ include });
+      return userBasket;
     }
 
     const finalSessionId = sessionId ?? '';
-    const [basket] = await this.fastifyInstance.db.Basket.findOrCreate({
+    const [sessionBasket] = await this.fastifyInstance.db.Basket.findOrCreate({
       where: { sessionId: finalSessionId },
       defaults: { sessionId: finalSessionId },
       include,
     });
-    await basket.reload({ include });
-    return basket;
+    await sessionBasket.reload({ include });
+    return sessionBasket;
   }
 }

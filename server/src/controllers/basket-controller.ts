@@ -5,14 +5,12 @@ import {
   type FastifyRequestTypeBox,
   type UpdateQuantityProductSchema,
   type RemoveProductFromBasketSchema,
-  type ClearBasketSchema,
 } from './type';
 import { SESSION_ID } from '../middleware/constants';
 
 export class BasketController {
   constructor(private basketService: BasketService) {}
   private getSessionId(req: FastifyRequest) {
-    if (req?.user?.id) return undefined;
     return req.cookies[SESSION_ID];
   }
 
@@ -22,10 +20,11 @@ export class BasketController {
   }
 
   public async addProduct(req: FastifyRequestTypeBox<AddProductToBasketSchema>, res: FastifyReply) {
-    const basketProduct = await this.basketService.addProduct(
-      req.user?.id ?? NaN,
-      req.body.productId,
-    );
+    const basketProduct = await this.basketService.addProduct({
+      userId: req.user?.id ?? NaN,
+      productId: req.body.productId,
+      sessionId: this.getSessionId(req) ?? '',
+    });
     return res.status(200).send(basketProduct);
   }
 
@@ -34,6 +33,7 @@ export class BasketController {
     res: FastifyReply,
   ) {
     const basketProduct = await this.basketService.updateQuantityProduct({
+      sessionId: this.getSessionId(req) ?? '',
       userId: req.user?.id ?? NaN,
       ...req.body,
     });
@@ -45,17 +45,18 @@ export class BasketController {
     res: FastifyReply,
   ) {
     await this.basketService.removeProduct({
+      sessionId: this.getSessionId(req) ?? '',
       userId: req.user?.id ?? NaN,
       ...req.body,
     });
     return res.status(200).send();
   }
 
-  public async clearProduct(req: FastifyRequestTypeBox<ClearBasketSchema>, res: FastifyReply) {
-    const basketProduct = await this.basketService.clearBasket({
-      userId: req.user?.id ?? NaN,
-      ...req.body,
-    });
+  public async clearProduct(req: FastifyRequestTypeBox, res: FastifyReply) {
+    const basketProduct = await this.basketService.clearBasket(
+      req.user?.id,
+      this.getSessionId(req),
+    );
     return res.status(200).send(basketProduct);
   }
 }

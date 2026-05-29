@@ -19,6 +19,7 @@ interface User {
 declare module 'fastify' {
   interface FastifyRequest {
     user?: User | null;
+    sessionId?: string;
   }
   interface FastifyInstance {
     db: {

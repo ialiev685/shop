@@ -31,7 +31,6 @@ export type AddProductToBasketSchema = typeof basketSchema.addProductToBasketReq
 export type UpdateQuantityProductSchema = typeof basketSchema.updateQuantityProductRequestSchema;
 export type RemoveProductFromBasketSchema =
   typeof basketSchema.removeProductFromBasketRequestSchema;
-export type ClearBasketSchema = typeof basketSchema.clearBasketRequestSchema;
 
 export type ProductSchema = typeof productSchema.addProductRequestSchema;
 export type RemoveProductSchema = typeof productSchema.removeProductRequestSchema;
