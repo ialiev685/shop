@@ -2,6 +2,7 @@ import { type FastifyPluginCallback } from 'fastify';
 import { ProductInfoController } from '../../controllers/product-info-controller';
 import { ProductInfoService } from '../../services/product-info-service';
 import { productInfoSchema } from '../../schemas';
+import { adminMiddleware } from '../../middleware/admin-middleware';
 
 const productInfoRoutes: FastifyPluginCallback = (instance) => {
   const productInfoService = new ProductInfoService(instance);
@@ -9,17 +10,17 @@ const productInfoRoutes: FastifyPluginCallback = (instance) => {
 
   instance.post(
     '/addProductInfo',
-    { schema: productInfoSchema.postProductInfoSchema },
+    { schema: productInfoSchema.postProductInfoSchema, preHandler: [adminMiddleware] },
     productInfoController.addProductInfo.bind(productInfoController),
   );
   instance.patch(
     '/updateProductInfo/:productInfoId',
-    { schema: productInfoSchema.patchProductSchema },
+    { schema: productInfoSchema.patchProductSchema, preHandler: [adminMiddleware] },
     productInfoController.updateProductInfo.bind(productInfoController),
   );
   instance.delete(
     '/removeProductInfo/:productInfoId',
-    { schema: productInfoSchema.deleteProductSchema },
+    { schema: productInfoSchema.deleteProductSchema, preHandler: [adminMiddleware] },
     productInfoController.removeProductInfo.bind(productInfoController),
   );
   instance.get(

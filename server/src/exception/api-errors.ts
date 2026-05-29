@@ -23,4 +23,8 @@ export class ApiError<T> extends Error {
   static FileSystemError(message: string, code: number = 500) {
     return new ApiError(code, message);
   }
+
+  static ForbiddenError() {
+    return new ApiError(403, 'Доступ запрещен');
+  }
 }
