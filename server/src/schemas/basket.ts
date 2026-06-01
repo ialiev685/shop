@@ -1,0 +1,127 @@
+import { Type } from '@fastify/type-provider-typebox';
+import { errorResponseSchema } from './error';
+
+export const addProductToBasketRequestSchema = {
+  body: Type.Object({
+    productId: Type.Number(),
+  }),
+};
+
+export const updateQuantityProductRequestSchema = {
+  body: Type.Object({
+    productId: Type.Number(),
+    quantity: Type.Number({ minimum: 1, maximum: 999 }),
+  }),
+};
+
+export const removeProductFromBasketRequestSchema = {
+  body: Type.Object({
+    basketId: Type.Number(),
+    productId: Type.Number(),
+  }),
+};
+
+const productResponseSchema = Type.Object({
+  id: Type.Number(),
+  name: Type.String(),
+  price: Type.Number(),
+  img: Type.String(),
+  sku: Type.String(),
+  rating: Type.Number(),
+});
+
+const basketProductItemResponseSchema = Type.Object({
+  id: Type.Number(),
+  basketId: Type.Number(),
+  productId: Type.Number(),
+  quantity: Type.Number(),
+  product: productResponseSchema,
+});
+
+// GET schema
+const basketResponseSchema = Type.Object({
+  id: Type.Number(),
+  userId: Type.Number(),
+  basketProducts: Type.Array(basketProductItemResponseSchema),
+});
+
+export const getBasketSchema = {
+  tags: ['basket'],
+  summary: 'Получить корзину пользователя',
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: basketResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// POST ADD schema
+export const postAddSchema = {
+  tags: ['basket'],
+  summary: 'Добавить продукт в корзину',
+  body: addProductToBasketRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: basketProductItemResponseSchema,
+    400: errorResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// POST Update schema
+export const postUpdateSchema = {
+  tags: ['basket'],
+  summary: 'Обновить количество продукта в корзине',
+  body: updateQuantityProductRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: basketProductItemResponseSchema,
+    400: errorResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// POST Remove schema
+export const postRemoveSchema = {
+  tags: ['basket'],
+  summary: 'Удалить продукт из корзины',
+  body: removeProductFromBasketRequestSchema['body'],
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: Type.Null(),
+    400: errorResponseSchema,
+    500: errorResponseSchema,
+  },
+};
+
+// POST Clear schema
+export const postClearSchema = {
+  tags: ['basket'],
+  summary: 'Очистить корзину',
+  security: [
+    {
+      bearerAuth: [],
+    },
+  ],
+  response: {
+    200: Type.Null(),
+    400: errorResponseSchema,
+    500: errorResponseSchema,
+  },
+};

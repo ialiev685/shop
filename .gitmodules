@@ -1,0 +1,4 @@
+[submodule "server/auth-service"]
+	path = server/auth-service
+	url = https://github.com/ialiev685/auth-service.git
+	branch = dev

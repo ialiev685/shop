@@ -1,0 +1,72 @@
+.filled-admin {
+  background-color: var(--purple-auth);
+  color: #fff;
+  border-color: var(--blue-auth);
+  font-size: 14px;
+
+  &:hover {
+    background-color: var(--blue-auth);
+  }
+}
+
+.outline-admin {
+  border: 1px solid var(--purple-main);
+  background-color: #fff;
+  color: var(--purple-auth);
+
+  &:hover {
+    background-color: var(--purple-hover-main);
+    border: none;
+    color: #fff;
+
+    svg {
+      stroke: white;
+    }
+  }
+}
+
+.outline-green-shop {
+  border: 1px solid var(--green-shop-1);
+  color: var(--green-shop-1);
+  background-color: #fff;
+
+  &:hover {
+    background-color: var(--green-shop-1);
+
+    color: #fff;
+  }
+}
+
+.filled-green-shop {
+  background-color: var(--green-shop-1);
+  color: #fff;
+  border: 1px solid var(--green-shop-1);
+
+  &:hover {
+    background-color: #fff;
+    color: var(--green-shop-1);
+  }
+}
+
+.outline-accent-shop {
+  border: 1px solid var(--accent-shop-1);
+  color: var(--accent-shop-1);
+  background-color: #fff;
+
+  &:hover {
+    background-color: var(--accent-shop-1);
+
+    color: #fff;
+  }
+}
+
+.filled-accent-shop {
+  background-color: var(--accent-shop-1);
+  color: #fff;
+  border: 1px solid var(--accent-shop-1);
+
+  &:hover {
+    background-color: #fff;
+    color: var(--accent-shop-1);
+  }
+}

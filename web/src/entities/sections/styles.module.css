@@ -1,0 +1,29 @@
+.card {
+  background: linear-gradient(
+    to bottom,
+    transparent 20%,
+    var(--green-shop-1) 100%
+  );
+}
+
+.card:hover {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accent-shop-1) 100%
+  );
+}
+
+.nav-link {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--gray-shop-1);
+}
+
+.nav-link:hover {
+  color: var(--accent-shop-1);
+}
+
+.nav-link-active {
+  color: var(--accent-shop-1);
+}
