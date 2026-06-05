@@ -2,6 +2,8 @@
 
 set -e  # Останавливаем скрипт при любой ошибке
 
+make -C /root/github/shop/server build-dev
+
 cd web
 
 yarn install --frozen-lockfile
