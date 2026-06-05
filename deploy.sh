@@ -11,6 +11,6 @@ sudo mkdir -p /var/www/shop
 sudo chmod -R 755 /var/www/shop
 
 sudo cp -r /root/github/shop/web/dist/* /var/www/shop
-sudo cp /root/github/shop/web/nginx.conf /etc/nginx/sites-available/signing_module.conf
+sudo cp /root/github/shop/web/nginx.conf /etc/nginx/sites-available/shop.conf
 sudo nginx -t
 sudo systemctl reload nginx
