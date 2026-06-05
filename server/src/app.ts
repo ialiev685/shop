@@ -47,7 +47,7 @@ app.register(fastifyStatic, {
 });
 
 app.register(cors, {
-  origin: 'http://localhost:3000',
+  origin: process.env.CLIENT_URL ?? 'http://localhost:3001',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
