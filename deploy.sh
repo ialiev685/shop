@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e  # Останавливаем скрипт при любой ошибке
-
+make -C /root/github/shop/server stop-dev
 make -C /root/github/shop/server build-dev
 
 cd web
