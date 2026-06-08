@@ -173,8 +173,8 @@ export class BasketService {
           await sessionBasket.destroy();
         }
 
-        await userBasket.reload({ include });
         await transaction.commit();
+        await userBasket.reload({ include });
 
         return userBasket;
       } catch (error) {
